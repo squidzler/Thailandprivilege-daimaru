@@ -339,6 +339,8 @@
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.34) 50%, transparent 62%);
   }
+  /* real card photo fills the chip; transparent-corner PNGs keep their shape */
+  img.program__chip { object-fit: cover; background: none; }
   .program { cursor: pointer; }
   /* tilt on hover (desktop), on press, and on tap/click-selected (touch-reliable) */
   .program:hover .program__chip,
