@@ -339,7 +339,11 @@
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.34) 50%, transparent 62%);
   }
-  .program:hover .program__chip { transform: rotate(-5deg) translateY(-2px) scale(1.06); }
+  .program { cursor: pointer; }
+  /* tilt on hover (desktop), on press, and on tap/click-selected (touch-reliable) */
+  .program:hover .program__chip,
+  .program:active .program__chip,
+  .program.is-selected .program__chip { transform: rotate(-5deg) translateY(-2px) scale(1.06); }
   .program__chip--bronze   { background: linear-gradient(135deg, #8C5A2B 0%, #C08A4F 48%, #6E4520 100%); }
   .program__chip--gold     { background: linear-gradient(135deg, #9C7414 0%, #E2BE5C 48%, #8A650F 100%); }
   .program__chip--platinum { background: linear-gradient(135deg, #8B9097 0%, #D9DCE0 48%, #777C84 100%); }

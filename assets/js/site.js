@@ -64,3 +64,16 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') document.getElementById('menu').classList.remove('open');
   });
+
+  // program cards: tap/click selects a card and tilts its chip (touch-reliable;
+  // hover handles desktop). Selecting one clears the others.
+  (function programSelect() {
+    var cards = document.querySelectorAll('.program');
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var wasSelected = card.classList.contains('is-selected');
+        cards.forEach(function (c) { c.classList.remove('is-selected'); });
+        if (!wasSelected) card.classList.add('is-selected');
+      });
+    });
+  })();
