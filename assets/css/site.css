@@ -535,10 +535,7 @@
   .foot__bg::after {
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(180deg,
-      rgba(16, 10, 6, 0.78) 0%,
-      rgba(16, 10, 6, 0.68) 50%,
-      rgba(16, 10, 6, 0.88) 100%);
+    background: rgba(0, 0, 0, 0.5);
   }
   footer .wrap { position: relative; z-index: 1; }
   .foot {
