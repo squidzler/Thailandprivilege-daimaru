@@ -50,17 +50,35 @@ The logo and GSSA badge are real brand assets. Contact details
 live directly in the HTML — search and replace if they change. There is no
 favicon or social-share (OG) image yet.
 
-## Deploying (Cloudflare Pages)
+## Deploying
 
-1. Connect this GitHub repo to **Cloudflare Pages**, deploying from `main`.
-2. Build command: *none*. Output directory: *root* (`/`). Static site.
-3. Confirm it works on the temporary `*.pages.dev` URL first.
+The **`main`** branch is the production branch — both hosts deploy from it.
+No build step; the repo root is the site. Config files are committed:
+`vercel.json` (Vercel) and `_headers` (Cloudflare Pages) just set asset caching.
+
+### Cloudflare Pages (primary)
+
+1. Connect this GitHub repo to **Cloudflare Pages**, production branch **`main`**.
+2. Framework preset: **None**. Build command: *(blank)*. Output directory: `/`.
+3. Confirm it works on the temporary `*.pages.dev` URL.
 4. **Allow AI crawlers** in the project's bot settings (Cloudflare default-blocks
    them since Jul 2025), or `robots.txt` won't take effect.
 5. Connect the custom domain `www.thailandprivilege-daimaru.com` last.
 
-> SEO-critical values (canonical, OG tags, sitemap, schema) are hardcoded with
-> the current domain. If the domain changes, those need updating.
+### Vercel (backup)
+
+1. **Add New… → Project**, import this GitHub repo.
+2. Framework preset: **Other**. Build command: *(blank)*. Output directory: `./`.
+3. Production branch **`main`**. Deploy → check the `*.vercel.app` URL.
+4. `vercel.json` already preserves `.html` links and serves `404.html`.
+
+> Both hosts can run at once (e.g. Cloudflare on the live domain, Vercel as a
+> hot spare). SEO-critical values (canonical, OG tags, sitemap, schema) are
+> hardcoded with the current domain — if the domain changes, those need updating.
+
+> Tip: in GitHub **Settings → Branches**, set `main` as the default branch so new
+> work and PRs target it. Day-to-day changes land on a feature branch and merge
+> into `main`, which triggers a deploy on both hosts.
 
 ## Pre-launch checklist
 
