@@ -64,3 +64,71 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') document.getElementById('menu').classList.remove('open');
   });
+
+  // ── runtime injection of human-facing contact values (single source: config.js) ──
+  // SEO-critical values stay hardcoded in HTML; only these display values are injected.
+  (function injectConfig() {
+    var c = window.SITE_CONFIG;
+    if (!c) return;
+    document.querySelectorAll('[data-cfg]').forEach(function (el) {
+      var key = el.getAttribute('data-cfg');
+      switch (key) {
+        case 'email':
+          if (el.tagName === 'A') el.href = 'mailto:' + c.email;
+          if (el.hasAttribute('data-cfg-text')) el.textContent = c.email;
+          break;
+        case 'phone':
+          if (el.tagName === 'A') el.href = 'tel:+' + c.whatsapp;
+          if (el.hasAttribute('data-cfg-text')) el.textContent = c.phoneDisplay;
+          break;
+        case 'whatsapp':
+          if (el.tagName === 'A') el.href = 'https://wa.me/' + c.whatsapp;
+          if (el.hasAttribute('data-cfg-text')) el.textContent = c.phoneDisplay;
+          break;
+        case 'line':
+          if (el.tagName === 'A') el.href = 'https://line.me/ti/p/~' + c.lineId;
+          if (el.hasAttribute('data-cfg-text')) el.textContent = c.lineId;
+          break;
+        case 'contactName':
+          el.textContent = c.contactName;
+          break;
+      }
+    });
+  })();
+
+  // ── count-up stat counters (hero) — animate when scrolled into view ──
+  (function countUp() {
+    var stats = document.querySelectorAll('.stat__num[data-target]');
+    if (!stats.length) return;
+    function run(el) {
+      var target = parseFloat(el.getAttribute('data-target'));
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+      var sep = el.hasAttribute('data-sep'); // thousands separator
+      var fmt = function (n) {
+        var v = Math.round(n);
+        if (sep) v = v.toLocaleString('en-US');
+        return prefix + v + suffix;
+      };
+      if (reduceMotion) { el.textContent = fmt(target); return; }
+      var dur = 1600, t0 = null;
+      function frame(t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min((t - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+        el.textContent = fmt(target * eased);
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      stats.forEach(run);
+      return;
+    }
+    var so = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { run(e.target); so.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    stats.forEach(function (el) { so.observe(el); });
+  })();
