@@ -931,3 +931,5 @@
   .fnotes p { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 72ch; }
   .fnotes p b { color: var(--cocoa-2); }
   .fnotes em { font-style: italic; }
+
+  .blist li em { font-style: italic; color: var(--bronze-deep); font-weight: 500; }

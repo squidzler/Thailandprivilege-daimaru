@@ -85,6 +85,12 @@ Phuket); **EPL** (Elite Personal Liaison — in-Thailand services, Bangkok only;
 session per service complimentary, then ฿3,000/service); Fast Track lanes at
 Suvarnabhumi, Don Mueang, Phuket, Chiang Mai.
 
+**Standing rule — EPL is Bangkok-only.** All Elite Personal Liaison (in-Thailand
+member-services) work — bank-account opening, annual stay extensions, license, etc.
+— is provided within the Bangkok area only. Members in Pattaya, Phuket, Chiang Mai
+and elsewhere are supported by TPC partner visa companies for 90-day reporting and
+select services. Never imply EPL is available nationwide.
+
 Contact: WhatsApp wa.me/66651561561 · LINE line.me/ti/p/~thailandeliteinfo ·
 info@thailandelite.net · +66 65-156-1561. Lead: Patcharaphol "Pat" Nabhaboriraks,
 Thailand Branch Lead, Daimaru Trading (ex-TPC Sales Division).
