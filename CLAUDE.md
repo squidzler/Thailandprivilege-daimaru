@@ -84,6 +84,8 @@ Never reuse copy from [www.thailandelite.net](http://www.thailandelite.net) or a
 
 ## Mobile-first mandate
 
+> **Top priority (owner directive, 2026-06-15):** ~80% of visitors are on mobile phones. This is a **mobile-phone-first site** — every design, layout, copy, and performance decision is made for the phone screen first and verified there before anything else. When a trade-off pits desktop polish against mobile experience, mobile wins.
+
 Design phone-first (375px), scale up. Hero readable without scrolling at 375px. Sticky bottom bar on mobile: Apply Now + WhatsApp + Line deep links. Tap targets ≥48px, ≥8px apart. Body text ≥16px, line-height ≥1.5. Multi-step forms: one step per screen, autosave to localStorage, correct input types (tel/email/number). FAQ accordion items ≥56px tall, keyboard + ARIA accessible. Images: WebP with fallback, lazy-loaded, explicit width/height, srcset. Targets on 4G mobile: LCP <2.5s, CLS <0.1, INP <200ms. (The old site shipped with LCP 4.4–7.5s and is still paying for it — do not repeat that.) Test every layout at 320 / 375 / 414 / 768 / 1280+.
 
 ## Visual system — Cocoa & Bronze (prototype-derived)

@@ -10,6 +10,10 @@ A **mobile-first, paid-traffic conversion landing site** for the Thailand Privil
 Visa, run by Daimaru Trading (authorized GSSA since 2015). It is the **sister site**
 of www.thailandelite.net and must stay deliberately different from it.
 
+> **Mobile is the priority (owner directive, 2026-06-15): ~80% of visitors are on
+> phones.** Design, build, and verify on a 375px phone screen first; desktop is the
+> scale-up, not the starting point. Mobile experience wins any trade-off.
+
 - **This site** = conversion-focused, decisive, low information load. Goal: get a
   ready-to-decide visitor to chat (WhatsApp / LINE / email) within ~60 seconds.
 - **thailandelite.net** = research-focused, encyclopedic, organic-SEO.
