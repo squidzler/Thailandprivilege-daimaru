@@ -807,3 +807,12 @@
 
   /* tier price chips reused on programs page intro cards */
   .tier-cta { margin-top: clamp(40px, 7vw, 64px); }
+
+  /* ── skip-to-content link (visible on keyboard focus only) ── */
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+    background: var(--cocoa); color: var(--ivory);
+    padding: 10px 18px; border-radius: 0 0 10px 0;
+    font-size: 14px; font-weight: 500;
+  }
+  .skip-link:focus { left: 0; }
