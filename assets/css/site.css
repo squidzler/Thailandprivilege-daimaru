@@ -952,3 +952,9 @@
   .provide li:last-child { border-bottom: 1px solid var(--line); }
   .provide li::before { content: ""; position: absolute; left: 2px; top: 20px; width: 8px; height: 8px; border-radius: 2px; background: var(--bronze); }
   .provide li b { color: var(--cocoa); font-weight: 600; }
+
+  /* download page — tier groups */
+  .dlgroup { margin-top: 24px; }
+  .dlgroup__h { font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: -.01em; margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line-strong); }
+  .dlgroup .doclist { margin-top: 10px; }
+  .doc__t .tag { color: var(--bronze-deep); font-style: italic; }
