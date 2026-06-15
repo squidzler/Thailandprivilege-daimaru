@@ -134,3 +134,12 @@ stats, subtle hero parallax (bg only, transform/opacity), tier-card micro-intera
 
 Ask Pat before writing. Don't invent facts/percentages/testimonials. Don't target the
 same queries as thailandelite.net unless approved. Goal is differentiation, not duplication.
+
+## Delivery workflow (owner directive, 2026-06-15)
+
+**Review-first.** Make changes on the working branch
+(`claude/thailand-privilege-daimaru-site-n7eqjb`), push, and open a **pull request
+into `main`** — do NOT fast-forward or merge to `main` automatically. The owner
+reviews the PR (and its Vercel preview deployment) and merges when ready; only a
+merged `main` deploys to production. (Work completed before this date was
+auto-published straight to `main` and is already live.)
