@@ -389,27 +389,68 @@
   @media (min-width: 640px) { .benefits { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 960px) { .benefits { grid-template-columns: repeat(3, 1fr); } }
   .benefit {
-    padding: 28px 26px 30px;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 260px;
+    padding: 26px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     background: var(--cocoa);
+  }
+  /* full-bleed photo behind each topic */
+  .benefit__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.001);
+    transition: transform 600ms cubic-bezier(.2,.6,.2,1);
+  }
+  /* dark gradient so the title and copy stay legible over any photo */
+  .benefit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top,
+      rgba(31,22,17,0.94) 0%,
+      rgba(31,22,17,0.80) 30%,
+      rgba(31,22,17,0.42) 64%,
+      rgba(31,22,17,0.28) 100%);
     transition: background 240ms ease;
   }
-  .benefit:hover { background: var(--cocoa-2); }
+  .benefit:hover .benefit__bg { transform: scale(1.06); }
+  .benefit:hover::before {
+    background: linear-gradient(to top,
+      rgba(31,22,17,0.96) 0%,
+      rgba(31,22,17,0.82) 32%,
+      rgba(31,22,17,0.5) 66%,
+      rgba(31,22,17,0.34) 100%);
+  }
   .benefit__icon {
-    width: 36px; height: 36px;
+    position: absolute;
+    top: 22px; left: 24px;
+    width: 30px; height: 30px;
     color: var(--gold);
-    margin-bottom: 18px;
+    margin: 0;
+    filter: drop-shadow(0 1px 5px rgba(0,0,0,0.55));
   }
   .benefit h3 {
     font-family: var(--display);
     font-weight: 500;
-    font-size: 20px;
+    font-size: 21px;
     margin-bottom: 8px;
     letter-spacing: -0.01em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
   }
   .benefit p {
     font-size: 14px;
-    color: rgba(250, 246, 238, 0.65);
+    color: rgba(250, 246, 238, 0.82);
     line-height: 1.6;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.45);
   }
 
   /* ───────────────────────── process ───────────────────────── */
