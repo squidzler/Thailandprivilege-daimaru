@@ -972,3 +972,11 @@
   .banklogos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
   .banklogo { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; display: inline-flex; align-items: center; }
   .banklogo img { height: 22px; width: auto; display: block; }
+
+  /* support cards (benefits — Member Contact Center / EPL) */
+  .support { margin-top: clamp(22px, 5vw, 36px); display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 640px) { .support { grid-template-columns: 1fr 1fr; } }
+  .support__card { background: var(--ivory); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px; }
+  .support__card .lbl { display: inline-block; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--bronze-deep); font-weight: 600; margin-bottom: 10px; }
+  .support__card h3 { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.01em; margin-bottom: 8px; }
+  .support__card p { font-size: 14.5px; color: var(--cocoa-2); line-height: 1.55; }
