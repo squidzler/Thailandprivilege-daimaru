@@ -936,7 +936,19 @@
 
   /* small button + step download action */
   .btn--sm { padding: 9px 16px; font-size: 13px; }
-  .step__dl { margin-top: 12px; }
+  /* download button = colour-negative of the "Same day" chip: solid bronze fill,
+     light text, and matched to the chip's top-to-bottom height (3px vertical
+     padding, 1px border, 13px icon) */
+  .step__dl {
+    margin-top: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background: var(--bronze-deep);
+    color: var(--ivory);
+    border: 1px solid var(--bronze-deep);
+  }
+  .step__dl svg { width: 13px; height: 13px; }
+  .step__dl:hover { background: var(--cocoa); border-color: var(--cocoa); transform: translateY(-1px); }
 
   /* ═════════════════ download page ═════════════════ */
   .docnote { margin-top: clamp(20px, 4vw, 32px); border-left: 3px solid var(--bronze); background: rgba(168,116,63,.06); border-radius: 0 10px 10px 0; padding: 14px 16px; font-size: 14.5px; color: var(--cocoa-2); line-height: 1.55; max-width: 64ch; }
