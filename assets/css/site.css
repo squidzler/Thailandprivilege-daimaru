@@ -430,14 +430,6 @@
       rgba(31,22,17,0.5) 66%,
       rgba(31,22,17,0.34) 100%);
   }
-  .benefit__icon {
-    position: absolute;
-    top: 22px; left: 24px;
-    width: 30px; height: 30px;
-    color: var(--gold);
-    margin: 0;
-    filter: drop-shadow(0 1px 5px rgba(0,0,0,0.55));
-  }
   .benefit h3 {
     font-family: var(--display);
     font-weight: 500;
