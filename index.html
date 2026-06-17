@@ -38,13 +38,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- Hero LCP image: browser fetches only the crop matching the viewport -->
+<link rel="preload" as="image" href="assets/img/hero-thailand-privilege-hostess.jpg" media="(min-width: 721px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero-thailand-privilege-hostess-mobile.jpg" media="(max-width: 720px)" fetchpriority="high">
+
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<link rel="stylesheet" href="assets/css/site.css?v=2">
+<link rel="stylesheet" href="assets/css/site.css?v=3">
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -97,25 +101,10 @@
 
 <!-- ─── HERO ─── -->
 <section class="hero" id="main-content">
-  <div class="hero__bg" aria-hidden="true">
-    <!--
-      PLACEHOLDER PHOTO (free-to-use, Unsplash) — golden-hour air travel.
-      Swap the src below with your official Thailand Privilege photo, e.g. the
-      Elite Personal Assistant / airport escort image you are licensed to use:
-      src="/images/hero-epa.jpg"  (recommended ~1600px wide JPG, quality ~70)
-      NOTE: photos will not display in the chat preview — open the file in a
-      normal browser or host it to see them.
-    -->
-    <img
-      src="assets/img/hero.jpg"
-      alt=""
-      fetchpriority="high"
-      decoding="async"
-      onerror="this.style.display='none'">
-  </div>
+  <div class="hero__bg" aria-hidden="true"></div>
   <div class="wrap hero__inner">
-    <div class="eyebrow">A Thailand Privilege agent</div>
-    <h1><span class="line"><span>A membership</span></span><span class="line"><span><em>for Thailand.</em></span></span></h1>
+    <div class="eyebrow">Authorized Thailand Privilege Agent · Since 2015</div>
+    <h1>Thailand Privilege Visa <em>(formerly Thailand Elite Visa)</em></h1>
     <p class="hero__sub">Long-term residency made simple. Multi-entry visa, airport VIP, and personal assistance — from 5 to 20 years, in a single application.</p>
     <div class="hero__cta">
       <a href="#programs" class="btn btn--primary">
