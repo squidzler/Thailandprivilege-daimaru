@@ -68,29 +68,22 @@
   .wz-tiergrid { display: grid; gap: 12px; grid-template-columns: 1fr; }
   @media (min-width: 600px) { .wz-tiergrid { grid-template-columns: 1fr 1fr; } }
   .wz-tier input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .wz-tier label { position: relative; display: block; height: 100%; cursor: pointer; border: 1px solid var(--line-strong); border-radius: 13px; padding: 16px 18px; background: var(--ivory); transition: transform .2s, box-shadow .2s, border-color .2s; }
-  .wz-tier label:hover { transform: translateY(-1px); }
-  .wz-tier input:focus-visible + label { box-shadow: 0 0 0 3px rgba(168,116,63,.5); }
-  .wz-tier input:checked + label { border-color: transparent; transform: translateY(-2px); box-shadow: 0 0 0 2px var(--ivory), 0 0 0 4px var(--bronze-deep), 0 10px 24px rgba(31,22,17,.20); }
-  .wz-tier input:checked + label::after { content: ""; position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231F1611' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 14px no-repeat; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+  .wz-tier label { position: relative; display: block; height: 100%; cursor: pointer; border: 1px solid var(--line-strong); border-radius: 13px; padding: 16px 18px; background: var(--ivory); transition: border-color .2s, box-shadow .2s, background .2s; }
+  .wz-tier label:hover { border-color: var(--bronze); }
+  .wz-tier input:checked + label { border-color: var(--bronze); background: #fff; box-shadow: inset 0 0 0 1px var(--bronze); }
+  .wz-tier input:focus-visible + label { box-shadow: 0 0 0 3px rgba(168,116,63,.35); }
+  .wz-tier__name { display: block; font-family: var(--display); font-size: 19px; font-weight: 500; padding-right: 52px; }
+  .wz-tier__price { display: block; font-size: 13.5px; color: var(--cocoa); margin-top: 4px; }
+  .wz-tier__desc { display: block; font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; }
 
-  /* metallic satin gradients per tier — derived from the tier-card palette,
-     tuned for a larger surface and AA-contrast text */
-  .wz-tier label.wz-tier--bronze   { color: var(--ivory); border-color: transparent;
-    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.22) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #7A4E26 0%, #B27C44 47%, #5C3A1B 100%); }
-  .wz-tier label.wz-tier--gold     { color: var(--cocoa); border-color: rgba(120,90,20,.35);
-    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.4) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #C8A24E 0%, #F1E0A6 50%, #BB9038 100%); }
-  .wz-tier label.wz-tier--platinum { color: var(--cocoa); border-color: rgba(80,86,94,.35);
-    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.5) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #A9AEB5 0%, #E9ECEF 50%, #969CA4 100%); }
-  .wz-tier label.wz-tier--diamond  { color: var(--cocoa); border-color: rgba(120,140,150,.4);
-    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.55) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #BDD0DB 0%, #F3F9FC 50%, #A9BECB 100%); }
-  .wz-tier label.wz-tier--reserve  { color: var(--ivory); border-color: rgba(201,168,118,.55);
-    background: linear-gradient(118deg, rgba(201,168,118,0) 33%, rgba(201,168,118,.28) 49%, rgba(201,168,118,0) 64%), linear-gradient(135deg, #1A140D 0%, #2E2417 55%, #0E0B07 100%); }
-  .wz-tier label.wz-tier--reserve .wz-tier__name { color: var(--gold); }
-
-  .wz-tier__name { font-family: var(--display); font-size: 19px; font-weight: 500; color: inherit; }
-  .wz-tier__price { font-size: 13.5px; margin-top: 3px; color: inherit; opacity: .94; }
-  .wz-tier__desc { font-size: 12.5px; margin-top: 5px; line-height: 1.45; color: inherit; opacity: .8; }
+  /* tier colour chip — a small metallic membership-card swatch, top-right */
+  .wz-tier__chip { position: absolute; top: 14px; right: 14px; width: 42px; height: 27px; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 6px rgba(31,22,17,.25), inset 0 1px 0 rgba(255,255,255,.35); }
+  .wz-tier__chip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(118deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.45) 50%, rgba(255,255,255,0) 65%); }
+  .wz-tier__chip--bronze   { background: linear-gradient(135deg, #8C5A2B 0%, #C08A4F 48%, #6E4520 100%); }
+  .wz-tier__chip--gold     { background: linear-gradient(135deg, #9C7414 0%, #E2BE5C 48%, #8A650F 100%); }
+  .wz-tier__chip--platinum { background: linear-gradient(135deg, #8B9097 0%, #D9DCE0 48%, #777C84 100%); }
+  .wz-tier__chip--diamond  { background: linear-gradient(135deg, #AEBFC9 0%, #F2F7FA 50%, #9DB0BC 100%); }
+  .wz-tier__chip--reserve  { background: linear-gradient(135deg, #14100B 0%, #2E2417 55%, #0E0B07 100%); box-shadow: 0 2px 6px rgba(31,22,17,.3), inset 0 0 0 1px var(--gold); }
 
   /* review summary */
   .wz-summary { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--ivory); margin-bottom: 24px; }
@@ -288,7 +281,8 @@
           <div class="wz-tiergrid">
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-bronze" value="Bronze">
-              <label for="tier-bronze" class="wz-tier--bronze">
+              <label for="tier-bronze">
+                <span class="wz-tier__chip wz-tier__chip--bronze" aria-hidden="true"></span>
                 <span class="wz-tier__name">Bronze</span>
                 <span class="wz-tier__price">฿650,000 (~$19,000 USD) · 5 years</span>
                 <span class="wz-tier__desc">Most applied entry tier. Apply by 30 Sep 2026.</span>
@@ -296,7 +290,8 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-gold" value="Gold">
-              <label for="tier-gold" class="wz-tier--gold">
+              <label for="tier-gold">
+                <span class="wz-tier__chip wz-tier__chip--gold" aria-hidden="true"></span>
                 <span class="wz-tier__name">Gold</span>
                 <span class="wz-tier__price">฿900,000 (~$26,000 USD) · 5 years</span>
                 <span class="wz-tier__desc">Where annual privilege points begin.</span>
@@ -304,7 +299,8 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-platinum" value="Platinum">
-              <label for="tier-platinum" class="wz-tier--platinum">
+              <label for="tier-platinum">
+                <span class="wz-tier__chip wz-tier__chip--platinum" aria-hidden="true"></span>
                 <span class="wz-tier__name">Platinum</span>
                 <span class="wz-tier__price">฿1,500,000 (~$44,000 USD) · 10 years</span>
                 <span class="wz-tier__desc">Ten-year term, family add-ons available.</span>
@@ -312,7 +308,8 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-diamond" value="Diamond">
-              <label for="tier-diamond" class="wz-tier--diamond">
+              <label for="tier-diamond">
+                <span class="wz-tier__chip wz-tier__chip--diamond" aria-hidden="true"></span>
                 <span class="wz-tier__name">Diamond</span>
                 <span class="wz-tier__price">฿2,500,000 (~$73,000 USD) · 15 years</span>
                 <span class="wz-tier__desc">Fifteen-year term, family add-ons available.</span>
@@ -320,7 +317,8 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-reserve" value="Reserve">
-              <label for="tier-reserve" class="wz-tier--reserve">
+              <label for="tier-reserve">
+                <span class="wz-tier__chip wz-tier__chip--reserve" aria-hidden="true"></span>
                 <span class="wz-tier__name">Reserve</span>
                 <span class="wz-tier__price">฿5,000,000 (~$146,000 USD) · 20 years</span>
                 <span class="wz-tier__desc">Twenty-year term, by invitation only.</span>
