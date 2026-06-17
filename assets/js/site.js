@@ -13,8 +13,7 @@
     requestAnimationFrame(() => {
       const y = window.scrollY;
       nav.classList.toggle('scrolled', y > 8);
-      if (y > 600) mbar.classList.add('show');
-      else mbar.classList.remove('show');
+      if (mbar) { if (y > 600) mbar.classList.add('show'); else mbar.classList.remove('show'); }
       if (pbar) pbar.style.transform = 'scaleX(' + Math.min(y / docH(), 1) + ')';
       // parallax-lite: background drifts at 18% of scroll speed, capped, transform-only
       if (heroBg && !reduceMotion && y < window.innerHeight * 1.2) {
