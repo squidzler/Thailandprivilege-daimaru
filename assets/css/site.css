@@ -162,7 +162,7 @@
   @media (max-width: 720px) {
     .hero__bg {
       background-image: url('../img/hero-thailand-privilege-hostess-mobile.jpg');
-      background-position: 95% 22%;
+      background-position: 100% 22%;
     }
   }
   /* Overlay: darken the left text column and the bottom seam, keep the
