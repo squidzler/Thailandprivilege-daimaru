@@ -1039,3 +1039,59 @@
   .support__card .lbl { display: inline-block; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--bronze-deep); font-weight: 600; margin-bottom: 10px; }
   .support__card h3 { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.01em; margin-bottom: 8px; }
   .support__card p { font-size: 14.5px; color: var(--cocoa-2); line-height: 1.55; }
+
+  /* ───────────────── Authorized Agent credential pane ─────────────────
+     A still, notarized-seal trust signal (not a marketing badge).
+     Adapted to this site's Cocoa & Bronze system: deepest cocoa field,
+     gold-tinted hairline border, Fraunces title. Two sizes: --lg / --sm. */
+  .credpane {
+    display: flex; align-items: center; gap: 24px;
+    background: var(--cocoa);
+    border: 1px solid rgba(201, 168, 118, 0.25);
+    border-radius: 4px;
+    padding: 32px 40px;
+    max-width: 560px;
+    transition: border-color .3s ease, background-color .3s ease;
+  }
+  .credpane:hover { border-color: rgba(201, 168, 118, 0.5); background: #261b14; }
+  .credpane__badge { width: 120px; height: 120px; flex-shrink: 0; object-fit: contain; }
+  .credpane__body { display: flex; flex-direction: column; min-width: 0; }
+  .credpane__eyebrow {
+    color: var(--gold); text-transform: uppercase; font-weight: 600;
+    letter-spacing: .22em; font-size: 12px; line-height: 1.3;
+  }
+  .credpane__title {
+    color: var(--ivory); font-family: var(--display); font-weight: 500;
+    font-size: 26px; line-height: 1.35; margin-top: 8px;
+  }
+  .credpane__sub {
+    color: rgba(250, 246, 238, 0.72); font-size: 15px; line-height: 1.4; margin-top: 4px;
+  }
+  .credpane__divider {
+    display: block; height: 1px; width: 100%;
+    background: rgba(201, 168, 118, 0.12); margin: 16px 0;
+  }
+  .credpane__license {
+    color: var(--gold); text-transform: uppercase; font-weight: 600;
+    letter-spacing: .14em; font-size: 13px; line-height: 1.3;
+  }
+
+  /* compact variant — e.g. footer column (~340px) */
+  .credpane--sm { gap: 14px; padding: 14px 18px; max-width: 340px; }
+  .credpane--sm .credpane__badge { width: 64px; height: 64px; }
+  .credpane--sm .credpane__eyebrow { font-size: 10px; letter-spacing: .2em; }
+  .credpane--sm .credpane__title { font-size: 13px; margin-top: 5px; }
+  .credpane--sm .credpane__sub { font-size: 11px; margin-top: 3px; }
+  .credpane--sm .credpane__divider { margin: 6px 0; }
+  .credpane--sm .credpane__license { font-size: 10px; letter-spacing: .12em; }
+
+  /* below ~520px the large variant stacks: badge centered above text */
+  @media (max-width: 520px) {
+    .credpane--lg {
+      flex-direction: column; align-items: center; text-align: center;
+      gap: 18px; padding: 26px 22px;
+    }
+    .credpane--lg .credpane__body { align-items: center; }
+    .credpane--lg .credpane__badge { width: 92px; height: 92px; }
+    .credpane--lg .credpane__title { font-size: 21px; }
+  }
