@@ -172,10 +172,10 @@
     position: absolute; inset: 0;
     background:
       linear-gradient(90deg,
-        rgba(20, 13, 9, 0.86) 0%,
-        rgba(20, 13, 9, 0.58) 34%,
-        rgba(20, 13, 9, 0.14) 60%,
-        rgba(20, 13, 9, 0.04) 100%),
+        rgba(20, 13, 9, 0.74) 0%,
+        rgba(20, 13, 9, 0.46) 34%,
+        rgba(20, 13, 9, 0.10) 60%,
+        rgba(20, 13, 9, 0.03) 100%),
       linear-gradient(180deg,
         rgba(20, 13, 9, 0.32) 0%,
         rgba(20, 13, 9, 0.22) 42%,
