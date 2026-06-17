@@ -68,13 +68,29 @@
   .wz-tiergrid { display: grid; gap: 12px; grid-template-columns: 1fr; }
   @media (min-width: 600px) { .wz-tiergrid { grid-template-columns: 1fr 1fr; } }
   .wz-tier input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .wz-tier label { display: block; height: 100%; cursor: pointer; border: 1px solid var(--line-strong); border-radius: 13px; padding: 16px 18px; background: var(--ivory); transition: border-color .2s, box-shadow .2s, background .2s; }
-  .wz-tier label:hover { border-color: var(--bronze); }
-  .wz-tier input:checked + label { border-color: var(--bronze); background: #fff; box-shadow: inset 0 0 0 1px var(--bronze); }
-  .wz-tier input:focus-visible + label { box-shadow: 0 0 0 3px rgba(168,116,63,.3); }
-  .wz-tier__name { font-family: var(--display); font-size: 19px; font-weight: 500; }
-  .wz-tier__price { font-size: 13.5px; color: var(--cocoa); margin-top: 3px; }
-  .wz-tier__desc { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.45; }
+  .wz-tier label { position: relative; display: block; height: 100%; cursor: pointer; border: 1px solid var(--line-strong); border-radius: 13px; padding: 16px 18px; background: var(--ivory); transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .wz-tier label:hover { transform: translateY(-1px); }
+  .wz-tier input:focus-visible + label { box-shadow: 0 0 0 3px rgba(168,116,63,.5); }
+  .wz-tier input:checked + label { border-color: transparent; transform: translateY(-2px); box-shadow: 0 0 0 2px var(--ivory), 0 0 0 4px var(--bronze-deep), 0 10px 24px rgba(31,22,17,.20); }
+  .wz-tier input:checked + label::after { content: ""; position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231F1611' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 14px no-repeat; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+
+  /* metallic satin gradients per tier — derived from the tier-card palette,
+     tuned for a larger surface and AA-contrast text */
+  .wz-tier label.wz-tier--bronze   { color: var(--ivory); border-color: transparent;
+    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.22) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #7A4E26 0%, #B27C44 47%, #5C3A1B 100%); }
+  .wz-tier label.wz-tier--gold     { color: var(--cocoa); border-color: rgba(120,90,20,.35);
+    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.4) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #C8A24E 0%, #F1E0A6 50%, #BB9038 100%); }
+  .wz-tier label.wz-tier--platinum { color: var(--cocoa); border-color: rgba(80,86,94,.35);
+    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.5) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #A9AEB5 0%, #E9ECEF 50%, #969CA4 100%); }
+  .wz-tier label.wz-tier--diamond  { color: var(--cocoa); border-color: rgba(120,140,150,.4);
+    background: linear-gradient(118deg, rgba(255,255,255,0) 33%, rgba(255,255,255,.55) 49%, rgba(255,255,255,0) 64%), linear-gradient(135deg, #BDD0DB 0%, #F3F9FC 50%, #A9BECB 100%); }
+  .wz-tier label.wz-tier--reserve  { color: var(--ivory); border-color: rgba(201,168,118,.55);
+    background: linear-gradient(118deg, rgba(201,168,118,0) 33%, rgba(201,168,118,.28) 49%, rgba(201,168,118,0) 64%), linear-gradient(135deg, #1A140D 0%, #2E2417 55%, #0E0B07 100%); }
+  .wz-tier label.wz-tier--reserve .wz-tier__name { color: var(--gold); }
+
+  .wz-tier__name { font-family: var(--display); font-size: 19px; font-weight: 500; color: inherit; }
+  .wz-tier__price { font-size: 13.5px; margin-top: 3px; color: inherit; opacity: .94; }
+  .wz-tier__desc { font-size: 12.5px; margin-top: 5px; line-height: 1.45; color: inherit; opacity: .8; }
 
   /* review summary */
   .wz-summary { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--ivory); margin-bottom: 24px; }
@@ -272,7 +288,7 @@
           <div class="wz-tiergrid">
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-bronze" value="Bronze">
-              <label for="tier-bronze">
+              <label for="tier-bronze" class="wz-tier--bronze">
                 <span class="wz-tier__name">Bronze</span>
                 <span class="wz-tier__price">฿650,000 (~$19,000 USD) · 5 years</span>
                 <span class="wz-tier__desc">Most applied entry tier. Apply by 30 Sep 2026.</span>
@@ -280,7 +296,7 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-gold" value="Gold">
-              <label for="tier-gold">
+              <label for="tier-gold" class="wz-tier--gold">
                 <span class="wz-tier__name">Gold</span>
                 <span class="wz-tier__price">฿900,000 (~$26,000 USD) · 5 years</span>
                 <span class="wz-tier__desc">Where annual privilege points begin.</span>
@@ -288,7 +304,7 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-platinum" value="Platinum">
-              <label for="tier-platinum">
+              <label for="tier-platinum" class="wz-tier--platinum">
                 <span class="wz-tier__name">Platinum</span>
                 <span class="wz-tier__price">฿1,500,000 (~$44,000 USD) · 10 years</span>
                 <span class="wz-tier__desc">Ten-year term, family add-ons available.</span>
@@ -296,7 +312,7 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-diamond" value="Diamond">
-              <label for="tier-diamond">
+              <label for="tier-diamond" class="wz-tier--diamond">
                 <span class="wz-tier__name">Diamond</span>
                 <span class="wz-tier__price">฿2,500,000 (~$73,000 USD) · 15 years</span>
                 <span class="wz-tier__desc">Fifteen-year term, family add-ons available.</span>
@@ -304,7 +320,7 @@
             </div>
             <div class="wz-tier">
               <input type="radio" name="tier" id="tier-reserve" value="Reserve">
-              <label for="tier-reserve">
+              <label for="tier-reserve" class="wz-tier--reserve">
                 <span class="wz-tier__name">Reserve</span>
                 <span class="wz-tier__price">฿5,000,000 (~$146,000 USD) · 20 years</span>
                 <span class="wz-tier__desc">Twenty-year term, by invitation only.</span>
