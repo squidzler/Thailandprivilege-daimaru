@@ -65,6 +65,26 @@
   .subh:first-of-type { margin-top: clamp(24px, 5vw, 36px); }
   .subh + .lede2 { margin-top: 12px; }
   .subh__meta { display: block; font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--bronze-deep); margin-top: 6px; letter-spacing: .02em; }
+
+  /* About — recognition credential + authorization certificate photo */
+  .recog { margin: clamp(22px, 4vw, 30px) 0 0; padding: 18px 22px; background: var(--ivory); border-left: 3px solid var(--bronze); border-radius: 0 10px 10px 0; }
+  .recog__eyebrow { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--bronze-deep); font-weight: 600; }
+  .recog__title { font-family: var(--display); font-size: clamp(20px, 3vw, 26px); color: var(--cocoa); margin: 7px 0 4px; line-height: 1.15; }
+  .recog__years { font-size: 15px; color: var(--cocoa-2); line-height: 1.5; margin: 0; }
+  .recog__years b { color: var(--bronze-deep); font-weight: 600; }
+
+  .cert { margin: clamp(22px, 4vw, 30px) 0 0; max-width: 460px; }
+  .cert img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 8px; }
+  .cert figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
+  .cert__ph-note { display: none; color: var(--bronze-deep); }
+  /* placeholder shown until assets/img/gssa-certificate.jpg is supplied */
+  .cert--ph img { display: none; }
+  .cert--ph::before {
+    content: "GSSA certificate photo"; display: grid; place-items: center;
+    aspect-ratio: 4 / 3; border: 1px dashed var(--line-strong); border-radius: 8px;
+    background: var(--ivory-2); color: var(--muted); font-size: 13px; letter-spacing: .02em;
+  }
+  .cert--ph .cert__ph-note { display: inline; }
 </style>
 </head>
 <body>
@@ -160,6 +180,17 @@
           <span class="credpane__license">License No. SA15/029 · Since 2015</span>
         </div>
       </div>
+
+      <div class="recog reveal" role="group" aria-label="Industry recognition">
+        <span class="recog__eyebrow">Recognition</span>
+        <p class="recog__title">Best Cooperation GSSA</p>
+        <p class="recog__years"><b>2024 · 2025 · 2026</b> — awarded by Thailand Privilege Card Co., Ltd. for three consecutive years.</p>
+      </div>
+
+      <figure class="cert reveal">
+        <img src="assets/img/gssa-certificate.jpg" alt="Daimaru Trading's GSSA authorization certificate — License No. SA15/029, issued by Thailand Privilege Card Co., Ltd." loading="lazy" decoding="async" onerror="this.closest('.cert').classList.add('cert--ph')">
+        <figcaption>The authorization certificate — License No. SA15/029, issued by Thailand Privilege Card Co., Ltd. <span class="cert__ph-note">[Photo to be supplied by the owner.]</span></figcaption>
+      </figure>
 
       <div class="lede2">
         <p>Under this license, Daimaru Trading is empowered by the program operator to conduct pre-qualification consultations, prepare application documentation, submit completed applications, coordinate the background check across the five Thai government agencies involved, and provide post-approval support throughout each member's tenure.</p>
