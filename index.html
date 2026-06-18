@@ -48,7 +48,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<link rel="stylesheet" href="assets/css/site.css?v=18">
+<link rel="stylesheet" href="assets/css/site.css?v=19">
 <style>
   /* ── Floating video mini-player (home only, page-scoped) ── */
   .fvid {
@@ -87,15 +87,16 @@
     background: rgba(250,246,238,.92); display: grid; place-items: center;
     transition: transform .2s ease, background .2s ease;
   }
+  /* GPU-composited ring (transform/opacity only — no per-frame repaint) */
   .fvid__play::before {
     content: ""; position: absolute; inset: 0; border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(250,246,238,.5);
+    border: 2px solid rgba(250,246,238,.55);
     animation: fvidPulse 2.4s cubic-bezier(.4,0,.2,1) infinite;
   }
   @keyframes fvidPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(250,246,238,.45); }
-    70%  { box-shadow: 0 0 0 16px rgba(250,246,238,0); }
-    100% { box-shadow: 0 0 0 0 rgba(250,246,238,0); }
+    0%   { transform: scale(1);   opacity: .55; }
+    70%  { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.9); opacity: 0; }
   }
   .fvid__poster:hover .fvid__play { transform: translate(-50%, -50%) scale(1.06); background: #fff; }
   .fvid__play svg { width: 20px; height: 20px; margin-left: 3px; fill: var(--cocoa); }

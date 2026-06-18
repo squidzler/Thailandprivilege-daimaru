@@ -745,11 +745,12 @@
     position: relative; overflow: hidden;
   }
   .hero__scrollcue-line::after {
-    content: ""; position: absolute; left: 0; top: -100%;
+    content: ""; position: absolute; left: 0; top: 0;
     width: 100%; height: 100%; background: var(--gold);
     animation: cueDrop 2200ms cubic-bezier(.6,.05,.3,.95) 1200ms infinite;
   }
-  @keyframes cueDrop { 0% { top: -100%; } 55% { top: 100%; } 100% { top: 100%; } }
+  /* transform (not top) so the loop is GPU-composited, no per-frame layout */
+  @keyframes cueDrop { 0% { transform: translateY(-100%); } 55% { transform: translateY(100%); } 100% { transform: translateY(100%); } }
 
   /* one-time sheen sweeping across tier bars after they draw */
   .program__bar { position: relative; overflow: hidden; }
