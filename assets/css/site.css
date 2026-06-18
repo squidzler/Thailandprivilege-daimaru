@@ -1119,3 +1119,47 @@
     .credpane--lg .credpane__badge { width: 92px; height: 92px; }
     .credpane--lg .credpane__title { font-size: 21px; }
   }
+
+  /* ═══════════════════════ interactive motion layer ═══════════════════════
+     An additional, restrained layer on top of the existing reveal/marquee
+     animations. All of it is disabled by the global prefers-reduced-motion
+     guard above, and uses transform/opacity only (no layout, no CWV cost). */
+
+  /* 1 — CTA icon glides forward on hover, signalling "go" */
+  .btn svg, .nav__cta svg { transition: transform 280ms cubic-bezier(.2,.6,.2,1); }
+  @media (hover: hover) {
+    .btn:hover svg, .nav__cta:hover svg { transform: translateX(4px); }
+  }
+
+  /* 2 — section emphasis: the italic phrase in each H2 underlines itself
+     as the section scrolls into view (follows the text, wraps cleanly) */
+  .h2 em {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    padding-bottom: 2px;
+    transition: background-size 760ms cubic-bezier(.2,.6,.2,1) 220ms;
+  }
+  .reveal.is-visible .h2 em,
+  .is-visible .h2 em { background-size: 100% 2px; }
+
+  /* 3 — program rows: a bronze accent draws in on hover (desktop) or when a
+     card is tapped/selected (touch), reinforcing that the rows are live */
+  .program { position: relative; }
+  .program::before {
+    content: ""; position: absolute; left: -10px; top: 18px; bottom: 18px; width: 3px;
+    background: linear-gradient(var(--bronze), var(--gold)); border-radius: 2px;
+    transform: scaleY(0); transform-origin: top center;
+    transition: transform 340ms cubic-bezier(.2,.6,.2,1);
+  }
+  .program.is-selected::before { transform: scaleY(1); }
+  @media (hover: hover) {
+    .program:hover::before { transform: scaleY(1); }
+  }
+
+  /* 4 — contact cards: the icon lifts a touch with the card on hover */
+  .contact-card__icon { transition: transform 320ms cubic-bezier(.2,.6,.2,1); }
+  @media (hover: hover) {
+    .contact-card:hover .contact-card__icon { transform: translateY(-2px) scale(1.06); }
+  }
