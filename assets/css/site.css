@@ -159,6 +159,11 @@
     overflow: hidden;
     color: var(--ivory);
   }
+  /* iPad / tablet portrait: 22vw top padding overshoots at tablet widths,
+     leaving a large gap under the fixed nav — tighten it to clear the nav. */
+  @media (min-width: 700px) and (max-width: 1024px) and (orientation: portrait) {
+    .hero { padding-top: 100px; }
+  }
   .hero__bg {
     position: absolute; inset: 0; z-index: 0;
     background-color: var(--cocoa);
