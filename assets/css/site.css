@@ -1058,11 +1058,15 @@
      gold-tinted hairline border, Fraunces title. Two sizes: --lg / --sm. */
   .credpane {
     display: flex; align-items: center; gap: 24px;
-    /* champagne-gold satin sheen + warm glow over a lighter cocoa gradient */
+    /* champagne-gold satin sheen + warm glow over a TRANSPARENT base:
+       the only solid layer is a translucent dark scrim that keeps the
+       gold/ivory text legible while the footer behind shows through. */
     background:
       linear-gradient(118deg, rgba(255,250,235,0) 40%, rgba(255,250,235,.12) 51%, rgba(255,250,235,.22) 53%, rgba(255,250,235,.07) 58%, rgba(255,250,235,0) 70%),
-      radial-gradient(ellipse 80% 100% at 7% 28%, rgba(232,217,181,.34), transparent 62%),
-      linear-gradient(135deg, #4A3528 0%, #3A2A20 55%, #2C2017 100%);
+      radial-gradient(ellipse 80% 100% at 7% 28%, rgba(232,217,181,.30), transparent 62%),
+      rgba(22, 15, 10, 0.42);
+    backdrop-filter: blur(9px) saturate(115%);
+    -webkit-backdrop-filter: blur(9px) saturate(115%);
     border: 1px solid rgba(232, 217, 181, 0.45);
     border-radius: 4px;
     padding: 32px 40px;
