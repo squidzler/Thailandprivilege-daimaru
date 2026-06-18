@@ -1093,6 +1093,9 @@
   .credpane--sm .credpane__divider { margin: 6px 0; }
   .credpane--sm .credpane__license { font-size: 10px; letter-spacing: .12em; }
 
+  /* footer placement — give the compact pane top/bottom breathing room */
+  .foot .credpane { margin-top: 22px; margin-bottom: 26px; }
+
   /* below ~520px the large variant stacks: badge centered above text */
   @media (max-width: 520px) {
     .credpane--lg {
