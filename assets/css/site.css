@@ -101,17 +101,19 @@
     padding: 9px 18px; border-radius: 999px;
     background-color: var(--ivory); color: var(--cocoa);
     font-size: 13px; font-weight: 500;
-    /* subtle, slow pulse to gently draw the eye to the primary CTA */
-    animation: ctaPulse 2.8s ease-in-out infinite;
+    /* slow pulse to draw the eye to the primary CTA: a soft gold halo blooms
+       and ripples outward while the button grows slightly, then rests */
+    animation: ctaPulse 2.6s ease-in-out infinite;
     transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
   }
   .nav__cta:hover { background-color: var(--gold); transform: translateY(-1px); }
   .nav.scrolled .nav__cta { background-color: var(--cocoa); color: var(--ivory); }
   .nav.scrolled .nav__cta:hover { background-color: var(--bronze-deep); }
-  /* gentle breathe: ~3% grow + a soft warm glow, then settle */
   @keyframes ctaPulse {
-    0%, 100% { scale: 1;    box-shadow: 0 0 0 0 rgba(201,168,118,0); }
-    50%      { scale: 1.03; box-shadow: 0 4px 16px rgba(201,168,118,.30); }
+    0%   { scale: 1;    box-shadow: 0 0 7px 0px  rgba(201,168,118,0);   }
+    20%  { scale: 1.05; box-shadow: 0 0 7px 0px  rgba(201,168,118,.55); }
+    60%  { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0);   }
+    100% { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0);   }
   }
   @media (prefers-reduced-motion: reduce) {
     .nav__cta { animation: none; }
