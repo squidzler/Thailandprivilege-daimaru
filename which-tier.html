@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js"><script>document.documentElement.classList.remove('no-js');</script>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#FAF6EE" />
+<title>Which Thailand Privilege Tier Is Right for You? — Daimaru</title>
+<meta name="description" content="Answer a few quick questions and get a Thailand Privilege Visa tier recommendation — Bronze to Reserve — with the price in USD and the reason it fits." />
+<link rel="canonical" href="https://www.thailandprivilege-daimaru.com/which-tier.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Which Thailand Privilege Tier Is Right for You?" />
+<meta property="og:description" content="A short guided picker that recommends your Thailand Privilege Visa tier — by term, family plans, and benefits — with the price in USD." />
+<meta property="og:url" content="https://www.thailandprivilege-daimaru.com/which-tier.html" />
+<meta property="og:image" content="https://www.thailandprivilege-daimaru.com/assets/img/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://www.thailandprivilege-daimaru.com/assets/img/og-image.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="assets/css/site.css?v=17">
+<style>
+  /* ── Tier finder (page-scoped) ── */
+  .finder { margin-top: clamp(28px, 5vw, 44px); background: var(--ivory); border: 1px solid var(--line); border-radius: 18px; padding: clamp(22px, 5vw, 38px); max-width: 720px; }
+  .finder__bar { display: flex; gap: 8px; margin-bottom: 22px; }
+  .finder__bar span { flex: 1; height: 4px; border-radius: 999px; background: var(--line); transition: background .3s ease; }
+  .finder__bar span.is-on { background: var(--bronze); }
+  .finder__step { display: none; }
+  .finder__step.is-active { display: block; animation: finderIn .3s ease both; }
+  @keyframes finderIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .finder__q { font-family: var(--display); font-size: clamp(22px, 5vw, 30px); line-height: 1.18; color: var(--cocoa); margin: 0 0 6px; }
+  .finder__q em { font-style: italic; color: var(--bronze-deep); }
+  .finder__hint { color: var(--muted); font-size: 15px; margin: 0 0 20px; line-height: 1.5; }
+  .finder__opts { display: grid; gap: 12px; }
+  .finder__opt { display: flex; flex-direction: column; gap: 3px; text-align: left; width: 100%; min-height: 60px; padding: 15px 18px; border: 1px solid var(--line-strong); border-radius: 12px; background: #fff; color: var(--cocoa); font: inherit; cursor: pointer; transition: border-color .15s ease, background .15s ease, transform .1s ease; }
+  .finder__opt:hover { border-color: var(--bronze); background: var(--ivory-2); }
+  .finder__opt:active { transform: scale(.99); }
+  .finder__opt b { font-size: 16.5px; font-weight: 600; }
+  .finder__opt small { font-size: 13.5px; color: var(--muted); }
+  .finder__back { margin-top: 18px; background: none; border: none; color: var(--bronze-deep); font: inherit; font-size: 14px; cursor: pointer; padding: 8px 4px; min-height: 44px; }
+  .finder__back:hover { text-decoration: underline; }
+  .finder__back[hidden] { display: none; }
+
+  /* result */
+  .result { display: none; }
+  .result.is-active { display: block; animation: finderIn .3s ease both; }
+  .result__eyebrow { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--bronze-deep); font-weight: 600; margin-bottom: 8px; }
+  .result__name { font-family: var(--display); font-size: clamp(30px, 8vw, 46px); line-height: 1.05; color: var(--cocoa); margin: 0; }
+  .result__chip { display: inline-block; height: 5px; width: 64px; border-radius: 999px; margin: 14px 0 18px; background: var(--accent, var(--bronze)); }
+  .result--bronze   { --accent: linear-gradient(90deg, #8C5A2B, #C08A4F); }
+  .result--gold     { --accent: linear-gradient(90deg, #9C7414, #E2BE5C); }
+  .result--platinum { --accent: linear-gradient(90deg, #8B9097, #D9DCE0); }
+  .result--diamond  { --accent: linear-gradient(90deg, #AEBFC9, #F2F7FA); }
+  .result--reserve  { --accent: linear-gradient(90deg, #14100B, #C9A876); }
+  .result__price { font-size: 20px; font-weight: 600; color: var(--cocoa); margin: 0 0 4px; }
+  .result__price span { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .result__why { font-size: 16px; line-height: 1.6; color: var(--cocoa-2); margin: 16px 0 6px; }
+  .result__facts { list-style: none; margin: 14px 0 4px; padding: 0; display: flex; flex-direction: column; }
+  .result__facts li { padding: 11px 2px; border-top: 1px solid var(--line); font-size: 15px; color: var(--cocoa-2); display: flex; justify-content: space-between; gap: 16px; }
+  .result__facts li:last-child { border-bottom: 1px solid var(--line); }
+  .result__facts li b { font-weight: 600; color: var(--cocoa); text-align: right; }
+  .result__note { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 16px 0 0; }
+  .result__btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .result__restart { margin-top: 18px; background: none; border: none; color: var(--bronze-deep); font: inherit; font-size: 14px; cursor: pointer; padding: 8px 4px; min-height: 44px; }
+  .result__restart:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="progressbar" id="progressbar" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ─── NAV ─── -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="brand" aria-label="Thailand Privilege by Daimaru Trading">
+      <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"><img class="brand__logo brand__logo--dark" src="assets/img/logo-dark.png" alt="" aria-hidden="true" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
+    </a>
+    <nav class="nav__links">
+      <a href="index.html#programs">Programs</a>
+      <a href="benefits.html">Benefits</a>
+      <a href="index.html#process">How it works</a>
+      <a href="faq.html">FAQ</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a href="apply.html" class="nav__cta">Apply</a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('menu').classList.add('open')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M3 7h18M3 17h18"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- mobile menu -->
+<div class="menu" id="menu">
+  <div class="menu__top">
+    <a href="index.html" class="brand" style="color: var(--ivory)" aria-label="Thailand Privilege by Daimaru Trading">
+      <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
+    </a>
+    <button class="menu__close" aria-label="Close" onclick="document.getElementById('menu').classList.remove('open')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="menu__list">
+    <a href="index.html#programs" onclick="document.getElementById('menu').classList.remove('open')">Programs</a>
+    <a href="benefits.html" onclick="document.getElementById('menu').classList.remove('open')">Benefits</a>
+    <a href="index.html#process" onclick="document.getElementById('menu').classList.remove('open')">How it works</a>
+    <a href="faq.html" onclick="document.getElementById('menu').classList.remove('open')">FAQ</a>
+    <a href="about.html" onclick="document.getElementById('menu').classList.remove('open')">About</a>
+    <a href="index.html#contact" onclick="document.getElementById('menu').classList.remove('open')">Contact</a>
+  </nav>
+  <div class="menu__foot">Authorized General Sales &amp; Services Agent — Thailand Privilege Card Co., Ltd.</div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="pagehead" id="main-content">
+  <div class="wrap">
+    <div class="eyebrow">Tier finder</div>
+    <h1>Which tier <em>fits your plans?</em></h1>
+    <p>Three quick questions — how long you want to stay, who's coming, and what you want from the program. We'll point you to the right Thailand Privilege tier and tell you why.</p>
+  </div>
+</section>
+
+<!-- ═══ THE FINDER ═══ -->
+<section class="section section--steps">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Find your tier</div>
+      <h2 class="h2">A guide, <em>not a quiz.</em></h2>
+      <p class="section__intro">Nothing is submitted and there's no obligation. You'll see a recommendation on this screen — change any answer and it updates.</p>
+    </div>
+
+    <div class="finder reveal" id="finder">
+      <div class="finder__bar" id="finderBar" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Question stage -->
+      <div id="finderStage" role="group" aria-live="polite">
+        <!-- Step 1 — duration -->
+        <div class="finder__step is-active" data-step="years">
+          <h3 class="finder__q">How long do you want Thailand as <em>a base?</em></h3>
+          <p class="finder__hint">The tier's term sets how long the visa runs before renewal.</p>
+          <div class="finder__opts">
+            <button type="button" class="finder__opt" data-q="years" data-value="5"><b>About 5 years</b><small>A first long-term chapter</small></button>
+            <button type="button" class="finder__opt" data-q="years" data-value="10"><b>Around 10 years</b><small>A decade-long horizon</small></button>
+            <button type="button" class="finder__opt" data-q="years" data-value="15"><b>15 years</b><small>A long-term primary base</small></button>
+            <button type="button" class="finder__opt" data-q="years" data-value="20"><b>20 years</b><small>The longest commitment</small></button>
+          </div>
+        </div>
+
+        <!-- Step 2 — family -->
+        <div class="finder__step" data-step="family">
+          <h3 class="finder__q">Who's joining <em>the membership?</em></h3>
+          <p class="finder__hint">Family membership (spouse, children, parents) begins at the Platinum tier and up.</p>
+          <div class="finder__opts">
+            <button type="button" class="finder__opt" data-q="family" data-value="solo"><b>Just me</b><small>An individual membership</small></button>
+            <button type="button" class="finder__opt" data-q="family" data-value="family"><b>Me and my family</b><small>Spouse, children, or parents too</small></button>
+          </div>
+        </div>
+
+        <!-- Step 3 — points (only shown when it changes the answer) -->
+        <div class="finder__step" data-step="points">
+          <h3 class="finder__q">Do annual <em>perks matter</em> to you?</h3>
+          <p class="finder__hint">Privilege Points convert to spa, limo transfers, golf, dining credits and more, each year.</p>
+          <div class="finder__opts">
+            <button type="button" class="finder__opt" data-q="points" data-value="no"><b>Just the visa</b><small>Core services are enough — keep it simple</small></button>
+            <button type="button" class="finder__opt" data-q="points" data-value="yes"><b>Yes, I want annual rewards</b><small>Lifestyle perks on top of the visa</small></button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="finder__back" id="finderBack" hidden>&larr; Back</button>
+
+      <!-- Result -->
+      <div class="result" id="finderResult" role="region" aria-live="polite" aria-label="Your recommended tier">
+        <div class="result__eyebrow">Our recommendation</div>
+        <h3 class="result__name" id="resName">—</h3>
+        <span class="result__chip" id="resChip" aria-hidden="true"></span>
+        <p class="result__price" id="resPrice"></p>
+        <p class="result__why" id="resWhy"></p>
+        <ul class="result__facts" id="resFacts"></ul>
+        <p class="result__note" id="resNote"></p>
+        <div class="result__btns">
+          <a href="apply.html" class="btn btn--primary" id="resApply">Apply now</a>
+          <a href="#" class="btn btn--ghost" id="resAsk">Ask Pat about this tier</a>
+        </div>
+        <button type="button" class="result__restart" id="finderRestart">&larr; Start over</button>
+      </div>
+    </div>
+
+    <p class="section__intro reveal" style="margin-top:28px;font-size:15px;">Prefer the full picture? <a href="programs.html" style="color:var(--bronze-deep);text-decoration:underline;">Compare all five tiers side by side</a>, or <a href="index.html#contact" style="color:var(--bronze-deep);text-decoration:underline;">tell us your situation</a> and we'll recommend one.</p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="foot__bg" aria-hidden="true">
+    <img src="assets/img/visa-sticker.jpg" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
+  </div>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="foot__brand">
+          <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"></span>
+        </div>
+        <p style="max-width: 36ch; line-height: 1.65;">Authorized General Sales &amp; Services Agent for the Thailand Privilege program.</p>
+        <div class="credpane credpane--sm" role="group" aria-label="Authorized General Sales and Services Agent credential">
+          <img class="credpane__badge" src="assets/img/gssa-badge.png" width="64" height="64" alt="Thailand Privilege Authorized General Sales &amp; Services Agent badge" loading="lazy" decoding="async">
+          <div class="credpane__body">
+            <span class="credpane__eyebrow">Authorized Agent</span>
+            <span class="credpane__title">General Sales &amp; Services Agent</span>
+            <span class="credpane__sub">Thailand Privilege Card Co., Ltd.</span>
+            <span class="credpane__divider" aria-hidden="true"></span>
+            <span class="credpane__license">License No. SA15/029 · Since 2015</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="index.html#programs">Programs</a>
+        <a href="benefits.html">Benefits</a>
+        <a href="index.html#process">How it works</a>
+        <a href="faq.html">FAQ</a>
+        <a href="about.html">About</a>
+      </div>
+      <div>
+        <h4>Reach us</h4>
+        <a href="mailto:info@thailandelite.net">Email</a>
+        <a href="https://wa.me/66651561561">WhatsApp</a>
+        <a href="https://line.me/ti/p/~thailandeliteinfo">LINE</a>
+      </div>
+    </div>
+    <p class="foot__legal">Daimaru Trading Co., Ltd. is an authorized General Sales &amp; Services Agent (License SA15/029) — an independent consultancy, not Thailand Privilege Card Co., Ltd. itself.</p>
+    <div class="foot__bottom">
+      <div>© 2026 Daimaru Trading Co., Ltd. All rights reserved.</div>
+      <div>Thailand Privilege Card Co., Ltd. — Authorized Agent</div>
+    </div>
+  </div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="Quick contact">
+  <a href="apply.html" class="mbar__primary">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    Apply
+  </a>
+  <a href="https://wa.me/66651561561">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4l-5 1.6 1.6-5A8.5 8.5 0 1 1 21 11.5z"/></svg>
+    WhatsApp
+  </a>
+  <a href="https://line.me/ti/p/~thailandeliteinfo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="3"/><path d="M7 9h10M7 13h6"/></svg>
+    LINE
+  </a>
+</nav>
+
+<script src="assets/js/site.js?v=2" defer></script>
+<script>
+  /* ── Tier finder ── */
+  (function () {
+    var TIERS = {
+      bronze:   { key:'bronze',   name:'Bronze',   years:5,  thb:'฿650,000',   usd:'~$19,000 USD',  points:'Core services · no annual points', family:false },
+      gold:     { key:'gold',     name:'Gold',     years:5,  thb:'฿900,000',   usd:'~$26,000 USD',  points:'20 Privilege Points / year',        family:false },
+      platinum: { key:'platinum', name:'Platinum', years:10, thb:'฿1,500,000', usd:'~$44,000 USD',  points:'35 Privilege Points / year',        family:true },
+      diamond:  { key:'diamond',  name:'Diamond',  years:15, thb:'฿2,500,000', usd:'~$73,000 USD',  points:'55 Privilege Points / year',        family:true },
+      reserve:  { key:'reserve',  name:'Reserve',  years:20, thb:'฿5,000,000', usd:'~$146,000 USD', points:'120 Privilege Points / year',       family:true, invite:true }
+    };
+
+    var stage   = document.getElementById('finderStage');
+    var steps   = Array.prototype.slice.call(stage.querySelectorAll('.finder__step'));
+    var bar     = document.getElementById('finderBar').children;
+    var backBtn = document.getElementById('finderBack');
+    var result  = document.getElementById('finderResult');
+    var finder  = document.getElementById('finder');
+
+    var answers = {};
+    var path = [];            // step names actually shown, in order
+
+    function stepEl(name) { return steps.filter(function (s) { return s.dataset.step === name; })[0]; }
+
+    function show(name) {
+      steps.forEach(function (s) { s.classList.toggle('is-active', s.dataset.step === name); });
+      result.classList.remove('is-active');
+      stage.style.display = '';
+      backBtn.hidden = path.length === 0;
+      // progress bar: fill up to current position
+      var pos = path.length; // 0-based index of the step now shown
+      for (var i = 0; i < bar.length; i++) bar[i].classList.toggle('is-on', i <= pos);
+    }
+
+    // Decide whether we still need the points question.
+    // It only changes the outcome for a solo, ~5-year applicant (Bronze vs Gold).
+    function needsPoints() {
+      return answers.family === 'solo' && answers.years === '5';
+    }
+
+    function recommend() {
+      var years = parseInt(answers.years, 10);
+      var family = answers.family === 'family';
+      if (family) {
+        if (years <= 5 || years === 10) return TIERS.platinum;
+        if (years === 15) return TIERS.diamond;
+        return TIERS.reserve;
+      }
+      if (years === 5)  return answers.points === 'yes' ? TIERS.gold : TIERS.bronze;
+      if (years === 10) return TIERS.platinum;
+      if (years === 15) return TIERS.diamond;
+      return TIERS.reserve;
+    }
+
+    function whyText(t) {
+      var family = answers.family === 'family';
+      var years = parseInt(answers.years, 10);
+      if (family && years <= 5) {
+        return 'Family membership starts at Platinum — a 10-year tier and the shortest term that lets your spouse, children, or parents join under one application.';
+      }
+      if (t.key === 'bronze') return 'For a solo, five-year stay where the visa and core services are what matter, Bronze is the straightforward entry — and its application window runs to 30 September 2026.';
+      if (t.key === 'gold')   return 'Five years like Bronze, but with 20 Privilege Points a year — the right call when you want lifestyle rewards layered on top of the visa.';
+      if (t.key === 'platinum') return 'A ten-year horizon with family eligibility and 35 points a year — the natural choice for settling into Thailand with the people closest to you.';
+      if (t.key === 'diamond')  return 'Fifteen years, family-eligible, with 55 points a year — built for making Thailand a long-term primary base rather than a frequent stop.';
+      return 'The longest term at twenty years, with 120 points a year and dedicated services. Reserve is extended by Thailand Privilege Card Co., Ltd. by invitation.';
+    }
+
+    function render(t) {
+      stage.style.display = 'none';
+      backBtn.hidden = true;
+      for (var i = 0; i < bar.length; i++) bar[i].classList.add('is-on');
+
+      document.getElementById('resName').textContent = t.name;
+      var chip = document.getElementById('resChip');
+      chip.className = 'result__chip result--' + t.key;
+      document.getElementById('resPrice').innerHTML = t.thb + ' <span>(' + t.usd + ')</span>';
+      document.getElementById('resWhy').textContent = whyText(t);
+
+      var facts = document.getElementById('resFacts');
+      var familyRow = t.family
+        ? 'Family eligible (spouse, children, parents)'
+        : 'Individual membership';
+      facts.innerHTML =
+        '<li>Term <b>' + t.years + ' years</b></li>' +
+        '<li>Membership fee <b>' + t.thb + '</b></li>' +
+        '<li>Annual benefits <b>' + t.points + '</b></li>' +
+        '<li>Who can join <b>' + familyRow + '</b></li>';
+
+      var note = document.getElementById('resNote');
+      if (t.invite) {
+        note.textContent = 'Reserve is by invitation only. Tell us your situation and we’ll talk through eligibility or a suitable alternative.';
+        note.hidden = false;
+      } else {
+        note.textContent = 'Membership fees are paid to Thailand Privilege Card Co., Ltd. only after approval — never to Daimaru, and never upfront. USD is approximate.';
+        note.hidden = false;
+      }
+
+      // Prefilled WhatsApp message naming the tier
+      var msg = encodeURIComponent('Hi Pat, I used the tier finder and it suggested the ' + t.name + ' tier. I’d like to know more.');
+      document.getElementById('resAsk').setAttribute('href', 'https://wa.me/66651561561?text=' + msg);
+
+      result.classList.add('is-active');
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function advanceFrom(name) {
+      path.push(name);                       // record the step just answered
+      if (name === 'years')  { show('family'); return; }
+      if (name === 'family') {
+        if (needsPoints()) { show('points'); return; }
+        render(recommend());
+        return;
+      }
+      if (name === 'points') { render(recommend()); return; }
+    }
+
+    stage.addEventListener('click', function (e) {
+      var btn = e.target.closest('.finder__opt');
+      if (!btn) return;
+      answers[btn.dataset.q] = btn.dataset.value;
+      advanceFrom(btn.dataset.q);
+    });
+
+    backBtn.addEventListener('click', function () {
+      var last = path.pop();        // remove the step we're about to return to
+      if (!last) return;
+      delete answers[last];
+      show(last);
+    });
+
+    function reset() {
+      answers = {}; path = [];
+      result.classList.remove('is-active');
+      show('years');
+      finder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.getElementById('finderRestart').addEventListener('click', reset);
+
+    show('years');
+  })();
+</script>
+</body>
+</html>
