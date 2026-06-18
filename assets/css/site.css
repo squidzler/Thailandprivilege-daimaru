@@ -745,11 +745,12 @@
     position: relative; overflow: hidden;
   }
   .hero__scrollcue-line::after {
-    content: ""; position: absolute; left: 0; top: -100%;
+    content: ""; position: absolute; left: 0; top: 0;
     width: 100%; height: 100%; background: var(--gold);
     animation: cueDrop 2200ms cubic-bezier(.6,.05,.3,.95) 1200ms infinite;
   }
-  @keyframes cueDrop { 0% { top: -100%; } 55% { top: 100%; } 100% { top: 100%; } }
+  /* transform (not top) so the loop is GPU-composited, no per-frame layout */
+  @keyframes cueDrop { 0% { transform: translateY(-100%); } 55% { transform: translateY(100%); } 100% { transform: translateY(100%); } }
 
   /* one-time sheen sweeping across tier bars after they draw */
   .program__bar { position: relative; overflow: hidden; }
@@ -1118,4 +1119,51 @@
     .credpane--lg .credpane__body { align-items: center; }
     .credpane--lg .credpane__badge { width: 92px; height: 92px; }
     .credpane--lg .credpane__title { font-size: 21px; }
+  }
+
+  /* ═══════════════════════ interactive motion layer ═══════════════════════
+     An additional, restrained layer on top of the existing reveal/marquee
+     animations. All of it is disabled by the global prefers-reduced-motion
+     guard above, and uses transform/opacity only (no layout, no CWV cost). */
+
+  /* 1 — CTA icon glides forward on hover, signalling "go" */
+  .btn svg, .nav__cta svg { transition: transform 280ms cubic-bezier(.2,.6,.2,1); }
+  @media (hover: hover) {
+    .btn:hover svg, .nav__cta:hover svg { transform: translateX(4px); }
+  }
+
+  /* 2 — section emphasis: the italic phrase in each H2 draws a delicate
+     hairline as the section scrolls in (follows the text, wraps cleanly).
+     1px at ~40% of the accent colour — bronze on light, gold on dark. */
+  .h2 em {
+    background-image: linear-gradient(
+      color-mix(in srgb, currentColor 40%, transparent),
+      color-mix(in srgb, currentColor 40%, transparent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    padding-bottom: 1px;
+    transition: background-size 900ms cubic-bezier(.2,.6,.2,1) 260ms;
+  }
+  .reveal.is-visible .h2 em,
+  .is-visible .h2 em { background-size: 100% 1px; }
+
+  /* 3 — program rows: a bronze accent draws in on hover (desktop) or when a
+     card is tapped/selected (touch), reinforcing that the rows are live */
+  .program { position: relative; }
+  .program::before {
+    content: ""; position: absolute; left: -10px; top: 18px; bottom: 18px; width: 3px;
+    background: linear-gradient(var(--bronze), var(--gold)); border-radius: 2px;
+    transform: scaleY(0); transform-origin: top center;
+    transition: transform 340ms cubic-bezier(.2,.6,.2,1);
+  }
+  .program.is-selected::before { transform: scaleY(1); }
+  @media (hover: hover) {
+    .program:hover::before { transform: scaleY(1); }
+  }
+
+  /* 4 — contact cards: the icon lifts a touch with the card on hover */
+  .contact-card__icon { transition: transform 320ms cubic-bezier(.2,.6,.2,1); }
+  @media (hover: hover) {
+    .contact-card:hover .contact-card__icon { transform: translateY(-2px) scale(1.06); }
   }

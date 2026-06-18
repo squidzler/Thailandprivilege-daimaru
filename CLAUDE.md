@@ -69,7 +69,8 @@ Never reuse copy from [www.thailandelite.net](http://www.thailandelite.net) or a
 ## Trust signals: schema-deep, visually-shallow
 
 - Rich structured data: Organization, Service with offer pricing, FAQPage, BreadcrumbList, Person (Pat — NO sameAs links, he has no external profiles).
-- Visually: the GSSA badge appears in the footer only (as on thailandelite.net). No award trophy graphics, no badge walls, no loud trust banners. Awards and credentials live in copy and schema.
+- Visually: the GSSA badge appears in the footer only (as on thailandelite.net). On most pages, awards and credentials live in copy and schema — no badge walls, no loud trust banners, no urgency tricks.
+- **Owner decision, 2026-06-18 (supersedes the earlier "awards live only in copy and schema" rule):** the **Best Cooperation GSSA** award — won three consecutive years (2024, 2025, 2026) — **may be shown visually** as a restrained credential, and a **photo of the GSSA authorization certificate** may appear on the About page. Keep the private-banking register: a quiet credential block and a real certificate photo, not trophy graphics or a loud banner. This visible-award treatment is for the About page; other pages keep the footer-badge-only convention.
 - Hero stat counters (text, not badges) are allowed: “1,000+ Members Served · Since 2015 — Authorized GSSA · 100% Approval Rate*” with the qualifier footnote nearby.
 
 ## SEO rules (learned from thailandelite.net GSC data)

@@ -48,7 +48,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<link rel="stylesheet" href="assets/css/site.css?v=17">
+<link rel="stylesheet" href="assets/css/site.css?v=20">
 <style>
   /* ── Floating video mini-player (home only, page-scoped) ── */
   .fvid {
@@ -86,6 +86,17 @@
     width: 52px; height: 52px; border-radius: 50%;
     background: rgba(250,246,238,.92); display: grid; place-items: center;
     transition: transform .2s ease, background .2s ease;
+  }
+  /* GPU-composited ring (transform/opacity only — no per-frame repaint) */
+  .fvid__play::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid rgba(250,246,238,.55);
+    animation: fvidPulse 2.4s cubic-bezier(.4,0,.2,1) infinite;
+  }
+  @keyframes fvidPulse {
+    0%   { transform: scale(1);   opacity: .55; }
+    70%  { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.9); opacity: 0; }
   }
   .fvid__poster:hover .fvid__play { transform: translate(-50%, -50%) scale(1.06); background: #fff; }
   .fvid__play svg { width: 20px; height: 20px; margin-left: 3px; fill: var(--cocoa); }
@@ -466,6 +477,7 @@
         <a href="#process">How it works</a>
         <a href="faq.html">FAQ</a>
         <a href="about.html">About</a>
+        <a href="eligibility.html">Eligibility</a>
       </div>
       <div>
         <h4>Reach us</h4>
