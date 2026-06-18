@@ -1132,18 +1132,21 @@
     .btn:hover svg, .nav__cta:hover svg { transform: translateX(4px); }
   }
 
-  /* 2 — section emphasis: the italic phrase in each H2 underlines itself
-     as the section scrolls into view (follows the text, wraps cleanly) */
+  /* 2 — section emphasis: the italic phrase in each H2 draws a delicate
+     hairline as the section scrolls in (follows the text, wraps cleanly).
+     1px at ~40% of the accent colour — bronze on light, gold on dark. */
   .h2 em {
-    background-image: linear-gradient(currentColor, currentColor);
+    background-image: linear-gradient(
+      color-mix(in srgb, currentColor 40%, transparent),
+      color-mix(in srgb, currentColor 40%, transparent));
     background-repeat: no-repeat;
     background-position: 0 100%;
-    background-size: 0% 2px;
-    padding-bottom: 2px;
-    transition: background-size 760ms cubic-bezier(.2,.6,.2,1) 220ms;
+    background-size: 0% 1px;
+    padding-bottom: 1px;
+    transition: background-size 900ms cubic-bezier(.2,.6,.2,1) 260ms;
   }
   .reveal.is-visible .h2 em,
-  .is-visible .h2 em { background-size: 100% 2px; }
+  .is-visible .h2 em { background-size: 100% 1px; }
 
   /* 3 — program rows: a bronze accent draws in on hover (desktop) or when a
      card is tapped/selected (touch), reinforcing that the rows are live */
