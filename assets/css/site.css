@@ -100,12 +100,16 @@
   .nav__cta {
     padding: 9px 18px; border-radius: 999px;
     background-color: var(--ivory); color: var(--cocoa);
-    /* satin sheen (opposite tone — champagne-gold on the light pill) that
-       sweeps left -> right, then rests; sits behind the text so it stays crisp */
-    background-image: linear-gradient(110deg, rgba(168,116,63,0) 40%, rgba(168,116,63,.45) 47%, rgba(130,83,42,.85) 50%, rgba(168,116,63,.45) 53%, rgba(168,116,63,0) 60%);
+    /* satin sheen as a soft right-pointing chevron (>) — a "\" band in the
+       top half + a "/" band in the bottom half meeting at the right; the pair
+       sweeps left -> right, then rests. Opposite tone (deep bronze on the
+       light pill). Sits behind the text so the label stays crisp. */
+    background-image:
+      linear-gradient(115deg, rgba(168,116,63,0) 42%, rgba(130,83,42,.6) 48%, rgba(110,69,32,.95) 50%, rgba(130,83,42,.6) 52%, rgba(168,116,63,0) 58%),
+      linear-gradient(65deg,  rgba(168,116,63,0) 42%, rgba(130,83,42,.6) 48%, rgba(110,69,32,.95) 50%, rgba(130,83,42,.6) 52%, rgba(168,116,63,0) 58%);
     background-repeat: no-repeat;
-    background-size: 220% 100%;
-    background-position: 150% 0;
+    background-size: 220% 52%;
+    background-position: 150% 0%, 150% 100%;
     animation: ctaSheen 3.6s ease-in-out infinite;
     font-size: 13px; font-weight: 500;
     transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
@@ -113,18 +117,20 @@
   .nav__cta:hover { background-color: var(--gold); transform: translateY(-1px); }
   .nav.scrolled .nav__cta {
     background-color: var(--cocoa); color: var(--ivory);
-    /* sheen flips to the opposite tone (ivory on the dark pill) */
-    background-image: linear-gradient(110deg, rgba(250,246,238,0) 40%, rgba(250,246,238,.36) 47%, rgba(255,255,255,.72) 50%, rgba(250,246,238,.36) 53%, rgba(255,255,255,0) 60%);
+    /* chevron flips to the opposite tone (ivory on the dark pill) */
+    background-image:
+      linear-gradient(115deg, rgba(250,246,238,0) 42%, rgba(255,255,255,.5) 48%, rgba(255,255,255,.9) 50%, rgba(255,255,255,.5) 52%, rgba(255,255,255,0) 58%),
+      linear-gradient(65deg,  rgba(250,246,238,0) 42%, rgba(255,255,255,.5) 48%, rgba(255,255,255,.9) 50%, rgba(255,255,255,.5) 52%, rgba(255,255,255,0) 58%);
   }
   .nav.scrolled .nav__cta:hover { background-color: var(--bronze-deep); }
-  /* band travels off-left -> off-right in the first ~30%, then rests */
+  /* both arms travel off-left -> off-right in the first ~30%, then rest */
   @keyframes ctaSheen {
-    0%   { background-position: 150% 0; }
-    30%  { background-position: -50% 0; }
-    100% { background-position: -50% 0; }
+    0%   { background-position: 150% 0%, 150% 100%; }
+    30%  { background-position: -50% 0%, -50% 100%; }
+    100% { background-position: -50% 0%, -50% 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .nav__cta { animation: none; background-position: 50% 0; }
+    .nav__cta { animation: none; background-position: 50% 0%, 50% 100%; }
   }
   .menu-btn {
     width: 40px; height: 40px;
