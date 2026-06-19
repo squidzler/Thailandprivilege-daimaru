@@ -21,7 +21,17 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.thailandprivilege-daimaru.com/who-its-for.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.thailandprivilege-daimaru.com/for-retirees.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.thailandprivilege-daimaru.com/for-business-travellers.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
