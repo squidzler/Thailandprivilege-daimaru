@@ -113,6 +113,19 @@
   .awards figcaption { font-size: 12px; letter-spacing: .04em; color: var(--muted); margin-top: 7px; }
   .awards figcaption b { color: var(--bronze-deep); font-weight: 600; }
   @media (max-width: 520px) { .awards { gap: 8px; } .awards figcaption { font-size: 11px; } }
+
+  /* zoomable credential images → lightbox */
+  .zoomable { cursor: zoom-in; }
+  .lightbox { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(20,14,9,.93); }
+  .lightbox.open { display: block; }
+  .lightbox__scroll { position: absolute; inset: 0; overflow: auto; -webkit-overflow-scrolling: touch; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox.is-zoomed .lightbox__scroll { display: block; padding: 0; }
+  .lightbox__img { max-width: 94vw; max-height: 90vh; width: auto; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 12px 44px rgba(0,0,0,.5); cursor: zoom-in; }
+  .lightbox.is-zoomed .lightbox__img { max-width: none; max-height: none; width: auto; margin: auto; display: block; cursor: zoom-out; }
+  .lightbox__close { position: fixed; top: 14px; right: 14px; z-index: 1001; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(250,246,238,.94); color: var(--cocoa); display: grid; place-items: center; cursor: pointer; }
+  .lightbox__close:hover { background: #fff; }
+  .lightbox__close svg { width: 20px; height: 20px; stroke: currentColor; }
+  .lightbox__cap { position: fixed; left: 0; right: 0; bottom: 14px; margin: 0; text-align: center; color: rgba(250,246,238,.85); font-size: 13px; padding: 0 20px; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -206,21 +219,21 @@
 
       <div class="awards reveal" role="group" aria-label="Best Cooperation GSSA award ceremonies">
         <figure>
-          <img src="assets/img/award-2024.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2024" width="760" height="506" loading="lazy" decoding="async">
+          <img class="zoomable" src="assets/img/award-2024.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2024" width="760" height="506" loading="lazy" decoding="async">
           <figcaption><b>2024</b> · Best Cooperation</figcaption>
         </figure>
         <figure>
-          <img src="assets/img/award-2025.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2025" width="760" height="506" loading="lazy" decoding="async">
+          <img class="zoomable" src="assets/img/award-2025.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2025" width="760" height="506" loading="lazy" decoding="async">
           <figcaption><b>2025</b> · Best Cooperation</figcaption>
         </figure>
         <figure>
-          <img src="assets/img/award-2026.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2026" width="760" height="565" loading="lazy" decoding="async">
+          <img class="zoomable" src="assets/img/award-2026.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2026" width="760" height="565" loading="lazy" decoding="async">
           <figcaption><b>2026</b> · Best Cooperation</figcaption>
         </figure>
       </div>
 
       <figure class="cert reveal">
-        <img src="assets/img/gssa-certificate.jpg" alt="Daimaru Trading's GSSA authorization certificate — License No. SA15/029, issued by Thailand Privilege Card Co., Ltd." loading="lazy" decoding="async" onerror="this.closest('.cert').classList.add('cert--ph')">
+        <img class="zoomable" src="assets/img/gssa-certificate.jpg" alt="Daimaru Trading's GSSA authorization certificate — License No. SA15/029, issued by Thailand Privilege Card Co., Ltd." loading="lazy" decoding="async" onerror="this.closest('.cert').classList.add('cert--ph')">
         <figcaption>The authorization certificate — License No. SA15/029, issued by Thailand Privilege Card Co., Ltd. <span class="cert__ph-note">[Photo to be supplied by the owner.]</span></figcaption>
       </figure>
 
@@ -452,6 +465,62 @@
   </a>
 </nav>
 
+<!-- Lightbox for zoomable credential images -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Close image viewer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="lightbox__scroll"><img class="lightbox__img" id="lightboxImg" alt=""></div>
+  <p class="lightbox__cap" id="lightboxCap"></p>
+</div>
+
 <script src="assets/js/site.js?v=3" defer></script>
+<script>
+/* Tap a .zoomable image → open in a fullscreen, zoomable lightbox. No dependencies. */
+(function () {
+  var zoomables = document.querySelectorAll('.zoomable');
+  if (!zoomables.length) return;
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightboxImg');
+  var cap = document.getElementById('lightboxCap');
+  var closeBtn = document.getElementById('lightboxClose');
+  var lastFocus = null;
+
+  function open(src, alt) {
+    img.src = src; img.alt = alt || '';
+    cap.textContent = alt || '';
+    lb.classList.add('open');
+    lb.classList.remove('is-zoomed');
+    document.body.style.overflow = 'hidden';
+    lastFocus = document.activeElement;
+    closeBtn.focus();
+  }
+  function close() {
+    lb.classList.remove('open', 'is-zoomed');
+    img.removeAttribute('src');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  zoomables.forEach(function (el) {
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', 'View larger: ' + (el.alt || 'image'));
+    el.addEventListener('click', function () { open(el.currentSrc || el.src, el.alt); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(el.currentSrc || el.src, el.alt); }
+    });
+  });
+
+  img.addEventListener('click', function (e) { e.stopPropagation(); lb.classList.toggle('is-zoomed'); });
+  closeBtn.addEventListener('click', close);
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb || (e.target.classList && e.target.classList.contains('lightbox__scroll'))) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lb.classList.contains('open')) close();
+  });
+})();
+</script>
 </body>
 </html>
