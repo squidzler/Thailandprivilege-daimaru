@@ -121,6 +121,14 @@
     .fvid.show { transform: none; }
     .fvid__poster:hover .fvid__play { transform: translate(-50%, -50%); }
   }
+
+  /* currency toggle + price equivalents (see currency.js) */
+  .cur-toggle { margin: 20px 0 0; }
+  .cur-toggle label { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--bronze-deep); margin-bottom: 7px; }
+  .cur-select { font: inherit; font-size: 15px; color: var(--cocoa); background: var(--ivory); border: 1px solid var(--line-strong); border-radius: 10px; padding: 11px 38px 11px 14px; min-height: 44px; -webkit-appearance: none; appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2382532A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; }
+  .cur-select:focus { outline: none; border-color: var(--bronze); box-shadow: 0 0 0 3px rgba(168,116,63,.16); }
+  .cur-note { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin: 9px 0 0; max-width: 56ch; }
+  .program__price .ceq { color: var(--bronze-deep); font-style: normal; }
 </style>
 </head>
 <body>
@@ -225,6 +233,11 @@
       <div class="eyebrow">01 — Programs</div>
       <h2 class="h2">Choose the term <em>that fits your plans.</em></h2>
       <p class="section__intro">Each tier extends how long you can live in Thailand, multi-entry, with a single application. Bars below show duration at a glance.</p>
+      <div class="cur-toggle reveal">
+        <label for="curSelHome">Show approximate prices in</label>
+        <select class="cur-select" id="curSelHome" aria-label="Show approximate prices in"></select>
+        <p class="cur-note">Prices are set in Thai baht (฿) — the figure of record. Other currencies are approximate equivalents only; payment is made in baht to Thailand Privilege Card Co., Ltd.</p>
+      </div>
     </div>
 
     <div class="programs">
@@ -233,35 +246,35 @@
         <div class="program__name">Bronze</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
         <div class="program__years">5 years</div>
-        <div class="program__desc program__desc--inline"><span class="program__price">฿650,000 <em>(~$19,000 USD)</em></span> The most-applied tier. All core services — fast track, concierge, 24/7 center. Applications close 30 Sep 2026.</div>
+        <div class="program__desc program__desc--inline"><span class="program__price">฿650,000 <em class="ceq" data-thb="650000" data-eq="paren">(≈ $19,000 USD)</em></span> The most-applied tier. All core services — fast track, concierge, 24/7 center. Applications close 30 Sep 2026.</div>
       </div>
       <div class="program reveal" style="--w: 25%">
         <img class="program__chip" src="assets/img/card-gold.png" alt="Thailand Privilege Gold card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Gold</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
         <div class="program__years">5 years</div>
-        <div class="program__desc program__desc--inline"><span class="program__price">฿900,000 <em>(~$26,000 USD)</em></span> Five years, with 20 annual privilege points for transfers, spa, golf, and more.</div>
+        <div class="program__desc program__desc--inline"><span class="program__price">฿900,000 <em class="ceq" data-thb="900000" data-eq="paren">(≈ $26,000 USD)</em></span> Five years, with 20 annual privilege points for transfers, spa, golf, and more.</div>
       </div>
       <div class="program reveal" style="--w: 50%">
         <img class="program__chip" src="assets/img/card-platinum.png" alt="Thailand Privilege Platinum card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Platinum</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
         <div class="program__years">10 years</div>
-        <div class="program__desc program__desc--inline"><span class="program__price">฿1,500,000 <em>(~$44,000 USD)</em></span> A decade in Thailand, 35 annual points, and family add-ons available.</div>
+        <div class="program__desc program__desc--inline"><span class="program__price">฿1,500,000 <em class="ceq" data-thb="1500000" data-eq="paren">(≈ $44,000 USD)</em></span> A decade in Thailand, 35 annual points, and family add-ons available.</div>
       </div>
       <div class="program reveal" style="--w: 75%">
         <img class="program__chip" src="assets/img/card-diamond.png" alt="Thailand Privilege Diamond card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Diamond</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
         <div class="program__years">15 years</div>
-        <div class="program__desc program__desc--inline"><span class="program__price">฿2,500,000 <em>(~$73,000 USD)</em></span> Fifteen years, 55 annual points, family add-ons available.</div>
+        <div class="program__desc program__desc--inline"><span class="program__price">฿2,500,000 <em class="ceq" data-thb="2500000" data-eq="paren">(≈ $73,000 USD)</em></span> Fifteen years, 55 annual points, family add-ons available.</div>
       </div>
       <div class="program reveal" style="--w: 100%">
         <img class="program__chip" src="assets/img/card-reserve.png" alt="Thailand Privilege Reserve card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Reserve</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
         <div class="program__years">20 years</div>
-        <div class="program__desc program__desc--inline"><span class="program__price">฿5,000,000 <em>(~$146,000 USD)</em></span> By invitation only. Twenty years, 120 annual points.</div>
+        <div class="program__desc program__desc--inline"><span class="program__price">฿5,000,000 <em class="ceq" data-thb="5000000" data-eq="paren">(≈ $146,000 USD)</em></span> By invitation only. Twenty years, 120 annual points.</div>
       </div>
     </div>
 
@@ -525,6 +538,7 @@
 </nav>
 
 <script src="assets/js/site.js?v=2" defer></script>
+<script src="assets/js/currency.js?v=1" defer></script>
 <script>
   /* ── Floating video mini-player ──
      Facade pattern: nothing external loads until the visitor taps play, so it

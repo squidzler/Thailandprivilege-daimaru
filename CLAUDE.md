@@ -46,7 +46,9 @@ This site exists for international English-speaking clients. The “Daimaru” n
 - Diamond — ฿2,500,000 (~$73,000 USD) · 15 years · 55 annual points · family add-ons available
 - Reserve — ฿5,000,000 (~$146,000 USD) · 20 years · 120 annual points · invitation only · family add-ons available
 
-Pricing format house style: baht first, USD approximation second — “฿650,000 (~$19,000 USD)”. No EUR.
+Pricing format house style: baht first, USD approximation second — “฿650,000 (~$19,000 USD)”. (The earlier “No EUR” rule no longer applies — see currency-toggle decision below.)
+
+**Owner decision, 2026-06-22 (supersedes the “No EUR” rule):** structured price displays carry a **currency toggle**. Thai baht (฿) is always the price of record and is shown unchanged; the toggle adds an **approximate equivalent** in one of: USD, EUR, GBP, AUD, CAD, SGD, AED, HKD, TWD. Every non-THB figure must be labelled approximate, with a note that payment is made in baht to TPC. Rates are fixed, owner-editable approximations kept in `/assets/js/currency.js` (rounded to the nearest 1,000; not live FX). Toggle currently lives on the home tiers section and the Programs page; inline prose price mentions stay baht + USD.
 
 Family add-ons: Platinum/Diamond/Reserve only, standard rates ฿1,000,000 / ฿1,500,000 / ฿2,000,000 per member. Eligible: spouse (incl. same-gender), children, stepchildren, parents. Parents-in-law NOT eligible. Never mention the ended ฿500,000 promo.
 
