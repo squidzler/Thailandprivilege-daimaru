@@ -13,13 +13,13 @@
 (function () {
   'use strict';
 
-  // Formspree endpoint. TEMPORARY: shares thailandelite.net's Apply form (xbdqenzp),
-  // which routes to info@thailandelite.net. Swap to this site's own new form ID once
-  // provisioned (same destination inbox) — see the team task.
+  // Formspree endpoint (owner-supplied, 2026-06-22). Routes to info@thailandelite.net,
+  // the shared inbox used with sister site thailandelite.net. Leads from this site are
+  // distinguished by the '[Daimaru]' subject prefix and the `source` field below.
   // NOTE: this only delivers if the Formspree form's "Allowed Domains" permits
-  // thailandprivilege-daimaru.com; if it is locked to thailandelite.net, submissions
-  // are silently rejected until the new form is created.
-  var FORM_ENDPOINT  = 'https://formspree.io/f/xbdqenzp';
+  // thailandprivilege-daimaru.com; if it is locked to another domain, submissions are
+  // silently rejected. Confirm in the Formspree dashboard before relying on it.
+  var FORM_ENDPOINT  = 'https://formspree.io/f/mdayvqwj';
   var EMAIL_TO       = 'info@thailandelite.net';
   var SUBJECT_PREFIX = '[Daimaru]';              // agreed source tag for this site
   var SOURCE         = 'thailandprivilege-daimaru.com';
