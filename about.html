@@ -85,6 +85,14 @@
     background: var(--ivory-2); color: var(--muted); font-size: 13px; letter-spacing: .02em;
   }
   .cert--ph .cert__ph-note { display: inline; }
+
+  /* award photos — restrained three-year credential row */
+  .awards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: clamp(16px, 3vw, 22px) 0 0; max-width: 560px; }
+  .awards figure { margin: 0; }
+  .awards img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; display: block; border: 1px solid var(--line); border-radius: 8px; }
+  .awards figcaption { font-size: 12px; letter-spacing: .04em; color: var(--muted); margin-top: 7px; }
+  .awards figcaption b { color: var(--bronze-deep); font-weight: 600; }
+  @media (max-width: 520px) { .awards { gap: 8px; } .awards figcaption { font-size: 11px; } }
 </style>
 </head>
 <body>
@@ -185,6 +193,21 @@
         <span class="recog__eyebrow">Recognition</span>
         <p class="recog__title">Best Cooperation GSSA</p>
         <p class="recog__years"><b>2024 · 2025 · 2026</b> — awarded by Thailand Privilege Card Co., Ltd. for three consecutive years.</p>
+      </div>
+
+      <div class="awards reveal" role="group" aria-label="Best Cooperation GSSA award ceremonies">
+        <figure>
+          <img src="assets/img/award-2024.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2024" width="760" height="506" loading="lazy" decoding="async">
+          <figcaption><b>2024</b> · Best Cooperation</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/img/award-2025.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2025" width="760" height="506" loading="lazy" decoding="async">
+          <figcaption><b>2025</b> · Best Cooperation</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/img/award-2026.jpg" alt="Daimaru Trading receiving the Best Cooperation GSSA award, 2026" width="760" height="565" loading="lazy" decoding="async">
+          <figcaption><b>2026</b> · Best Cooperation</figcaption>
+        </figure>
       </div>
 
       <figure class="cert reveal">
