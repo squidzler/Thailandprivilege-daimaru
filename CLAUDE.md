@@ -52,6 +52,8 @@ Pricing format house style: baht first, USD approximation second — “฿650,0
 
 Family add-ons: Platinum/Diamond/Reserve only, standard rates ฿1,000,000 / ฿1,500,000 / ฿2,000,000 per member. Eligible: spouse (incl. same-gender), children, stepchildren, parents. Parents-in-law NOT eligible. Never mention the ended ฿500,000 promo.
 
+**Owner-confirmed current promo, 2026-06-22:** the **Next Member** promotion reduces the family card fee to **฿750,000** (from the standard ฿1,000,000), Platinum/Diamond/Reserve only, **active until 14 August 2026**. This is a real, current offer — distinct from the ended ฿500,000 promo above — and appears on the Programs page; do not remove it before its end date.
+
 Process facts: no upfront fee; payment only after approval, paid directly to TPC, never to Daimaru; background check 4–8 weeks across 5 Thai government agencies (Immigration, Dept. of Consular Affairs, Foreign Affairs Division of Royal Thai Police, Central Investigation Bureau, AMLO); end-to-end typically 6–10 weeks; visa permits residency not employment; no path to PR or citizenship; sticker affixed at Chaengwattana Immigration or on arrival at Suvarnabhumi/Phuket.
 
 ## Voice and honesty
