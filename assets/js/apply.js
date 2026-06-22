@@ -13,10 +13,16 @@
 (function () {
   'use strict';
 
-  var FORM_ENDPOINT  = '';                       // e.g. 'https://formspree.io/f/xxxxxxx'
+  // Formspree endpoint. TEMPORARY: shares thailandelite.net's Apply form (xbdqenzp),
+  // which routes to info@thailandelite.net. Swap to this site's own new form ID once
+  // provisioned (same destination inbox) — see the team task.
+  // NOTE: this only delivers if the Formspree form's "Allowed Domains" permits
+  // thailandprivilege-daimaru.com; if it is locked to thailandelite.net, submissions
+  // are silently rejected until the new form is created.
+  var FORM_ENDPOINT  = 'https://formspree.io/f/xbdqenzp';
   var EMAIL_TO       = 'info@thailandelite.net';
-  var SUBJECT_PREFIX = '[TP by Daimaru]';        // lets Pat tell which site a lead came from
-  var SOURCE         = 'thailandprivilege-daimaru.com (apply)';
+  var SUBJECT_PREFIX = '[Daimaru]';              // agreed source tag for this site
+  var SOURCE         = 'thailandprivilege-daimaru.com';
   var STORAGE_KEY    = 'tpd_apply_v1';
 
   var form = document.getElementById('applyForm');
@@ -221,16 +227,24 @@
   /* ---- submit ---- */
   function collect() {
     var t = form.querySelector('input[name="tier"]:checked');
+    var tier = t ? t.value : '';
+    var first = val('firstName'), last = val('lastName');
+    var hp = form.querySelector('input[name="_gotcha"]');
     return {
-      firstName: val('firstName'), lastName: val('lastName'),
+      firstName: first, lastName: last,
       email: val('email'), phone: val('phone'),
       nationality: val('nationality'), residence: val('residence'),
       dob: val('dob'), contactMethod: val('contactMethod'),
-      tier: t ? t.value : '', applyingFor: val('applyingFor'),
+      tier: tier, applyingFor: val('applyingFor'),
       timeline: val('timeline'), currentVisa: val('currentVisa'),
       visaExpiry: visaExpiryField.hidden ? '' : val('visaExpiry'),
       marketingOptIn: document.getElementById('marketing').checked ? 'Yes' : 'No',
-      source: SOURCE
+      source: SOURCE,
+      // Formspree reserved fields
+      _subject: SUBJECT_PREFIX + ' New Thailand Privilege application — ' +
+                (first + ' ' + last).trim() + ' (' + (tier || 'Undecided') + ')',
+      _replyto: val('email'),
+      _gotcha: hp ? hp.value : ''
     };
   }
 
@@ -252,7 +266,8 @@
       'Marketing opt-in: ' + data.marketingOptIn, '',
       'Source: ' + data.source
     ];
-    var subject = SUBJECT_PREFIX + ' New application — ' + data.firstName + ' ' + data.lastName;
+    var subject = SUBJECT_PREFIX + ' New Thailand Privilege application — ' +
+                  (data.firstName + ' ' + data.lastName).trim() + ' (' + (data.tier || 'Undecided') + ')';
     window.location.href = 'mailto:' + EMAIL_TO +
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(lines.join('\n'));
@@ -286,6 +301,8 @@
     cErr.hidden = true;
 
     var btn = document.getElementById('wzSubmit');
+    var errBox = document.getElementById('applyError');
+    if (errBox) errBox.hidden = true;
     var data = collect();
 
     if (!FORM_ENDPOINT) { mailtoFallback(data); showSuccess(); return; }
@@ -299,13 +316,16 @@
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
     }).then(function (res) {
-      if (!res.ok) throw new Error('Bad response');
+      if (!res.ok) throw new Error('Submission failed');
       showSuccess();
     }).catch(function () {
       btn.disabled = false;
       btn.innerHTML = label;
-      alert('Something went wrong sending your application. Please email ' + EMAIL_TO +
-            ' or message us on WhatsApp at +66 65 156 1561 and we will take it from there.');
+      track('form_submit_error', {});
+      if (errBox) {
+        errBox.hidden = false;
+        errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
   });
 })();

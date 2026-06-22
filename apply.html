@@ -107,6 +107,10 @@
 
   .wz-alt { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
   .wz-alt a { color: var(--bronze-deep); font-weight: 500; }
+  .apply-error { margin: 4px 0 18px; padding: 14px 16px; border: 1px solid #D8A59C; border-left: 3px solid #B23A2E; border-radius: 10px; background: #FBF1EF; }
+  .apply-error p { margin: 0 0 6px; font-size: 14px; line-height: 1.55; color: var(--cocoa); }
+  .apply-error p:last-child { margin-bottom: 0; }
+  .apply-error a { color: var(--bronze-deep); font-weight: 600; }
 
   /* success card */
   .wz-success { display: none; text-align: center; background: var(--ivory-2); border: 1px solid var(--line); border-radius: 18px; padding: clamp(32px, 7vw, 64px) clamp(22px, 5vw, 48px); }
@@ -280,6 +284,8 @@
     </ol>
 
     <form id="applyForm" class="wz-card" novalidate>
+      <!-- honeypot: hidden from humans; Formspree drops the submission if filled -->
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
 
       <!-- ── STEP 1 ── -->
       <section class="wz-step is-active" data-step="1" aria-label="Step 1 of 3 — your details">
@@ -483,13 +489,17 @@
         </div>
         <div class="wz-check" id="check-terms-wrap">
           <input type="checkbox" id="agreeTerms" name="agreeTerms" aria-required="true">
-          <label for="agreeTerms">I agree to the <a href="#" target="_blank" rel="noopener">Privacy Policy</a> and <a href="#" target="_blank" rel="noopener">Terms of Service</a>.</label>
+          <label for="agreeTerms">I agree to the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="terms.html" target="_blank" rel="noopener">Terms of Use</a>.</label>
         </div>
         <div class="wz-check">
           <input type="checkbox" id="marketing" name="marketing">
           <label for="marketing">Send me occasional updates on Thailand Privilege tier changes, promotions, and relevant news.</label>
         </div>
         <span class="form-error-msg" id="consent-err" hidden style="margin-bottom:14px;"></span>
+        <div class="apply-error" id="applyError" role="alert" hidden>
+          <p><strong>Sorry — we couldn't submit your application.</strong> Please try again, or contact us directly:</p>
+          <p><a href="https://wa.me/66651561561">WhatsApp</a> · <a href="https://line.me/ti/p/~thailandeliteinfo">LINE @thailandeliteinfo</a> · <a href="mailto:info@thailandelite.net">info@thailandelite.net</a></p>
+        </div>
 
         <div class="wz-nav">
           <button type="button" class="btn btn--ghost btn--back wz-prev" data-prev="2">
@@ -569,7 +579,7 @@
 </footer>
 
 <script src="assets/js/site.js?v=3" defer></script>
-<script src="assets/js/apply.js?v=1" defer></script>
+<script src="assets/js/apply.js?v=2" defer></script>
 <script>
 /* Animated "how your application moves" walkthrough — page-scoped, progressive enhancement */
 (function () {
