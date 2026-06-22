@@ -114,6 +114,12 @@
   .awards figcaption b { color: var(--bronze-deep); font-weight: 600; }
   @media (max-width: 520px) { .awards { gap: 8px; } .awards figcaption { font-size: 11px; } }
 
+  /* event photo gallery (golf tournament) */
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: clamp(18px, 3vw, 24px) 0 0; }
+  @media (min-width: 640px) { .gallery { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+  .gallery img { width: 100%; height: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; border: 1px solid var(--line); border-radius: 8px; }
+  .gallery__note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+
   /* zoomable credential images → lightbox */
   .zoomable { cursor: zoom-in; }
   .lightbox { position: fixed; inset: 0; z-index: 1000; display: none; background: rgba(20,14,9,.93); }
@@ -302,6 +308,16 @@
       </ul>
       <p class="bkicker reveal">Since 2018 · six editions · more than 800 cumulative players.</p>
       <p class="bnote reveal">Co-sponsors across the years have included DOCUS, Toyota Kinto, and Medpark Hospital.</p>
+
+      <div class="gallery reveal" role="group" aria-label="Photos from the annual golf tournament">
+        <img class="zoomable" src="assets/img/golf-1.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="960" height="637" loading="lazy" decoding="async">
+        <img class="zoomable" src="assets/img/golf-2.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="1000" height="750" loading="lazy" decoding="async">
+        <img class="zoomable" src="assets/img/golf-3.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="1000" height="750" loading="lazy" decoding="async">
+        <img class="zoomable" src="assets/img/golf-4.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="1000" height="660" loading="lazy" decoding="async">
+        <img class="zoomable" src="assets/img/golf-5.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="1000" height="667" loading="lazy" decoding="async">
+        <img class="zoomable" src="assets/img/golf-6.jpg" alt="Daimaru Trading's annual members' golf tournament — group photo" width="1000" height="667" loading="lazy" decoding="async">
+      </div>
+      <p class="gallery__note reveal">Tap any photo to view it larger.</p>
     </div>
   </div>
 </section>

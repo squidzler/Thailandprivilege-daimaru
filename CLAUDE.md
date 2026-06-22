@@ -13,6 +13,7 @@ This is the sister site of [www.thailandelite.net](http://www.thailandelite.net)
 This site exists for international English-speaking clients. The “Daimaru” name appears because TPC requires the licensed GSSA entity to be named — it is a credential, NOT a market identity. Hard rules:
 
 - The site must never read as a Japanese agency serving Japanese clients. No Japanese language anywhere. No Japan-first framing. Never assume the visitor is Japanese or in Japan.
+  - **Owner exception, 2026-06-22:** the six real golf-tournament event photos in the About-page gallery may stay even though some show Japanese-language banners in the background. This is owner-approved documentary proof of the events; it does not change the no-Japanese-language rule for site copy or for any other imagery.
 - Pat (Bangkok, English/Thai) is the human face and narrative lead of the site. Daimaru Trading is the institutional license and track record standing behind him.
 - Japan-related heritage (Sendai HQ, family leadership, Road Shows) may appear ONLY as brief institutional credibility on the About page — proof of standing, never positioning. One short section maximum, written in an international register.
 - Copy speaks to retirees, remote entrepreneurs, investors, and families worldwide — see the target markets list under SEO rules.
