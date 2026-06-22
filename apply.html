@@ -116,6 +116,29 @@
   .wz-success h2 { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 5vw, 36px); margin: 0 0 12px; }
   .wz-success p { color: var(--muted); line-height: 1.65; max-width: 52ch; margin: 0 auto 14px; }
   .wz-success__cta { margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── Animated "how it works" walkthrough (page-scoped) ── */
+  .apg { list-style: none; margin: 6px 0 0; padding: 0; position: relative; max-width: 660px; }
+  .apg__rail { position: absolute; left: 23px; top: 30px; bottom: 38px; width: 2px; background: var(--line-strong); border-radius: 2px; overflow: hidden; }
+  .apg__fill { display: block; width: 100%; height: 0; background: linear-gradient(var(--bronze), var(--bronze-deep)); border-radius: 2px; transition: height .55s cubic-bezier(.4,0,.2,1); }
+  .apg__stage { position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 16px; padding: 12px 0 22px; opacity: .38; transform: translateY(6px); transition: opacity .45s ease, transform .45s ease; }
+  .apg__stage:last-of-type { padding-bottom: 4px; }
+  .apg__stage.is-on { opacity: 1; transform: none; }
+  .apg__node { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--ivory); border: 1.5px solid var(--line-strong); color: var(--muted); position: relative; z-index: 1; transition: border-color .4s ease, background .4s ease, color .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
+  .apg__stage.is-on .apg__node { border-color: var(--bronze); background: #fff; color: var(--bronze-deep); transform: scale(1.07); }
+  .apg__ico { width: 23px; height: 23px; }
+  .apg__body { padding-top: 2px; }
+  .apg__t { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -0.01em; margin: 4px 0 5px; }
+  .apg__d { color: var(--muted); line-height: 1.55; margin: 0 0 9px; max-width: 46ch; }
+  .apg__time { display: inline-block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--bronze-deep); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; }
+  .apg-play { margin-top: 18px; }
+  .apg-play svg { width: 15px; height: 15px; }
+  .apg-foot { margin-top: 22px; color: var(--muted); line-height: 1.6; max-width: 58ch; }
+  @media (prefers-reduced-motion: reduce) {
+    .apg__stage { opacity: 1; transform: none; transition: none; }
+    .apg__node { transition: none; }
+    .apg__fill { height: 100% !important; transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -176,6 +199,63 @@
     <div class="eyebrow">Apply</div>
     <h1>Begin your <em>application.</em></h1>
     <p>Three short steps to get started. There is no upfront fee — you pay Thailand Privilege Card Co., Ltd. directly, and only after your background check is approved. Pat, our Bangkok lead, handles everything from here.</p>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS (animated walkthrough) ─── -->
+<section class="section section--steps" aria-label="How the application works">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Before you start</div>
+      <h2 class="h2">How your application <em>moves.</em></h2>
+      <p class="section__intro">A quick walkthrough of the whole journey — from sending your documents to the visa in your passport. Typically six to ten weeks end to end, with no upfront fee.</p>
+      <button type="button" class="btn btn--ghost btn--sm apg-play" id="apgPlay">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Replay
+      </button>
+    </div>
+
+    <ol class="apg reveal" id="apg">
+      <span class="apg__rail" aria-hidden="true"><span class="apg__fill" id="apgFill"></span></span>
+
+      <li class="apg__stage">
+        <span class="apg__node"><svg class="apg__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span>
+        <div class="apg__body">
+          <h3 class="apg__t">Submit your documents</h3>
+          <p class="apg__d">A passport copy, the application and PDPA forms, and one photo. We register you the same day.</p>
+          <span class="apg__time">Same day</span>
+        </div>
+      </li>
+
+      <li class="apg__stage">
+        <span class="apg__node"><svg class="apg__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.2 12l2 2 3.6-3.8"/></svg></span>
+        <div class="apg__body">
+          <h3 class="apg__t">Government background check</h3>
+          <p class="apg__d">Five Thai government agencies review your application. We monitor it and keep you updated throughout.</p>
+          <span class="apg__time">4–8 weeks</span>
+        </div>
+      </li>
+
+      <li class="apg__stage">
+        <span class="apg__node"><svg class="apg__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.2 2.2L15.5 9.6"/></svg></span>
+        <div class="apg__body">
+          <h3 class="apg__t">Approved — then you pay</h3>
+          <p class="apg__d">Only once approved do you pay, directly to Thailand Privilege Card Co., Ltd. — never beforehand, and never to us.</p>
+          <span class="apg__time">After approval</span>
+        </div>
+      </li>
+
+      <li class="apg__stage">
+        <span class="apg__node"><svg class="apg__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="11" r="2.4"/><path d="M9.5 16.5h5"/></svg></span>
+        <div class="apg__body">
+          <h3 class="apg__t">Your visa is affixed</h3>
+          <p class="apg__d">The Privilege Entry Visa is placed in your passport in Bangkok, or on arrival at Suvarnabhumi or Phuket. We escort you through.</p>
+          <span class="apg__time">Single day</span>
+        </div>
+      </li>
+    </ol>
+
+    <p class="apg-foot reveal">No payment is taken before approval, and none of it is paid to Daimaru — the membership fee goes directly to Thailand Privilege Card Co., Ltd. <a href="#applyForm">Start your application below.</a></p>
   </div>
 </section>
 
@@ -489,5 +569,50 @@
 
 <script src="assets/js/site.js?v=3" defer></script>
 <script src="assets/js/apply.js?v=1" defer></script>
+<script>
+/* Animated "how your application moves" walkthrough — page-scoped, progressive enhancement */
+(function () {
+  var apg = document.getElementById('apg');
+  if (!apg) return;
+  var stages = [].slice.call(apg.querySelectorAll('.apg__stage'));
+  var fill = document.getElementById('apgFill');
+  var playBtn = document.getElementById('apgPlay');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var timers = [];
+
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function showAll() {
+    clearTimers();
+    stages.forEach(function (s) { s.classList.add('is-on'); });
+    if (fill) fill.style.height = '100%';
+  }
+  function fillTo(i) {
+    if (!fill || stages.length < 2) return;
+    fill.style.height = (i / (stages.length - 1)) * 100 + '%';
+  }
+  function play() {
+    if (reduce) { showAll(); return; }
+    clearTimers();
+    stages.forEach(function (s) { s.classList.remove('is-on'); });
+    if (fill) fill.style.height = '0';
+    stages.forEach(function (s, i) {
+      timers.push(setTimeout(function () { s.classList.add('is-on'); fillTo(i); }, 350 + i * 1100));
+    });
+  }
+
+  if (reduce) { showAll(); }
+  else if ('IntersectionObserver' in window) {
+    var played = false;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !played) { played = true; play(); io.disconnect(); }
+      });
+    }, { threshold: 0.4 });
+    io.observe(apg);
+  } else { play(); }
+
+  if (playBtn) playBtn.addEventListener('click', play);
+})();
+</script>
 </body>
 </html>
