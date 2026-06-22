@@ -274,12 +274,20 @@
   }
 
   function showSuccess() {
+    var d = collect();
     document.getElementById('applyForm').style.display = 'none';
     document.getElementById('wzSteps').style.display = 'none';
     var ok = document.getElementById('applySuccess');
     ok.classList.add('is-active');
+    // pre-fill the "email my documents" link with the applicant's name + tier
+    var ed = document.getElementById('emailDocs');
+    if (ed) {
+      var subj = SUBJECT_PREFIX + ' Application documents — ' + (d.firstName + ' ' + d.lastName).trim() + ' (' + (d.tier || 'Undecided') + ')';
+      var body = 'Attached: completed application form, signed PDPA form, a recent photo, and a copy of my passport. My signature on the forms matches my passport.';
+      ed.setAttribute('href', 'mailto:' + EMAIL_TO + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body));
+    }
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-    track('form_submit', { tier: collect().tier, timeline: val('timeline') });
+    track('form_submit', { tier: d.tier, timeline: d.timeline });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

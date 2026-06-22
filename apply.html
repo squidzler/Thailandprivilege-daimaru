@@ -120,6 +120,13 @@
   .wz-success h2 { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 5vw, 36px); margin: 0 0 12px; }
   .wz-success p { color: var(--muted); line-height: 1.65; max-width: 52ch; margin: 0 auto 14px; }
   .wz-success__cta { margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .wz-docs { text-align: left; max-width: 470px; margin: 6px auto 2px; background: var(--ivory); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+  .wz-docs__head { font-family: var(--display); font-weight: 500; font-size: 17px; color: var(--cocoa); margin: 0 0 10px; }
+  .wz-docs__list { margin: 0 0 12px; padding-left: 20px; }
+  .wz-docs__list li { color: var(--cocoa-2); line-height: 1.55; font-size: 15px; margin-bottom: 5px; }
+  .wz-docs__note { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin: 0; }
+  .wz-docs__note b { color: var(--bronze-deep); }
+  .wz-docs a { color: var(--bronze-deep); font-weight: 500; }
 
   /* ── Animated "how it works" walkthrough (page-scoped) ── */
   .apg { list-style: none; margin: 6px 0 0; padding: 0; position: relative; max-width: 660px; }
@@ -519,9 +526,21 @@
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
       <h2>Application received</h2>
-      <p>Thank you. A senior advisor will contact you within one business day using the method you chose. For anything urgent in the meantime, reach us directly on WhatsApp or LINE.</p>
+      <p>Thank you. A senior advisor will contact you within one business day using the method you chose.</p>
+      <div class="wz-docs">
+        <p class="wz-docs__head">One more step — send your documents</p>
+        <p style="margin:0 0 10px;font-size:14.5px;color:var(--cocoa);">To complete your application, email these four items to <a href="mailto:info@thailandelite.net">info@thailandelite.net</a>:</p>
+        <ol class="wz-docs__list">
+          <li><b>Completed application form</b> for your tier</li>
+          <li><b>Signed PDPA consent form</b></li>
+          <li><b>A recent photo</b></li>
+          <li><b>A clear copy of your passport</b></li>
+        </ol>
+        <p class="wz-docs__note">Sign the forms by hand — <b>your signature must match the signature in your passport.</b> Don't have the forms yet? Download them below.</p>
+      </div>
       <div class="wz-success__cta">
-        <a href="index.html" class="btn btn--primary">Back to home</a>
+        <a href="download.html" class="btn btn--primary">Download the forms</a>
+        <a href="mailto:info@thailandelite.net?subject=Thailand%20Privilege%20application%20documents" class="btn btn--ghost" id="emailDocs">Email my documents</a>
         <a href="https://wa.me/66651561561" class="btn btn--ghost">WhatsApp us</a>
       </div>
     </div>
@@ -579,7 +598,7 @@
 </footer>
 
 <script src="assets/js/site.js?v=3" defer></script>
-<script src="assets/js/apply.js?v=2" defer></script>
+<script src="assets/js/apply.js?v=3" defer></script>
 <script>
 /* Animated "how your application moves" walkthrough — page-scoped, progressive enhancement */
 (function () {
