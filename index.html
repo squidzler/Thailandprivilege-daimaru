@@ -68,6 +68,7 @@
     position: relative; padding: 0; color: var(--ivory); text-align: left;
     background: radial-gradient(120% 120% at 78% 18%, #4A3526 0%, #2A1D15 48%, #1A120D 100%);
   }
+  .fvid__poster[hidden] { display: none; }  /* ensure poster is removed once Play is clicked */
   .fvid__poster::after { /* warm bronze sheen */
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(168,116,63,.0) 40%, rgba(20,14,9,.55) 100%);
