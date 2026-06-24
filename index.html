@@ -134,6 +134,9 @@
   .cur-select:focus { outline: none; border-color: var(--bronze); box-shadow: 0 0 0 3px rgba(168,116,63,.16); }
   .cur-note { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin: 9px 0 0; max-width: 56ch; }
   .program__price .ceq { color: var(--bronze-deep); font-style: normal; }
+  /* whole tier card is a link to its detail page */
+  .program__go { position: absolute; inset: 0; z-index: 3; border-radius: 14px; }
+  .program__go:focus-visible { outline: 2px solid var(--bronze); outline-offset: -2px; }
 </style>
 </head>
 <body>
@@ -247,6 +250,7 @@
 
     <div class="programs">
       <div class="program reveal" style="--w: 25%">
+        <a class="program__go" href="program-bronze.html" aria-label="View Bronze details — Thailand Privilege"></a>
         <img class="program__chip" src="assets/img/card-bronze.png" alt="Thailand Privilege Bronze card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Bronze</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
@@ -254,6 +258,7 @@
         <div class="program__desc program__desc--inline"><span class="program__price">฿650,000 <em class="ceq" data-thb="650000" data-eq="paren">(≈ $19,000 USD)</em></span> The most-applied tier. All core services — fast track, concierge, 24/7 center. Applications close 30 Sep 2026.</div>
       </div>
       <div class="program reveal" style="--w: 25%">
+        <a class="program__go" href="program-gold.html" aria-label="View Gold details — Thailand Privilege"></a>
         <img class="program__chip" src="assets/img/card-gold.png" alt="Thailand Privilege Gold card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Gold</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
@@ -261,6 +266,7 @@
         <div class="program__desc program__desc--inline"><span class="program__price">฿900,000 <em class="ceq" data-thb="900000" data-eq="paren">(≈ $26,000 USD)</em></span> Five years, with 20 annual privilege points for transfers, spa, golf, and more.</div>
       </div>
       <div class="program reveal" style="--w: 50%">
+        <a class="program__go" href="program-platinum.html" aria-label="View Platinum details — Thailand Privilege"></a>
         <img class="program__chip" src="assets/img/card-platinum.png" alt="Thailand Privilege Platinum card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Platinum</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
@@ -268,6 +274,7 @@
         <div class="program__desc program__desc--inline"><span class="program__price">฿1,500,000 <em class="ceq" data-thb="1500000" data-eq="paren">(≈ $44,000 USD)</em></span> A decade in Thailand, 35 annual points, and family add-ons available.</div>
       </div>
       <div class="program reveal" style="--w: 75%">
+        <a class="program__go" href="program-diamond.html" aria-label="View Diamond details — Thailand Privilege"></a>
         <img class="program__chip" src="assets/img/card-diamond.png" alt="Thailand Privilege Diamond card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Diamond</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
@@ -275,6 +282,7 @@
         <div class="program__desc program__desc--inline"><span class="program__price">฿2,500,000 <em class="ceq" data-thb="2500000" data-eq="paren">(≈ $73,000 USD)</em></span> Fifteen years, 55 annual points, family add-ons available.</div>
       </div>
       <div class="program reveal" style="--w: 100%">
+        <a class="program__go" href="program-reserve.html" aria-label="View Reserve details — Thailand Privilege"></a>
         <img class="program__chip" src="assets/img/card-reserve.png" alt="Thailand Privilege Reserve card" width="60" height="38" loading="lazy" decoding="async">
         <div class="program__name">Reserve</div>
         <div class="program__bar-wrap"><div class="program__bar"></div></div>
