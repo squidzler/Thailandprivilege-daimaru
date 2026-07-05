@@ -137,6 +137,12 @@
   /* whole tier card is a link to its detail page */
   .program__go { position: absolute; inset: 0; z-index: 3; border-radius: 14px; }
   .program__go:focus-visible { outline: 2px solid var(--bronze); outline-offset: -2px; }
+  /* hero: strengthen the left/upper scrim so the headline + gold accent pass WCAG AA over the photo */
+  .hero__bg::after {
+    background:
+      linear-gradient(90deg, rgba(20,13,9,.82) 0%, rgba(20,13,9,.58) 40%, rgba(20,13,9,.22) 66%, rgba(20,13,9,.05) 100%),
+      linear-gradient(180deg, rgba(20,13,9,.34) 0%, rgba(20,13,9,.24) 42%, rgba(20,13,9,.55) 74%, rgba(20,13,9,.93) 100%);
+  }
 </style>
 </head>
 <body>
@@ -194,8 +200,8 @@
   <div class="hero__bg" aria-hidden="true"></div>
   <div class="wrap hero__inner">
     <div class="eyebrow">Authorized Thailand Privilege Agent · Since 2015</div>
-    <h1>Thailand Privilege Visa <em>(formerly Thailand Elite Visa)</em></h1>
-    <p class="hero__sub">Long-term residency made simple. Multi-entry visa, airport VIP, and personal assistance — from 5 to 20 years, in a single application.</p>
+    <h1>Live in Thailand, <em>5 to 20 years on one application.</em></h1>
+    <p class="hero__sub">The Thailand Privilege Visa (formerly Thailand Elite Visa) — multi-entry residency, airport fast track, and personal assistance, with no fee until you're approved.</p>
     <div class="hero__cta">
       <a href="#programs" class="btn btn--primary">
         See programs
