@@ -78,6 +78,10 @@
   .facts li { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
   .facts li b { color: var(--bronze-deep); font-weight: 600; text-align: right; }
   .tier-card-img { width: 200px; max-width: 58%; height: auto; display: block; margin: 0 0 22px; border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.38); }
+  .tier-spec { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin: 20px 0 2px; }
+  .tier-spec__price { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 5.5vw, 33px); color: var(--gold); line-height: 1; }
+  .tier-spec__usd { font-size: 14px; color: rgba(250,246,238,.72); }
+  .tier-spec__meta { font-size: 14px; color: rgba(250,246,238,.82); letter-spacing: .02em; }
 </style>
 </head>
 <body>
@@ -131,6 +135,7 @@
     <div class="eyebrow">Programs · Bronze</div>
     <h1>Bronze — <em>The simplest entry, five years.</em></h1>
     <p>Bronze is the most-applied Thailand Privilege tier: five years of long-stay, multi-entry residency on a single application, with every core service included. Annual Privilege Points begin from Gold.</p>
+    <p class="tier-spec"><span class="tier-spec__price">฿650,000</span><span class="tier-spec__usd">(~$19,000 USD)</span><span class="tier-spec__meta">· 5 years · individual</span></p>
     <div style="margin-top:26px; display:flex; gap:12px; flex-wrap:wrap;">
       <a href="apply.html" class="btn btn--primary" style="background:var(--ivory);color:var(--cocoa);">Start your application
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
