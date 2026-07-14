@@ -585,6 +585,12 @@
     window.addEventListener('scroll', onScroll, { passive: true });
 
     document.getElementById('fvidClose').addEventListener('click', function () {
+      // stop playback before hiding — otherwise audio keeps playing in the hidden box
+      var frame = document.getElementById('fvidFrame');
+      var vid = frame.querySelector('video');
+      if (vid) { vid.pause(); vid.removeAttribute('src'); vid.load(); }
+      frame.innerHTML = '';          // also tears down any iframe embed
+      frame.hidden = true;
       fvid.classList.remove('show');
       setTimeout(function () { fvid.hidden = true; }, 420);
       try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
