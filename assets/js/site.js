@@ -76,3 +76,57 @@
       });
     });
   })();
+
+/* ── Trailing cursor ring (desktop only) ──
+   Runs only on hover-capable fine-pointer devices with motion allowed.
+   Lerps position + scale on one rAF loop (transform-only, no layout). */
+(function cursorRing() {
+  var mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!mq.matches || rm.matches) return;
+
+  var ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  ring.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(ring);
+
+  var tx = -100, ty = -100, x = -100, y = -100;   // target / current position
+  var ts = 1, s = 1;                              // target / current scale
+  var shown = false, raf = null;
+
+  function loop() {
+    x += (tx - x) * 0.18;
+    y += (ty - y) * 0.18;
+    s += (ts - s) * 0.2;
+    ring.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) scale(' + s.toFixed(3) + ')';
+    raf = requestAnimationFrame(loop);
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    tx = e.clientX; ty = e.clientY;
+    if (!shown) {
+      shown = true;
+      x = tx; y = ty;                 // no fly-in from the corner
+      ring.classList.add('is-on');
+      if (!raf) raf = requestAnimationFrame(loop);
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', function () {
+    shown = false;
+    ring.classList.remove('is-on');
+  });
+
+  var HOVER = 'a, button, summary, input, select, textarea, label, [role="button"], .program, .zoomable';
+  document.addEventListener('mouseover', function (e) {
+    if (e.target.closest && e.target.closest(HOVER)) { ring.classList.add('is-hover'); ts = 1.6; }
+  }, { passive: true });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest && e.target.closest(HOVER)) { ring.classList.remove('is-hover'); ts = 1; }
+  }, { passive: true });
+
+  document.addEventListener('mousedown', function () { ts = 0.8; }, { passive: true });
+  document.addEventListener('mouseup', function () {
+    ts = ring.classList.contains('is-hover') ? 1.6 : 1;
+  }, { passive: true });
+})();
