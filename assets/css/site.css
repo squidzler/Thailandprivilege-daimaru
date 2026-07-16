@@ -110,10 +110,10 @@
   .nav.scrolled .nav__cta { background-color: var(--cocoa); color: var(--ivory); }
   .nav.scrolled .nav__cta:hover { background-color: var(--bronze-deep); }
   @keyframes ctaPulse {
-    0%   { scale: 1;    box-shadow: 0 0 7px 0px  rgba(201,168,118,0);   }
-    20%  { scale: 1.05; box-shadow: 0 0 7px 0px  rgba(201,168,118,.55); }
-    60%  { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0);   }
-    100% { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0);   }
+    0%   { scale: 1;    box-shadow: 0 0 7px 0px  rgba(201,168,118,0), 0 2px 3px rgba(20,13,9,.20), 0 8px 20px rgba(20,13,9,.13);   }
+    20%  { scale: 1.05; box-shadow: 0 0 7px 0px  rgba(201,168,118,.55), 0 2px 3px rgba(20,13,9,.20), 0 8px 20px rgba(20,13,9,.13); }
+    60%  { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0), 0 2px 3px rgba(20,13,9,.20), 0 8px 20px rgba(20,13,9,.13);   }
+    100% { scale: 1;    box-shadow: 0 0 7px 14px rgba(201,168,118,0), 0 2px 3px rgba(20,13,9,.20), 0 8px 20px rgba(20,13,9,.13);   }
   }
   @media (prefers-reduced-motion: reduce) {
     .nav__cta { animation: none; }
@@ -242,6 +242,38 @@
   .btn--primary:hover { background: var(--bronze-deep); transform: translateY(-1px); }
   .btn--ghost { color: var(--cocoa); border: 1px solid var(--line-strong); background: transparent; }
   .btn--ghost:hover { border-color: var(--cocoa); background: var(--ivory-2); }
+
+  /* ── Button elevation: key + ambient shadow, light from above ──
+     key = tight directional shadow just under the edge;
+     ambient = broad soft occlusion further down. Hover lifts (deeper,
+     softer); :active presses (shallower). Warm cocoa-toned shadow. */
+  .btn--primary, .nav__cta {
+    box-shadow:
+      0 2px 3px rgba(20, 13, 9, .20),   /* key */
+      0 8px 20px rgba(20, 13, 9, .13);  /* ambient */
+  }
+  .btn--primary:hover, .nav__cta:hover {
+    box-shadow:
+      0 4px 7px rgba(20, 13, 9, .22),
+      0 14px 28px rgba(20, 13, 9, .17);
+  }
+  .btn--primary:active, .nav__cta:active {
+    box-shadow:
+      0 1px 2px rgba(20, 13, 9, .18),
+      0 3px 8px rgba(20, 13, 9, .10);
+  }
+  /* ghost buttons are transparent — keep their shadow faint so it doesn't
+     read through the button body */
+  .btn--ghost {
+    box-shadow:
+      0 1px 2px rgba(20, 13, 9, .08),
+      0 5px 14px rgba(20, 13, 9, .06);
+  }
+  .btn--ghost:hover {
+    box-shadow:
+      0 2px 4px rgba(20, 13, 9, .10),
+      0 8px 18px rgba(20, 13, 9, .08);
+  }
   .btn svg { width: 16px; height: 16px; }
   .hero .btn--primary { background: var(--ivory); color: var(--cocoa); }
   .hero .btn--primary:hover { background: var(--gold); color: var(--cocoa); }
