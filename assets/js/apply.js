@@ -88,13 +88,13 @@
   function setError(field, msg) {
     var input = document.getElementById(field);
     var err = document.getElementById(field + '-err');
-    if (input) input.classList.add('invalid');
+    if (input) { input.classList.add('invalid'); input.setAttribute('aria-invalid', 'true'); }
     if (err) { err.textContent = msg; err.hidden = false; }
   }
   function clearError(field) {
     var input = document.getElementById(field);
     var err = document.getElementById(field + '-err');
-    if (input) input.classList.remove('invalid');
+    if (input) { input.classList.remove('invalid'); input.removeAttribute('aria-invalid'); }
     if (err) { err.hidden = true; err.textContent = ''; }
   }
   function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }

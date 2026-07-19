@@ -38,6 +38,126 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Membership fees range from ฿650,000 for the 5-year Bronze tier up to ฿5,000,000 for the 20-year Reserve tier. The fee is paid directly to Thailand Privilege Card Co., Ltd. Daimaru does not charge a separate agent fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When do I pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only after your application is approved. You are not asked to pay the membership fee until the government background check has cleared. Payment then goes directly to Thailand Privilege Card Co., Ltd. — never to us."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does the whole process take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually about six to ten weeks from submission to visa. The background approval — reviewed across five Thai government agencies — is the longest stage, typically four to eight weeks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What documents do I need to start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To register, you'll need a copy of your passport, the application form, a PDPA consent form, and a recent photograph. We register you the same day we receive them and guide you through each form."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can my family join?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — the Platinum, Diamond and Reserve tiers offer family add-ons so spouses and dependents can hold their own membership. We'll walk you through the dependent pricing when you choose a tier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why apply through Daimaru?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Daimaru has been an authorized General Sales & Services Agent (GSSA) for Thailand Privilege Card Co., Ltd. since 2015. You speak with the same person from first inquiry through to your visa stamp — no call centers, no handoffs."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Thailand Privilege Visa application and support (authorized GSSA)",
+  "name": "Thailand Privilege Visa",
+  "description": "Long-stay, multi-entry residency in Thailand of 5 to 20 years, by tier. Membership fee is paid once to Thailand Privilege Card Co., Ltd. after approval; Thai baht is the price of record and other currencies are approximate.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Thailand Privilege Visa by Daimaru",
+    "legalName": "Daimaru Trading Co., Ltd.",
+    "url": "https://www.thailandprivilege-daimaru.com/"
+  },
+  "areaServed": "Worldwide",
+  "url": "https://www.thailandprivilege-daimaru.com/",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Bronze — 5 years",
+      "category": "Bronze",
+      "price": "650000",
+      "priceCurrency": "THB",
+      "url": "https://www.thailandprivilege-daimaru.com/program-bronze.html",
+      "description": "5-year multi-entry residency. Application window to 30 September 2026."
+    },
+    {
+      "@type": "Offer",
+      "name": "Gold — 5 years",
+      "category": "Gold",
+      "price": "900000",
+      "priceCurrency": "THB",
+      "url": "https://www.thailandprivilege-daimaru.com/program-gold.html",
+      "description": "5 years with 20 annual Privilege Points."
+    },
+    {
+      "@type": "Offer",
+      "name": "Platinum — 10 years",
+      "category": "Platinum",
+      "price": "1500000",
+      "priceCurrency": "THB",
+      "url": "https://www.thailandprivilege-daimaru.com/program-platinum.html",
+      "description": "10 years, 35 annual points, family add-ons available."
+    },
+    {
+      "@type": "Offer",
+      "name": "Diamond — 15 years",
+      "category": "Diamond",
+      "price": "2500000",
+      "priceCurrency": "THB",
+      "url": "https://www.thailandprivilege-daimaru.com/program-diamond.html",
+      "description": "15 years, 55 annual points, family add-ons available."
+    },
+    {
+      "@type": "Offer",
+      "name": "Reserve — 20 years",
+      "category": "Reserve",
+      "price": "5000000",
+      "priceCurrency": "THB",
+      "url": "https://www.thailandprivilege-daimaru.com/program-reserve.html",
+      "description": "20 years, 120 annual points, family add-ons available. By invitation only."
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +173,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 
-<link rel="stylesheet" href="assets/css/site.css?v=22">
+<link rel="stylesheet" href="assets/css/site.css?v=23">
 <style>
   /* ── Floating video mini-player (home only, page-scoped) ── */
   .fvid {
@@ -107,8 +227,8 @@
   .fvid__poster:hover .fvid__play { transform: translate(-50%, -50%) scale(1.06); background: #fff; }
   .fvid__play svg { width: 20px; height: 20px; margin-left: 3px; fill: var(--cocoa); }
   .fvid__close {
-    position: absolute; top: 6px; right: 6px; z-index: 4;
-    width: 30px; height: 30px; border: 0; border-radius: 50%; cursor: pointer;
+    position: absolute; top: 4px; right: 4px; z-index: 4;
+    width: 44px; height: 44px; border: 0; border-radius: 50%; cursor: pointer;
     background: rgba(20,14,9,.62); color: var(--ivory); display: grid; place-items: center;
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   }
@@ -154,13 +274,14 @@
 <!-- ─── NAV ─── -->
 <header class="nav" id="nav">
   <div class="nav__inner">
-    <a href="#" class="brand" aria-label="Thailand Privilege by Daimaru Trading">
+    <a href="index.html" class="brand" aria-label="Thailand Privilege by Daimaru Trading">
       <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"><img class="brand__logo brand__logo--dark" src="assets/img/logo-dark.png" alt="" aria-hidden="true" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
     </a>
     <nav class="nav__links">
       <a href="#programs">Programs</a>
       <a href="benefits.html">Benefits</a>
       <a href="#process">How it works</a>
+      <a href="faq.html">FAQ</a>
       <a href="about.html">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -176,7 +297,7 @@
 <!-- mobile menu -->
 <div class="menu" id="menu">
   <div class="menu__top">
-    <a href="#" class="brand" style="color: var(--ivory)" aria-label="Thailand Privilege by Daimaru Trading">
+    <a href="index.html" class="brand" style="color: var(--ivory)" aria-label="Thailand Privilege by Daimaru Trading">
       <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"><img class="brand__logo brand__logo--dark" src="assets/img/logo-dark.png" alt="" aria-hidden="true" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
     </a>
     <button class="menu__close" aria-label="Close" onclick="document.getElementById('menu').classList.remove('open')">
@@ -189,6 +310,7 @@
     <a href="#programs" onclick="document.getElementById('menu').classList.remove('open')">Programs</a>
     <a href="benefits.html" onclick="document.getElementById('menu').classList.remove('open')">Benefits</a>
     <a href="#process" onclick="document.getElementById('menu').classList.remove('open')">How it works</a>
+    <a href="faq.html" onclick="document.getElementById('menu').classList.remove('open')">FAQ</a>
     <a href="about.html" onclick="document.getElementById('menu').classList.remove('open')">About</a>
     <a href="#contact" onclick="document.getElementById('menu').classList.remove('open')">Contact</a>
   </nav>
@@ -201,7 +323,7 @@
   <div class="wrap hero__inner">
     <div class="eyebrow">Authorized Thailand Privilege Agent · Since 2015</div>
     <h1>Live in Thailand, <em>5 to 20 years on one application.</em></h1>
-    <p class="hero__sub">The Thailand Privilege Visa (formerly Thailand Elite Visa) — multi-entry residency, airport fast track, and personal assistance, with no fee until you're approved.</p>
+    <p class="hero__sub">The Thailand Privilege Visa (formerly Thailand Elite Visa) is a membership that grants 5 to 20 years of multi-entry Thai residency for a one-time fee starting at ฿650,000 (~$19,000 USD) — paid only after your application is approved.</p>
     <div class="hero__cta">
       <a href="#programs" class="btn btn--primary">
         See programs
@@ -406,7 +528,7 @@
     <div class="reveal">
       <div class="eyebrow">04 — Why Daimaru</div>
       <h2 class="h2">The agent <em>matters.</em></h2>
-      <p class="section__intro">Thailand Privilege is a single application — but it involves roughly eight weeks of paperwork, payments in three currencies, and a visa stamping that must be scheduled precisely. Choosing the right agent is the difference between a smooth application and a stalled one.</p>
+      <p class="section__intro">Thailand Privilege is a single application — but it involves six to ten weeks of paperwork, a background check across five government agencies, and a visa stamping that must be scheduled precisely. Choosing the right agent is the difference between a smooth application and a stalled one.</p>
     </div>
 
     <div class="why">
@@ -430,10 +552,64 @@
 </section>
 
 <!-- ─── CONTACT ─── -->
+<!-- ─── ELIGIBILITY ─── -->
+<section class="section section--tone" id="eligibility">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">05 — Eligibility</div>
+      <h2 class="h2">Almost every nationality <em>qualifies.</em></h2>
+      <p class="section__intro">Eligibility rests on a clean security background, not on wealth. There is no income, net-worth, or investment test to apply.</p>
+      <ul class="blist">
+        <li><b>A valid passport from any country except Thailand</b> — the program is designed for foreign nationals seeking long-term residency.</li>
+        <li><b>A clean security background</b> — the single substantive requirement, screened by five Thai government agencies over four to eight weeks.</li>
+        <li><b>No financial qualification to apply</b> — no income proof, no locked deposit, no investment.</li>
+      </ul>
+      <p class="bnote reveal">Full detail, including what can prevent approval, on the <a href="eligibility.html">eligibility &amp; approval page</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ─── -->
+<section class="section section--steps faq" id="faq">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">06 — Questions</div>
+      <h2 class="h2">The essentials, <em>answered.</em></h2>
+    </div>
+    <div class="faq__list reveal">
+      <details>
+        <summary>How much does it cost? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Membership fees range from ฿650,000 for the 5-year Bronze tier up to ฿5,000,000 for the 20-year Reserve tier. The fee is paid directly to Thailand Privilege Card Co., Ltd. Daimaru does not charge a separate agent fee.</p></div>
+      </details>
+      <details>
+        <summary>When do I pay? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Only after your application is approved. You are not asked to pay the membership fee until the government background check has cleared. Payment then goes directly to Thailand Privilege Card Co., Ltd. — never to us.</p></div>
+      </details>
+      <details>
+        <summary>How long does the whole process take? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Usually about six to ten weeks from submission to visa. The background approval — reviewed across five Thai government agencies — is the longest stage, typically four to eight weeks.</p></div>
+      </details>
+      <details>
+        <summary>What documents do I need to start? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>To register, you'll need a copy of your passport, the application form, a PDPA consent form, and a recent photograph. We register you the same day we receive them and guide you through each form.</p></div>
+      </details>
+      <details>
+        <summary>Can my family join? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Yes — the Platinum, Diamond and Reserve tiers offer family add-ons so spouses and dependents can hold their own membership. We'll walk you through the dependent pricing when you choose a tier.</p></div>
+      </details>
+      <details>
+        <summary>Why apply through Daimaru? <span class="ic" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Daimaru has been an authorized General Sales &amp; Services Agent (GSSA) for Thailand Privilege Card Co., Ltd. since 2015. You speak with the same person from first inquiry through to your visa stamp — no call centers, no handoffs.</p></div>
+      </details>
+    </div>
+    <p class="bnote reveal">More questions — including proof of funds on arrival and eligibility detail — on the <a href="faq.html">full FAQ</a>.</p>
+  </div>
+</section>
+
 <section class="section section--dark" id="contact">
   <div class="wrap">
     <div class="reveal">
-      <div class="eyebrow">05 — Contact</div>
+      <div class="eyebrow">07 — Contact</div>
       <h2 class="h2">Speak with <em>our team.</em></h2>
       <p class="section__intro">Tell us where you live now and which program interests you. We'll come back within one business day with the documents you need.</p>
     </div>
@@ -520,9 +696,10 @@
         <a href="https://line.me/ti/p/~thailandeliteinfo">LINE</a>
       </div>
     </div>
+    <p class="foot__legal">Daimaru Trading Co., Ltd. is an authorized General Sales &amp; Services Agent (License SA15/029) — an independent consultancy, not Thailand Privilege Card Co., Ltd. itself.</p>
     <p class="foot__legal" style="margin-top:14px;"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></p>
     <div class="foot__bottom">
-      <div>© 2026 Daimaru. All rights reserved.</div>
+      <div>© 2026 Daimaru Trading Co., Ltd. All rights reserved.</div>
       <div>Thailand Privilege Card Co., Ltd. — Authorized Agent</div>
     </div>
   </div>
@@ -557,7 +734,7 @@
   </a>
 </nav>
 
-<script src="assets/js/site.js?v=4" defer></script>
+<script src="assets/js/site.js?v=5" defer></script>
 <script src="assets/js/currency.js?v=1" defer></script>
 <script>
   /* ── Floating video mini-player ──

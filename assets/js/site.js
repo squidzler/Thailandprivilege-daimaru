@@ -130,3 +130,20 @@
     ts = ring.classList.contains('is-hover') ? 1.6 : 1;
   }, { passive: true });
 })();
+
+/* a11y: keep the menu toggle's aria-expanded in sync, and mark the current page in navs */
+(function () {
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu');
+  if (btn && menu) {
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'menu');
+    new MutationObserver(function () {
+      btn.setAttribute('aria-expanded', menu.classList.contains('open') ? 'true' : 'false');
+    }).observe(menu, { attributes: true, attributeFilter: ['class'] });
+  }
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav__links a, .menu__list a').forEach(function (a) {
+    if ((a.getAttribute('href') || '') === here) a.setAttribute('aria-current', 'page');
+  });
+})();

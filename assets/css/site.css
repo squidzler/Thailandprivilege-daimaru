@@ -135,13 +135,18 @@
     position: fixed; inset: 0; z-index: 60;
     background: var(--cocoa); color: var(--ivory);
     transform: translateY(-100%);
-    transition: transform 360ms cubic-bezier(.7,.0,.2,1);
+    visibility: hidden;
+    transition: transform 360ms cubic-bezier(.7,.0,.2,1), visibility 0s linear 360ms;
     display: flex; flex-direction: column;
     padding: 18px var(--pad) 40px;
   }
-  .menu.open { transform: translateY(0); }
+  .menu.open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 360ms cubic-bezier(.7,.0,.2,1), visibility 0s;
+  }
   .menu__top { display: flex; justify-content: space-between; align-items: center; }
-  .menu__close { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; }
+  .menu__close { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 10px; }
   .menu__close:hover { background: rgba(255,255,255,0.08); }
   .menu__list { margin-top: 60px; display: flex; flex-direction: column; gap: 4px; }
   .menu__list a {
@@ -630,7 +635,8 @@
   .foot__bg::after {
     content: "";
     position: absolute; inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    /* bottom-weighted scrim: keeps footer text AA-legible over the pale sticker photo */
+    background: linear-gradient(180deg, rgba(20,14,9,.62) 0%, rgba(20,14,9,.80) 45%, rgba(20,14,9,.90) 100%);
   }
   footer .wrap { position: relative; z-index: 1; }
   .foot {
@@ -656,7 +662,7 @@
     letter-spacing: 0.08em;
     margin-bottom: 14px;
   }
-  .foot a { display: block; padding: 4px 0; color: rgba(250, 246, 238, 0.7); transition: color 180ms; }
+  .foot a { display: block; padding: 12px 0; color: rgba(250, 246, 238, 0.7); transition: color 180ms; }
   .foot a:hover { color: var(--gold); }
   .foot__bottom {
     margin-top: 48px;
@@ -685,7 +691,7 @@
     background: rgba(250,246,238,.96); color: var(--cocoa);
   }
   .mbar a svg { width: 17px; height: 17px; }
-  .mbar a.mbar__primary { background: var(--bronze); color: var(--ivory); }
+  .mbar a.mbar__primary { background: var(--bronze-deep); color: var(--ivory); }
   .mbar a:active { transform: none; opacity: .85; }
   @media (min-width: 880px) { .mbar { display: none; } }
 
@@ -894,7 +900,7 @@
   .faq summary .ic::after  { left: 12px; top: 4px; width: 2px; height: 18px; }
   .faq details[open] summary .ic::after { opacity: 0; }
   .faq details[open] summary .ic { transform: rotate(180deg); }
-  .faq .ans { padding: 0 46px 26px 0; color: var(--muted); font-size: 15px; max-width: 66ch; }
+  .faq .ans { padding: 0 46px 26px 0; color: var(--muted); font-size: 16px; max-width: 66ch; }
   .faq .ans p + p { margin-top: 12px; }
 
   /* tier price chips reused on programs page intro cards */
@@ -1033,8 +1039,8 @@
      padding, 1px border, 13px icon) */
   .step__dl {
     margin-top: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 11px;
+    padding-bottom: 11px;
     background: var(--bronze-deep);
     color: var(--ivory);
     border: 1px solid var(--bronze-deep);
@@ -1219,4 +1225,16 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .cursor-ring { display: none !important; }
+}
+
+
+/* ── Pre-launch audit fixes ── */
+/* header controls reach the 48px tap-target standard */
+.menu-btn { width: 48px; height: 48px; }
+.nav__cta { min-height: 48px; display: inline-flex; align-items: center; }
+/* section intros meet the 16px mobile body minimum */
+.section__intro { font-size: 16px; }
+/* keep the © / GSSA line reachable above the fixed mobile contact bar */
+@media (max-width: 879px) {
+  footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 }

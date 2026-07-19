@@ -76,7 +76,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="assets/css/site.css?v=22">
+<link rel="stylesheet" href="assets/css/site.css?v=23">
 <style>
   /* currency toggle + price equivalents (shared pattern, see currency.js) */
   .cur-toggle { margin: 18px 0 4px; }
@@ -100,7 +100,7 @@
       <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"><img class="brand__logo brand__logo--dark" src="assets/img/logo-dark.png" alt="" aria-hidden="true" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
     </a>
     <nav class="nav__links">
-      <a href="index.html#programs">Programs</a>
+      <a href="programs.html">Programs</a>
       <a href="benefits.html">Benefits</a>
       <a href="index.html#process">How it works</a>
       <a href="faq.html">FAQ</a>
@@ -129,7 +129,7 @@
     </button>
   </div>
   <nav class="menu__list">
-    <a href="index.html#programs" onclick="document.getElementById('menu').classList.remove('open')">Programs</a>
+    <a href="programs.html" onclick="document.getElementById('menu').classList.remove('open')">Programs</a>
     <a href="benefits.html" onclick="document.getElementById('menu').classList.remove('open')">Benefits</a>
     <a href="index.html#process" onclick="document.getElementById('menu').classList.remove('open')">How it works</a>
     <a href="faq.html" onclick="document.getElementById('menu').classList.remove('open')">FAQ</a>
@@ -161,7 +161,7 @@
     <div class="reveal">
       <div class="eyebrow">At a glance</div>
       <h2 class="h2">Every tier, <em>side by side.</em></h2>
-      <p class="section__intro">Compare them side by side. Each price is the one-time membership fee, paid to Thailand Privilege Card Co., Ltd. — no separate agent fee.</p>
+      <p class="section__intro">Thailand Privilege Visa membership costs between ฿650,000 (~$19,000 USD) for the 5-year Bronze tier and ฿5,000,000 (~$146,000 USD) for the 20-year, invitation-only Reserve tier — a one-time fee paid to Thailand Privilege Card Co., Ltd. after approval, with no separate agent fee.</p>
       <div class="cur-toggle reveal">
         <label for="curSelProg">Show approximate prices in</label>
         <select class="cur-select" id="curSelProg" aria-label="Show approximate prices in"></select>
@@ -185,7 +185,7 @@
           <tr><th scope="row">Years</th><td>5</td><td>5</td><td>10</td><td>15</td><td>20</td></tr>
           <tr><th scope="row">Price (THB)</th><td class="pr">฿650,000</td><td class="pr">฿900,000</td><td class="pr">฿1,500,000</td><td class="pr">฿2,500,000</td><td class="pr">฿5,000,000</td></tr>
           <tr><th scope="row" data-eq-label="Price (≈ %c)">Price (≈ USD)</th><td class="ceq" data-thb="650000" data-eq="short">$19,000</td><td class="ceq" data-thb="900000" data-eq="short">$26,000</td><td class="ceq" data-thb="1500000" data-eq="short">$44,000</td><td class="ceq" data-thb="2500000" data-eq="short">$73,000</td><td class="ceq" data-thb="5000000" data-eq="short">$146,000</td></tr>
-          <tr><th scope="row">Cost / year</th><td>฿130,000</td><td>฿180,000</td><td>฿150,000</td><td>฿167,000</td><td>฿250,000</td></tr>
+          <tr><th scope="row">Cost / year (≈)</th><td>฿130,000</td><td>฿180,000</td><td>฿150,000</td><td>฿167,000</td><td>฿250,000</td></tr>
           <tr><th scope="row">Family eligible</th><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
           <tr><th scope="row">Add'l member fee</th><td class="no">—</td><td class="no">—</td><td>฿1,000,000</td><td>฿1,500,000</td><td>฿2,000,000</td></tr>
           <tr><th scope="row">Privilege Points / yr</th><td>0</td><td>20</td><td>35</td><td>55</td><td>120</td></tr>
@@ -226,7 +226,7 @@
           <li>No family add-ons — <em>this one's yours alone</em></li>
         </ul>
         <p class="tier__best"><em>Best for:</em> solo applicants who want long-term Thai residency without committing to decades.</p>
-        <div class="tier__flag"><em>Note:</em> Bronze application window confirmed extended to 30 September 2026.</div>
+        <div class="tier__flag"><em>Note:</em> Bronze applications remain open until 30 September 2026.</div>
         <a href="program-bronze.html" class="btn btn--primary">View Bronze &amp; download forms</a>
       </article>
 
@@ -409,7 +409,7 @@
       </div>
       <div>
         <h4>Explore</h4>
-        <a href="index.html#programs">Programs</a>
+        <a href="programs.html">Programs</a>
         <a href="benefits.html">Benefits</a>
         <a href="who-its-for.html">Who it's for</a>
         <a href="index.html#process">How it works</a>
@@ -448,7 +448,7 @@
   </a>
 </nav>
 
-<script src="assets/js/site.js?v=4" defer></script>
+<script src="assets/js/site.js?v=5" defer></script>
 <script src="assets/js/currency.js?v=1" defer></script>
 <script>
   /* ── Section 4 — cost calculator ── */
@@ -511,7 +511,7 @@
       var email = (document.getElementById('recform-email').value || '').trim();
       var msg = document.getElementById('recform-msg');
       if (!email || email.indexOf('@') < 1) {
-        msg.hidden = false; msg.style.color = '#E0B98A';
+        msg.hidden = false; msg.style.color = 'var(--gold)';
         msg.textContent = 'Please enter a valid email so we can reach you.';
         return;
       }

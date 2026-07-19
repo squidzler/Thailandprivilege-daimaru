@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="assets/css/site.css?v=22">
+<link rel="stylesheet" href="assets/css/site.css?v=23">
 
 <style>
   /* ── Apply wizard — Cocoa & Bronze, scoped to this page ── */
@@ -33,7 +33,8 @@
 
   /* progress bar */
   .wz-steps { display: flex; gap: 10px; list-style: none; padding: 0; margin: 0 0 30px; }
-  .wz-steps li { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+  .wz-steps li { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 9px; }
+  @media (max-width: 359px) { .wz-lbl-text { display: none; } }
   .wz-bar { height: 4px; border-radius: 2px; background: var(--line-strong); transition: background .35s ease; }
   .wz-lbl { display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--muted); transition: color .35s ease; }
   .wz-num { flex: none; width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); font-size: 11px; color: var(--muted); transition: all .35s ease; }
@@ -59,7 +60,7 @@
   .wz-field input:focus, .wz-field select:focus { outline: none; border-color: var(--bronze); box-shadow: 0 0 0 3px rgba(168,116,63,.16); }
   .wz-field input.invalid, .wz-field select.invalid { border-color: #B23A2E; }
   .wz-hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
-  .form-error-msg { display: block; color: #B23A2E; font-size: 13px; margin-top: 6px; font-weight: 500; }
+  .form-error-msg { display: block; color: #B23A2E; font-size: 14px; margin-top: 6px; font-weight: 500; }
   .wz-row { display: grid; gap: 0 18px; }
   @media (min-width: 640px) { .wz-row--2 { grid-template-columns: 1fr 1fr; } }
   .wz-field[hidden] { display: none; }
@@ -100,6 +101,8 @@
   .wz-check.invalid label { color: #B23A2E; }
 
   /* sticky step nav */
+  .wz-nav { pointer-events: none; } /* the sticky bar's transparent gradient must not swallow taps on tier cards beneath */
+  .wz-nav .btn { pointer-events: auto; }
   .wz-nav { position: sticky; bottom: 0; display: flex; gap: 12px; margin: 30px -1px -1px; padding: 16px clamp(22px, 5vw, 48px); background: linear-gradient(180deg, rgba(242,235,220,0) 0%, var(--ivory-2) 38%); border-radius: 0 0 18px 18px; }
   .wz-nav .btn { flex: 1; justify-content: center; }
   .wz-nav .btn--back { flex: 0 0 auto; }
@@ -303,25 +306,25 @@
           <div class="wz-field">
             <label for="firstName">First name *</label>
             <input type="text" id="firstName" name="firstName" autocomplete="given-name" autocapitalize="words" aria-required="true" aria-describedby="firstName-err">
-            <span class="form-error-msg" id="firstName-err" hidden></span>
+            <span class="form-error-msg" role="alert" id="firstName-err" hidden></span>
           </div>
           <div class="wz-field">
             <label for="lastName">Last name *</label>
             <input type="text" id="lastName" name="lastName" autocomplete="family-name" autocapitalize="words" aria-required="true" aria-describedby="lastName-err">
-            <span class="form-error-msg" id="lastName-err" hidden></span>
+            <span class="form-error-msg" role="alert" id="lastName-err" hidden></span>
           </div>
         </div>
 
         <div class="wz-field">
           <label for="email">Email *</label>
           <input type="email" id="email" name="email" autocomplete="email" autocapitalize="none" inputmode="email" aria-required="true" aria-describedby="email-err">
-          <span class="form-error-msg" id="email-err" hidden></span>
+          <span class="form-error-msg" role="alert" id="email-err" hidden></span>
         </div>
 
         <div class="wz-field">
           <label for="phone">Phone (with country code) *</label>
           <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1-555-123-4567" aria-required="true" aria-describedby="phone-err">
-          <span class="form-error-msg" id="phone-err" hidden></span>
+          <span class="form-error-msg" role="alert" id="phone-err" hidden></span>
         </div>
 
         <div class="wz-row wz-row--2">
@@ -330,14 +333,14 @@
             <select id="nationality" name="nationality" aria-required="true" aria-describedby="nationality-err">
               <option value="" selected disabled>Select your nationality</option>
             </select>
-            <span class="form-error-msg" id="nationality-err" hidden></span>
+            <span class="form-error-msg" role="alert" id="nationality-err" hidden></span>
           </div>
           <div class="wz-field">
             <label for="residence">Country of residence *</label>
             <select id="residence" name="residence" aria-required="true" aria-describedby="residence-err">
               <option value="" selected disabled>Select where you live</option>
             </select>
-            <span class="form-error-msg" id="residence-err" hidden></span>
+            <span class="form-error-msg" role="alert" id="residence-err" hidden></span>
           </div>
         </div>
 
@@ -428,7 +431,7 @@
               </label>
             </div>
           </div>
-          <span class="form-error-msg" id="tier-err" hidden></span>
+          <span class="form-error-msg" role="alert" id="tier-err" hidden></span>
         </fieldset>
 
         <div class="wz-row wz-row--2">
@@ -502,7 +505,7 @@
           <input type="checkbox" id="marketing" name="marketing">
           <label for="marketing">Send me occasional updates on Thailand Privilege tier changes, promotions, and relevant news.</label>
         </div>
-        <span class="form-error-msg" id="consent-err" hidden style="margin-bottom:14px;"></span>
+        <span class="form-error-msg" role="alert" id="consent-err" hidden style="margin-bottom:14px;"></span>
         <div class="apply-error" id="applyError" role="alert" hidden>
           <p><strong>Sorry — we couldn't submit your application.</strong> Please try again, or contact us directly:</p>
           <p><a href="https://wa.me/66651561561">WhatsApp</a> · <a href="https://line.me/ti/p/~thailandeliteinfo">LINE @thailandeliteinfo</a> · <a href="mailto:info@thailandelite.net">info@thailandelite.net</a></p>
@@ -597,8 +600,8 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=4" defer></script>
-<script src="assets/js/apply.js?v=3" defer></script>
+<script src="assets/js/site.js?v=5" defer></script>
+<script src="assets/js/apply.js?v=4" defer></script>
 <script>
 /* Animated "how your application moves" walkthrough — page-scoped, progressive enhancement */
 (function () {

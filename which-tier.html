@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#FAF6EE" />
 <title>Which Thailand Privilege Tier Is Right for You? — Daimaru</title>
-<meta name="description" content="Answer a few quick questions and get a Thailand Privilege Visa tier recommendation — Bronze to Reserve — with the price in USD and the reason it fits." />
+<meta name="description" content="Answer a few quick questions and get a Thailand Privilege Visa tier recommendation — Bronze to Reserve — with the price in baht and USD and the reason it fits." />
 <link rel="canonical" href="https://www.thailandprivilege-daimaru.com/which-tier.html" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Which Thailand Privilege Tier Is Right for You?" />
@@ -15,6 +15,35 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://www.thailandprivilege-daimaru.com/assets/img/og-image.jpg" />
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Thailand Privilege Visa by Daimaru",
+  "legalName": "Daimaru Trading Co., Ltd.",
+  "url": "https://www.thailandprivilege-daimaru.com/",
+  "description": "Authorized General Sales & Services Agent (GSSA) for Thailand Privilege Card Co., Ltd. since 2015, License SA15/029.",
+  "foundingDate": "2015",
+  "logo": "https://www.thailandprivilege-daimaru.com/assets/img/icon-512.png",
+  "sameAs": [
+    "https://www.facebook.com/ThailandEliteMember",
+    "https://www.instagram.com/thailand_privilege_visa"
+  ],
+  "email": "info@thailandelite.net",
+  "telephone": "+66651561561"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.thailandprivilege-daimaru.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Which Tier", "item": "https://www.thailandprivilege-daimaru.com/which-tier.html" }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,7 +52,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="assets/css/site.css?v=22">
+<link rel="stylesheet" href="assets/css/site.css?v=23">
 <style>
   /* ── Tier finder (page-scoped) ── */
   .finder { margin-top: clamp(28px, 5vw, 44px); background: var(--ivory); border: 1px solid var(--line); border-radius: 18px; padding: clamp(22px, 5vw, 38px); max-width: 720px; }
@@ -83,7 +112,7 @@
       <span class="brand__lockup"><img class="brand__logo brand__logo--light" src="assets/img/logo-light.png" alt="Thailand Privilege by Daimaru Trading" width="180" height="95"><img class="brand__logo brand__logo--dark" src="assets/img/logo-dark.png" alt="" aria-hidden="true" width="180" height="95"></span><img class="brand__badge" src="assets/img/gssa-badge.png" alt="Authorized GSSA badge" width="34" height="34">
     </a>
     <nav class="nav__links">
-      <a href="index.html#programs">Programs</a>
+      <a href="programs.html">Programs</a>
       <a href="benefits.html">Benefits</a>
       <a href="index.html#process">How it works</a>
       <a href="faq.html">FAQ</a>
@@ -137,7 +166,7 @@
     <div class="reveal">
       <div class="eyebrow">Find your tier</div>
       <h2 class="h2">A guide, <em>not a quiz.</em></h2>
-      <p class="section__intro">Nothing is submitted and there's no obligation. You'll see a recommendation on this screen — change any answer and it updates.</p>
+      <p class="section__intro">The Thailand Privilege Visa has five tiers: Bronze (฿650,000, 5 years), Gold (฿900,000, 5 years), Platinum (฿1,500,000, 10 years), Diamond (฿2,500,000, 15 years), and Reserve (฿5,000,000, 20 years, by invitation only). Nothing is submitted and there's no obligation. You'll see a recommendation on this screen — change any answer and it updates.</p>
     </div>
 
     <div class="finder reveal" id="finder">
@@ -193,7 +222,8 @@
         <p class="result__note" id="resNote"></p>
         <div class="result__btns">
           <a href="apply.html" class="btn btn--primary" id="resApply">Apply now</a>
-          <a href="#" class="btn btn--ghost" id="resAsk">Ask Pat about this tier</a>
+          <a href="programs.html" class="btn btn--ghost" id="resDetails">View tier details</a>
+          <a href="https://wa.me/66651561561" class="btn btn--ghost" id="resAsk">Ask Pat about this tier</a>
         </div>
         <button type="button" class="result__restart" id="finderRestart">&larr; Start over</button>
       </div>
@@ -228,7 +258,7 @@
       </div>
       <div>
         <h4>Explore</h4>
-        <a href="index.html#programs">Programs</a>
+        <a href="programs.html">Programs</a>
         <a href="benefits.html">Benefits</a>
         <a href="who-its-for.html">Who it's for</a>
         <a href="index.html#process">How it works</a>
@@ -267,7 +297,7 @@
   </a>
 </nav>
 
-<script src="assets/js/site.js?v=4" defer></script>
+<script src="assets/js/site.js?v=5" defer></script>
 <script>
   /* ── Tier finder ── */
   (function () {
@@ -367,6 +397,7 @@
       // Prefilled WhatsApp message naming the tier
       var msg = encodeURIComponent('Hi Pat, I used the tier finder and it suggested the ' + t.name + ' tier. I’d like to know more.');
       document.getElementById('resAsk').setAttribute('href', 'https://wa.me/66651561561?text=' + msg);
+      document.getElementById('resDetails').setAttribute('href', 'program-' + t.key + '.html');
 
       result.classList.add('is-active');
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
