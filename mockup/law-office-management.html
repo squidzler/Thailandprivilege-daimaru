@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>LexDesk</title>
+<style>
+  /* ============ Design tokens — single committed light theme, all colors explicit ============ */
+  :root{
+    --ground:#F4F7F8;        /* page background, cool bias toward accent */
+    --surface:#FFFFFF;
+    --surface-2:#EDF2F4;
+    --ink:#21303A;
+    --muted:#5C6B74;
+    --faint:#8A98A0;
+    --line:#DDE5E8;
+    --accent:#0E5A6B;        /* petrol — interactive */
+    --accent-strong:#0A4453;
+    --accent-soft:#E3EEF0;
+    --crit:#A32014;  --crit-bg:#FCE9E7;  --crit-line:#EFC4BF;
+    --warn:#7A5800;  --warn-bg:#FBF1D8;  --warn-line:#EAD9A8;
+    --ok:#256B45;    --ok-bg:#E5F2EA;    --ok-line:#BFDCCB;
+    --neu:#5C6B74;   --neu-bg:#EEF2F4;   --neu-line:#D5DEE2;
+    /* categorical (validated): court events vs other appointments */
+    --ev-court:#8C2F39;  --ev-court-bg:#F7E9EA;
+    --ev-other:#0083AD;  --ev-other-bg:#E3F2F8;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(33,48,58,.06), 0 4px 16px rgba(33,48,58,.07);
+    --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", "Leelawadee UI", "Thonburi", "Helvetica Neue", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ font-size:16px; }
+  body{
+    font-family:var(--font);
+    background:var(--ground);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{ font-family:inherit; font-size:1rem; cursor:pointer; }
+  input,select,textarea{ font-family:inherit; font-size:1rem; color:var(--ink); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{ animation:none !important; transition:none !important; }
+  }
+
+  /* ============ Shell ============ */
+  .demo-strip{
+    background:var(--ink); color:#EAF0F3; font-size:.8rem;
+    padding:.4rem 1rem; text-align:center;
+  }
+  .demo-strip strong{ color:#FFD9A0; font-weight:600; }
+  header.app{
+    background:var(--surface); border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:40;
+  }
+  .app-bar{
+    max-width:1180px; margin:0 auto; padding:.65rem 1rem;
+    display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:center; gap:.6rem; margin-right:auto; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:9px; flex:0 0 auto;
+    background:linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color:#fff; display:grid; place-items:center; font-weight:700; font-size:1.05rem;
+  }
+  .brand h1{ font-size:1.05rem; font-weight:700; letter-spacing:.01em; }
+  .brand p{ font-size:.75rem; color:var(--muted); }
+  .role-picker{ display:flex; align-items:center; gap:.4rem; }
+  .role-picker label{ font-size:.8rem; color:var(--muted); }
+  .role-picker select{
+    border:1px solid var(--line); border-radius:8px; padding:.55rem .6rem;
+    background:var(--surface); min-height:44px;
+  }
+  .bell{
+    position:relative; border:1px solid var(--line); background:var(--surface);
+    border-radius:8px; width:44px; height:44px; display:grid; place-items:center; font-size:1.15rem;
+  }
+  .bell .dot{
+    position:absolute; top:-6px; right:-6px; min-width:20px; height:20px; padding:0 5px;
+    background:var(--crit); color:#fff; border-radius:999px;
+    font-size:.72rem; font-weight:700; display:grid; place-items:center;
+    font-variant-numeric:tabular-nums;
+  }
+  nav.tabs{
+    max-width:1180px; margin:0 auto; padding:0 .6rem;
+    display:flex; gap:.15rem; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  nav.tabs button{
+    background:none; border:none; border-bottom:3px solid transparent;
+    padding:.6rem .8rem .55rem; font-size:.92rem; color:var(--muted);
+    white-space:nowrap; min-height:48px;
+  }
+  nav.tabs button[aria-selected="true"]{
+    color:var(--accent-strong); border-bottom-color:var(--accent); font-weight:700;
+  }
+  main{ max-width:1180px; margin:0 auto; padding:1.1rem 1rem 4rem; }
+  section.panel{ display:none; }
+  section.panel.active{ display:block; }
+  .role-note{
+    display:flex; gap:.6rem; align-items:flex-start;
+    background:var(--accent-soft); border:1px solid #C6DCE0; color:var(--accent-strong);
+    border-radius:var(--radius); padding:.7rem .9rem; font-size:.88rem; margin-bottom:1.1rem;
+  }
+
+  h2.sec{ font-size:1.2rem; font-weight:700; margin:0 0 .75rem; letter-spacing:.005em; text-wrap:balance; }
+  h3.sub{ font-size:.98rem; font-weight:700; margin:0 0 .5rem; }
+  .card{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+
+  /* ============ Badges & chips ============ */
+  .badge{
+    display:inline-flex; align-items:center; gap:.3rem;
+    font-size:.76rem; font-weight:700; padding:.14rem .55rem; border-radius:999px;
+    border:1px solid; white-space:nowrap;
+  }
+  .b-crit{ color:var(--crit); background:var(--crit-bg); border-color:var(--crit-line); }
+  .b-warn{ color:var(--warn); background:var(--warn-bg); border-color:var(--warn-line); }
+  .b-ok{   color:var(--ok);   background:var(--ok-bg);   border-color:var(--ok-line); }
+  .b-neu{  color:var(--neu);  background:var(--neu-bg);  border-color:var(--neu-line); }
+  .b-court{ color:var(--ev-court); background:var(--ev-court-bg); border-color:#E4C6C9; }
+  .b-other{ color:#005F7E; background:var(--ev-other-bg); border-color:#BFE0EE; }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
+    border-radius:8px; padding:.55rem .95rem; font-size:.9rem; font-weight:600;
+    border:1px solid transparent; min-height:44px;
+  }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-primary:hover{ background:var(--accent-strong); }
+  .btn-ghost{ background:var(--surface); color:var(--accent-strong); border-color:var(--line); }
+  .btn-ghost:hover{ background:var(--accent-soft); }
+  .btn-sm{ padding:.35rem .7rem; font-size:.82rem; min-height:38px; }
+
+  /* ============ Dashboard ============ */
+  .tiles{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.75rem; margin-bottom:1.1rem; }
+  .tile{ padding:.85rem .95rem; }
+  .tile .k{ font-size:.78rem; color:var(--muted); letter-spacing:.03em; }
+  .tile .v{ font-size:1.9rem; font-weight:750; line-height:1.15; font-variant-numeric:tabular-nums; }
+  .tile .s{ font-size:.78rem; margin-top:.15rem; }
+  .tile.crit{ border-color:var(--crit-line); background:linear-gradient(0deg, var(--crit-bg), var(--surface)); }
+  .tile.crit .v{ color:var(--crit); }
+  .tile.warn{ border-color:var(--warn-line); }
+  .tile.warn .v{ color:var(--warn); }
+  .dash-grid{ display:grid; grid-template-columns:1.6fr 1fr; gap:1rem; align-items:start; }
+  @media (max-width: 860px){ .dash-grid{ grid-template-columns:1fr; } }
+  .urgent-list{ list-style:none; }
+  .urgent-list li{
+    display:flex; gap:.7rem; align-items:flex-start;
+    padding:.75rem .9rem; border-top:1px solid var(--line);
+  }
+  .urgent-list li:first-child{ border-top:none; }
+  .stripe{ width:4px; align-self:stretch; border-radius:2px; flex:0 0 auto; }
+  .stripe.crit{ background:var(--crit); } .stripe.warn{ background:#C99B18; } .stripe.neu{ background:var(--neu-line); }
+  .u-title{ font-weight:700; font-size:.95rem; }
+  .u-meta{ font-size:.82rem; color:var(--muted); }
+  .load-row{ display:flex; align-items:center; gap:.6rem; padding:.35rem 0; }
+  .load-row .nm{ flex:0 0 9.5rem; font-size:.85rem; }
+  .load-row .bar{ flex:1; height:12px; background:var(--surface-2); border-radius:6px; overflow:hidden; }
+  .load-row .bar i{ display:block; height:100%; background:var(--accent); border-radius:6px; }
+  .load-row .ct{ font-size:.85rem; font-variant-numeric:tabular-nums; color:var(--muted); width:2.5rem; text-align:right; }
+  .pad{ padding:.9rem 1rem; }
+
+  /* ============ Case table ============ */
+  .filters{ display:flex; gap:.55rem; flex-wrap:wrap; margin-bottom:.8rem; }
+  .filters input[type="search"], .filters select{
+    border:1px solid var(--line); border-radius:8px; padding:.55rem .7rem;
+    background:var(--surface); min-height:44px;
+  }
+  .filters input[type="search"]{ flex:1 1 220px; }
+  .chk{ display:inline-flex; align-items:center; gap:.4rem; font-size:.88rem; background:var(--surface);
+        border:1px solid var(--line); border-radius:8px; padding:.4rem .7rem; min-height:44px; }
+  .tbl-wrap{ overflow-x:auto; border-radius:var(--radius); }
+  table.cases{ width:100%; border-collapse:collapse; background:var(--surface); min-width:820px; }
+  table.cases th{
+    text-align:left; font-size:.76rem; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--muted); padding:.6rem .75rem; border-bottom:1px solid var(--line);
+    background:var(--surface-2); white-space:nowrap;
+  }
+  table.cases td{ padding:.65rem .75rem; border-bottom:1px solid var(--line); font-size:.9rem; vertical-align:top; }
+  table.cases tbody tr{ cursor:pointer; }
+  table.cases tbody tr:hover{ background:var(--accent-soft); }
+  tr.row-crit td:first-child{ box-shadow:inset 4px 0 0 var(--crit); }
+  .case-no{ font-weight:700; white-space:nowrap; }
+  .case-title{ color:var(--muted); font-size:.82rem; }
+  td.num{ font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .empty{ padding:1.2rem; text-align:center; color:var(--muted); font-size:.9rem; }
+
+  /* ============ Calendar ============ */
+  .cal-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; flex-wrap:wrap; }
+  .cal-head h3{ font-size:1.05rem; font-weight:700; margin-right:auto; }
+  .legend{ display:flex; gap:.9rem; font-size:.8rem; color:var(--muted); flex-wrap:wrap; margin-bottom:.6rem; }
+  .legend i{ width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:.3rem; }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:2px; background:var(--line);
+             border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+  .cal-grid .dow{ background:var(--surface-2); font-size:.72rem; font-weight:700; color:var(--muted);
+                  text-align:center; padding:.35rem 0; text-transform:uppercase; letter-spacing:.05em; }
+  .cal-cell{ background:var(--surface); min-height:74px; padding:.3rem .35rem; border:none; text-align:left;
+             display:flex; flex-direction:column; gap:.2rem; align-items:stretch; }
+  .cal-cell:hover{ background:var(--accent-soft); }
+  .cal-cell.out{ background:var(--ground); color:var(--faint); }
+  .cal-cell .d{ font-size:.8rem; font-variant-numeric:tabular-nums; }
+  .cal-cell.today .d{ background:var(--accent); color:#fff; border-radius:999px; width:24px; height:24px;
+                      display:grid; place-items:center; font-weight:700; }
+  .cal-cell.sel{ box-shadow:inset 0 0 0 2px var(--accent); }
+  .evt-pill{ font-size:.68rem; line-height:1.3; padding:.1rem .3rem; border-radius:4px;
+             overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+  .evt-pill.court{ background:var(--ev-court-bg); color:var(--ev-court); }
+  .evt-pill.other{ background:var(--ev-other-bg); color:#005F7E; }
+  .day-detail{ margin-top:.9rem; }
+  .day-detail ul{ list-style:none; }
+  .day-detail li{ display:flex; gap:.6rem; padding:.6rem .8rem; border-top:1px solid var(--line); align-items:flex-start; flex-wrap:wrap; }
+  .day-detail li:first-child{ border-top:none; }
+  @media (max-width:640px){
+    .cal-cell{ min-height:56px; }
+    .evt-pill{ font-size:0; padding:0; height:6px; border-radius:3px; }
+    .evt-pill.court{ background:var(--ev-court); } .evt-pill.other{ background:var(--ev-other); }
+  }
+
+  /* ============ Notifications ============ */
+  .notif{ display:flex; gap:.7rem; padding:.85rem .95rem; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .notif:first-child{ border-top:none; }
+  .notif .body{ flex:1 1 260px; }
+  .notif .t{ font-weight:700; font-size:.95rem; }
+  .notif .m{ font-size:.84rem; color:var(--muted); }
+  .notif .acts{ display:flex; gap:.45rem; flex-wrap:wrap; align-items:center; }
+  .notif.acked{ opacity:.55; }
+
+  /* ============ Knowledge ============ */
+  .kb-search{ display:flex; gap:.55rem; flex-wrap:wrap; margin-bottom:.7rem; }
+  .kb-search input{ flex:1 1 260px; border:1px solid var(--line); border-radius:8px; padding:.65rem .8rem; min-height:48px; background:var(--surface); }
+  .kb-chips{ display:flex; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; }
+  .kb-chips button{ background:var(--surface); border:1px solid var(--line); border-radius:999px;
+                    padding:.4rem .8rem; font-size:.84rem; color:var(--accent-strong); min-height:40px; }
+  .kb-chips button:hover{ background:var(--accent-soft); }
+  .kb-ans{ padding:1rem 1.1rem; margin-bottom:.9rem; }
+  .kb-ans h4{ font-size:1rem; margin-bottom:.35rem; }
+  .kb-ans p.a{ font-size:.92rem; margin-bottom:.6rem; }
+  .deka{ border-left:3px solid var(--accent); background:var(--surface-2); border-radius:0 8px 8px 0;
+         padding:.55rem .8rem; margin:.45rem 0; font-size:.86rem; }
+  .deka b{ color:var(--accent-strong); }
+  .kb-rel{ font-size:.84rem; color:var(--muted); margin-top:.5rem; }
+  .kb-src{ font-size:.78rem; color:var(--faint); margin-top:.6rem; border-top:1px dashed var(--line); padding-top:.5rem; }
+
+  /* ============ Modal & toast ============ */
+  .modal-bg{ position:fixed; inset:0; background:rgba(33,48,58,.5); z-index:60;
+             display:none; align-items:flex-end; justify-content:center; padding:0; }
+  .modal-bg.open{ display:flex; }
+  .modal{ background:var(--surface); width:100%; max-width:640px; max-height:88vh; overflow-y:auto;
+          border-radius:14px 14px 0 0; padding:1.1rem 1.1rem 1.4rem; }
+  @media (min-width:640px){ .modal-bg{ align-items:center; padding:1rem; } .modal{ border-radius:14px; } }
+  .modal h3{ font-size:1.05rem; margin-bottom:.6rem; padding-right:2.2rem; }
+  .modal .x{ flex:0 0 auto; margin-left:.5rem; }
+  .modal-top{ display:flex; align-items:flex-start; }
+  .modal-top h3{ flex:1; }
+  .field{ margin-bottom:.7rem; }
+  .field label{ display:block; font-size:.8rem; color:var(--muted); margin-bottom:.25rem; }
+  .field input, .field textarea{ width:100%; border:1px solid var(--line); border-radius:8px; padding:.6rem .7rem; background:var(--surface); }
+  .field textarea{ min-height:170px; resize:vertical; line-height:1.55; }
+  .kv{ display:grid; grid-template-columns:auto 1fr; gap:.25rem .8rem; font-size:.9rem; margin-bottom:.8rem; }
+  .kv dt{ color:var(--muted); white-space:nowrap; }
+  .kv dd{ margin:0; }
+  .tl{ list-style:none; border-left:2px solid var(--line); margin:.4rem 0 .8rem .4rem; }
+  .tl li{ padding:.25rem 0 .25rem .9rem; position:relative; font-size:.87rem; }
+  .tl li::before{ content:""; position:absolute; left:-6px; top:.72rem; width:10px; height:10px;
+                  border-radius:50%; background:var(--surface); border:2px solid var(--accent); }
+  .tl li.past{ color:var(--muted); } .tl li.past::before{ border-color:var(--faint); }
+  #toast{ position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%) translateY(20px);
+          background:var(--ink); color:#fff; padding:.65rem 1.1rem; border-radius:10px;
+          font-size:.9rem; opacity:0; pointer-events:none; transition:all .25s ease; z-index:80;
+          max-width:92vw; text-align:center; }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  footer.app{ text-align:center; font-size:.78rem; color:var(--faint); padding:1.5rem 1rem 2.5rem; }
+</style>
+</head>
+<body>
+
+<div class="demo-strip">
+  <strong>MOCKUP — เดโมสาธิตระบบ</strong> · ข้อมูลคดี ชื่อบุคคล อีเมล และเลขฎีกาทั้งหมดเป็นข้อมูลสมมติ · วันที่จำลองในระบบ: พฤหัสบดี 13 สิงหาคม 2569
+</div>
+
+<header class="app">
+  <div class="app-bar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">ธ</div>
+      <div>
+        <h1>LexDesk</h1>
+        <p>ระบบบริหารงานคดี · สำนักงานกฎหมายธรรมรักษ์ (ตัวอย่าง)</p>
+      </div>
+    </div>
+    <div class="role-picker">
+      <label for="roleSel">เข้าใช้ในบทบาท</label>
+      <select id="roleSel" onchange="setRole(this.value)">
+        <option value="owner">เจ้าของสำนักงาน</option>
+        <option value="admin">แอดมิน / ธุรการ</option>
+        <option value="lawyer">ทนายความ (สมชาย)</option>
+      </select>
+    </div>
+    <button class="bell" onclick="go('notif')" aria-label="เปิดหน้าการแจ้งเตือน">
+      🔔<span class="dot" id="bellDot">0</span>
+    </button>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="เมนูหลัก">
+    <button role="tab" data-tab="dash"  aria-selected="true"  onclick="go('dash')">ภาพรวม</button>
+    <button role="tab" data-tab="cases" aria-selected="false" onclick="go('cases')">ตารางคดี</button>
+    <button role="tab" data-tab="cal"   aria-selected="false" onclick="go('cal')">ปฏิทินนัดหมาย</button>
+    <button role="tab" data-tab="notif" aria-selected="false" onclick="go('notif')">การแจ้งเตือน</button>
+    <button role="tab" data-tab="kb"    aria-selected="false" onclick="go('kb')">คลังความรู้ / ค้นฎีกา</button>
+  </nav>
+</header>
+
+<main>
+  <div class="role-note" id="roleNote"></div>
+
+  <!-- ================= ภาพรวม ================= -->
+  <section class="panel active" id="p-dash" aria-label="ภาพรวม">
+    <h2 class="sec">ภาพรวมวันนี้ · 13 ส.ค. 2569</h2>
+    <div class="tiles" id="tiles"></div>
+    <div class="dash-grid">
+      <div class="card">
+        <div class="pad" style="border-bottom:1px solid var(--line); display:flex; align-items:center; gap:.6rem;">
+          <h3 class="sub" style="margin:0;">คดีเร่งด่วน — ต้องขึ้นศาลเร็วที่สุด</h3>
+          <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="go('cases')">ดูตารางคดีทั้งหมด</button>
+        </div>
+        <ul class="urgent-list" id="urgentList"></ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <div class="card pad">
+          <h3 class="sub">ภาระงานคดีต่อทนาย (คดีที่ยังเปิดอยู่)</h3>
+          <div id="loadBars"></div>
+        </div>
+        <div class="card pad" id="ownerTile" hidden>
+          <h3 class="sub">ค่าวิชาชีพค้างเรียกเก็บ <span class="badge b-neu">เห็นเฉพาะเจ้าของ</span></h3>
+          <div style="font-size:1.7rem; font-weight:750; font-variant-numeric:tabular-nums;">฿485,000</div>
+          <p style="font-size:.82rem; color:var(--muted);">จาก 4 คดี · ตัวเลขสมมติเพื่อสาธิตสิทธิ์การมองเห็นตามบทบาท</p>
+        </div>
+        <div class="card pad">
+          <h3 class="sub">นัดหมายวันนี้</h3>
+          <ul class="urgent-list" id="todayList" style="margin:0 -1rem -0.9rem;"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ตารางคดี ================= -->
+  <section class="panel" id="p-cases" aria-label="ตารางคดี">
+    <h2 class="sec">ตารางคดีทั้งหมด</h2>
+    <div class="filters">
+      <input type="search" id="fQ" placeholder="ค้นหา: เลขคดี ชื่อลูกความ ข้อหา…" oninput="renderCases()" aria-label="ค้นหาคดี">
+      <select id="fPr" onchange="renderCases()" aria-label="กรองตามความสำคัญ">
+        <option value="">ความสำคัญ: ทั้งหมด</option>
+        <option value="crit">ด่วนมาก</option>
+        <option value="warn">ใกล้ถึงนัด</option>
+        <option value="neu">ปกติ</option>
+        <option value="low">รอได้</option>
+      </select>
+      <select id="fLw" onchange="renderCases()" aria-label="กรองตามทนายผู้รับผิดชอบ"></select>
+      <select id="fSt" onchange="renderCases()" aria-label="กรองตามสถานะ">
+        <option value="">สถานะ: ทั้งหมด</option>
+        <option>เตรียมคดี</option><option>อยู่ระหว่างพิจารณา</option>
+        <option>รอฟังคำพิพากษา</option><option>ปิดคดี</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="fMine" onchange="renderCases()"> เฉพาะคดีของฉัน</label>
+    </div>
+    <div class="card tbl-wrap">
+      <table class="cases">
+        <thead>
+          <tr>
+            <th>คดี</th><th>ลูกความ</th><th>ทนายผู้รับผิดชอบ</th>
+            <th>นัดถัดไป</th><th>วันนัด</th><th>ความสำคัญ</th><th>สถานะ</th>
+          </tr>
+        </thead>
+        <tbody id="caseRows"></tbody>
+      </table>
+      <div class="empty" id="caseEmpty" hidden>ไม่พบคดีตามเงื่อนไขที่เลือก</div>
+    </div>
+    <p style="font-size:.8rem; color:var(--muted); margin-top:.5rem;">แตะที่แถวเพื่อดูรายละเอียดคดี ประวัตินัดหมาย และสั่งแจ้งเตือน</p>
+  </section>
+
+  <!-- ================= ปฏิทิน ================= -->
+  <section class="panel" id="p-cal" aria-label="ปฏิทินนัดหมาย">
+    <h2 class="sec">ปฏิทินนัดหมาย</h2>
+    <div class="cal-head">
+      <h3 id="calTitle"></h3>
+      <button class="btn btn-ghost btn-sm" onclick="calMove(-1)" aria-label="เดือนก่อนหน้า">← เดือนก่อน</button>
+      <button class="btn btn-ghost btn-sm" onclick="calMove(1)" aria-label="เดือนถัดไป">เดือนถัดไป →</button>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span><i style="background:var(--ev-court);"></i>นัดศาล / กำหนดยื่นเอกสารต่อศาล</span>
+      <span><i style="background:var(--ev-other);"></i>นัดลูกค้า / ประชุมภายใน</span>
+    </div>
+    <div class="cal-grid" id="calGrid" role="grid" aria-label="ปฏิทินรายเดือน"></div>
+    <div class="card day-detail" id="dayDetail" hidden>
+      <div class="pad" style="border-bottom:1px solid var(--line);"><h3 class="sub" id="dayTitle" style="margin:0;"></h3></div>
+      <ul id="dayEvents"></ul>
+    </div>
+  </section>
+
+  <!-- ================= การแจ้งเตือน ================= -->
+  <section class="panel" id="p-notif" aria-label="การแจ้งเตือน">
+    <h2 class="sec">การแจ้งเตือน</h2>
+    <p style="font-size:.86rem; color:var(--muted); margin-bottom:.8rem;">
+      ระบบสร้างการแจ้งเตือนอัตโนมัติจากวันนัดในตารางคดี — ภายในทีมผ่านหน้านี้ และส่งอีเมลถึงลูกความภายนอกได้จากปุ่มในแต่ละรายการ
+      (ในเดโมนี้การส่งเป็นการจำลอง ไม่มีอีเมลออกจริง)
+    </p>
+    <div class="card" id="notifList"></div>
+  </section>
+
+  <!-- ================= คลังความรู้ ================= -->
+  <section class="panel" id="p-kb" aria-label="คลังความรู้และค้นหาฎีกา">
+    <h2 class="sec">คลังความรู้ / ค้นหาแนวฎีกา</h2>
+    <p style="font-size:.86rem; color:var(--muted); margin-bottom:.8rem;">
+      พิมพ์คำถามเป็นภาษาไทยได้เลย ระบบจะค้นจากคลังคดีเก่าของสำนักงาน (เก็บเป็น local file)
+      แล้วสรุปคำตอบพร้อมตัวอย่างแนวฎีกาและคดีเก่าของสำนักงานที่เกี่ยวข้อง
+    </p>
+    <form class="kb-search" onsubmit="kbSearch(); return false;">
+      <input id="kbQ" type="search" placeholder="เช่น คดีฉ้อโกงมีอายุความกี่ปี ต้องร้องทุกข์เมื่อไหร่" aria-label="พิมพ์คำถามกฎหมาย">
+      <button class="btn btn-primary" type="submit">ค้นหาคำตอบ</button>
+    </form>
+    <div class="kb-chips" id="kbChips" aria-label="คำถามยอดนิยม"></div>
+    <div id="kbResult"></div>
+  </section>
+</main>
+
+<footer class="app">
+  LexDesk — mockup สาธิตระบบบริหารงานภายในสำนักงานกฎหมาย · ไฟล์ HTML เดียว เปิดได้ทันที ไม่ต้องติดตั้งอะไร<br>
+  ข้อมูลทุกชิ้นในหน้านี้เป็นข้อมูลสมมติ ไม่ใช่คดี บุคคล หรือคำพิพากษาจริง
+</footer>
+
+<!-- ================= Modals ================= -->
+<div class="modal-bg" id="caseModalBg" onclick="if(event.target===this) closeModal('caseModalBg')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+    <div class="modal-top">
+      <h3 id="cmTitle"></h3>
+      <button class="btn btn-ghost btn-sm x" onclick="closeModal('caseModalBg')" aria-label="ปิด">✕</button>
+    </div>
+    <div id="cmBody"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="mailModalBg" onclick="if(event.target===this) closeModal('mailModalBg')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mmTitle">
+    <div class="modal-top">
+      <h3 id="mmTitle">ส่งอีเมลแจ้งลูกความ</h3>
+      <button class="btn btn-ghost btn-sm x" onclick="closeModal('mailModalBg')" aria-label="ปิด">✕</button>
+    </div>
+    <div class="field"><label for="mTo">ถึง</label><input id="mTo" readonly></div>
+    <div class="field"><label for="mSubj">หัวข้อ</label><input id="mSubj"></div>
+    <div class="field"><label for="mBody">ข้อความ (ระบบร่างให้ แก้ไขได้ก่อนส่ง)</label><textarea id="mBody"></textarea></div>
+    <div style="display:flex; gap:.6rem; justify-content:flex-end; flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="closeModal('mailModalBg')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="sendMail()">ส่งอีเมล (จำลอง)</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ==================================================================
+   ข้อมูลตัวอย่างทั้งหมด — สมมติขึ้นเพื่อสาธิตระบบเท่านั้น
+   ================================================================== */
+const TODAY = new Date(2026, 7, 13);            // วันที่จำลอง: 13 ส.ค. 2569
+const THAI_M = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const THAI_MF = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const DOW = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+
+const LAWYER_ME = 'ทนายสมชาย วงศ์ธรรม';         // บุคคลสมมติของบทบาท "ทนายความ" ในเดโม
+
+const CASES = [
+  { id:'C1', no:'อ.1024/2568', title:'ฉ้อโกง — สั่งซื้อวัสดุก่อสร้างแล้วไม่ชำระเงิน', type:'อาญา',
+    client:'บจก. เจริญทรัพย์ค้าวัสดุ', email:'contact@charoensap-demo.co.th',
+    lawyer:'ทนายสมชาย วงศ์ธรรม', court:'ศาลอาญา', event:'นัดสืบพยานโจทก์', date:'2026-08-14', time:'09:00',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นฟ้อง · 12 มี.ค. 2568','นัดสอบคำให้การ จำเลยให้การปฏิเสธ · 20 พ.ค. 2568','นัดตรวจพยานหลักฐาน · 8 ก.ค. 2569'],
+    note:'เตรียมพยานโจทก์ 2 ปาก — นัดซ้อมถามพยานแล้ว 12 ส.ค.' },
+  { id:'C2', no:'พ.552/2568', title:'ผิดสัญญาจะซื้อจะขายที่ดิน เรียกมัดจำคืน', type:'แพ่ง',
+    client:'คุณอนันต์ ตั้งตรงจิตร', email:'anan.t@demo-mail.com',
+    lawyer:'ทนายวราภรณ์ ศรีสุวรรณ', court:'ศาลแพ่ง', event:'นัดไกล่เกลี่ย', date:'2026-08-15', time:'10:00',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นฟ้อง · 2 ก.พ. 2569','จำเลยยื่นคำให้การ · 30 มี.ค. 2569'],
+    note:'ลูกความยอมรับข้อเสนอไกล่เกลี่ยขั้นต่ำ 1.2 ล้านบาท' },
+  { id:'C3', no:'รง.88/2569', title:'เลิกจ้างไม่เป็นธรรม เรียกค่าชดเชยและค่าเสียหาย', type:'แรงงาน',
+    client:'คุณสายฝน บุญมาก', email:'saifon.b@demo-mail.com',
+    lawyer:'ทนายกิตติ พงษ์ประเสริฐ', court:'ศาลแรงงานกลาง', event:'นัดพิจารณาและสืบพยาน', date:'2026-08-20', time:'09:30',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นคำร้อง · 5 มิ.ย. 2569','นัดไกล่เกลี่ย ไม่สามารถตกลงกันได้ · 15 ก.ค. 2569'],
+    note:'รวบรวมสลิปเงินเดือนย้อนหลัง 24 เดือนครบแล้ว' },
+  { id:'C4', no:'ยช.12/2569', title:'ฟ้องหย่าและขออำนาจปกครองบุตร', type:'ครอบครัว',
+    client:'คุณมณีรัตน์ แก้วประเสริฐ', email:'maneerat.k@demo-mail.com',
+    lawyer:'ทนายพิมพ์ชนก อารีวงศ์', court:'ศาลเยาวชนและครอบครัวกลาง', event:'นัดฟังคำพิพากษา', date:'2026-08-18', time:'13:30',
+    status:'รอฟังคำพิพากษา', priority:'urgent',
+    history:['ยื่นฟ้อง · 10 พ.ย. 2568','สืบพยานโจทก์–จำเลยเสร็จสิ้น · 22 มิ.ย. 2569'],
+    note:'ลูกความขอให้ทนายโทรแจ้งผลทันทีหลังฟังคำพิพากษา' },
+  { id:'C5', no:'ล.5/2569', title:'คำร้องขอฟื้นฟูกิจการ', type:'ล้มละลาย',
+    client:'บจก. ไทยรุ่งเรืองสตีล', email:'legal@thairungruang-demo.co.th',
+    lawyer:'ทนายสมชาย วงศ์ธรรม', court:'ศาลล้มละลายกลาง', event:'นัดไต่สวนคำร้อง', date:'2026-09-02', time:'09:00',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นคำร้อง · 18 พ.ค. 2569'],
+    note:'รอรายงานผู้ทำแผนฉบับแก้ไขจากที่ปรึกษาการเงิน' },
+  { id:'C6', no:'พ.610/2568', title:'ขับไล่ผู้เช่าและเรียกค่าเช่าค้างชำระ', type:'แพ่ง',
+    client:'คุณประเสริฐ วัฒนชัย', email:'prasert.w@demo-mail.com',
+    lawyer:'ทนายวราภรณ์ ศรีสุวรรณ', court:'ศาลแขวงพระนครเหนือ', event:'นัดชี้สองสถาน', date:'2026-09-10', time:'10:00',
+    status:'เตรียมคดี', priority:'low',
+    history:['ส่งหนังสือบอกกล่าวเลิกสัญญา · 1 ก.ค. 2569','ยื่นฟ้อง · 25 ก.ค. 2569'],
+    note:'' },
+  { id:'C7', no:'อ.77/2569', title:'หมิ่นประมาทโดยการโฆษณา (โพสต์ออนไลน์)', type:'อาญา',
+    client:'คุณธนกร ศิริชัยวัฒน์', email:'thanakorn.s@demo-mail.com',
+    lawyer:'ทนายกิตติ พงษ์ประเสริฐ', court:'ศาลอาญา', event:'นัดสืบพยานจำเลย', date:'2026-08-25', time:'09:00',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นฟ้อง · 14 ม.ค. 2569','สืบพยานโจทก์เสร็จ · 30 มิ.ย. 2569'],
+    note:'พยานจำเลย 3 ปาก — เตรียมแนวถามค้านแล้ว' },
+  { id:'C8', no:'ภษ.3/2569', title:'อุทธรณ์การประเมินภาษีเงินได้นิติบุคคล', type:'ภาษี',
+    client:'บจก. แสงทองเทรดดิ้ง', email:'account@saengthong-demo.co.th',
+    lawyer:'ทนายพิมพ์ชนก อารีวงศ์', court:'ศาลภาษีอากรกลาง', event:'นัดพร้อม', date:'2026-09-30', time:'13:30',
+    status:'เตรียมคดี', priority:'low',
+    history:['ยื่นฟ้อง · 9 ก.ค. 2569'],
+    note:'' },
+  { id:'C9', no:'พ.489/2568', title:'ละเมิด (อุบัติเหตุรถชน) เรียกค่าสินไหมทดแทน', type:'แพ่ง',
+    client:'คุณศิริพร จันทร์เพ็ญ', email:'siriporn.j@demo-mail.com',
+    lawyer:'ทนายสมชาย วงศ์ธรรม', court:'ศาลแพ่งกรุงเทพใต้', event:'นัดสืบพยานโจทก์', date:'2026-08-13', time:'13:30',
+    status:'อยู่ระหว่างพิจารณา', priority:'normal',
+    history:['ยื่นฟ้อง · 3 ธ.ค. 2568','นัดชี้สองสถาน · 10 มี.ค. 2569'],
+    note:'พยานแพทย์ยืนยันมาศาล — เอกสารใบรับรองแพทย์ชุดจริงอยู่ที่แฟ้ม 9B' },
+  { id:'C10', no:'พ.301/2567', title:'บังคับจำนอง', type:'แพ่ง',
+    client:'บจก. เงินทุนมั่นคง (ตัวอย่าง)', email:'legal@munkong-demo.co.th',
+    lawyer:'ทนายวราภรณ์ ศรีสุวรรณ', court:'ศาลแพ่ง', event:'—', date:null, time:null,
+    status:'ปิดคดี', priority:'low',
+    history:['ยื่นฟ้อง · 2 ก.พ. 2567','ศาลพิพากษาตามยอม · 18 ธ.ค. 2568','ปิดคดี · 5 ม.ค. 2569'],
+    note:'ปิดคดีแล้ว — เก็บเข้าคลังความรู้' },
+];
+
+/* กำหนดยื่นเอกสาร + นัดภายใน (แสดงในปฏิทินและการแจ้งเตือน) */
+const EXTRA_EVENTS = [
+  { date:'2026-08-17', time:'09:00', kind:'other', label:'ประชุมทีมคดีประจำสัปดาห์', detail:'ห้องประชุมชั้น 2 — ไล่สถานะทุกคดีที่มีนัดในสัปดาห์นี้' },
+  { date:'2026-08-19', time:'14:00', kind:'other', label:'นัดลูกค้าใหม่เข้าปรึกษา (คดีมรดก)', detail:'คุณวิชัย — แอดมินเตรียมแบบฟอร์มรับเรื่องและใบเสนอค่าวิชาชีพ' },
+  { date:'2026-08-21', time:'16:30', kind:'court', label:'ครบกำหนดยื่นคำให้การ คดี พ.612/2569', detail:'เส้นตายยื่นต่อศาลแพ่ง — ทนายวราภรณ์รับผิดชอบ' },
+  { date:'2026-08-24', time:'09:00', kind:'other', label:'ประชุมทีมคดีประจำสัปดาห์', detail:'ห้องประชุมชั้น 2' },
+  { date:'2026-08-28', time:'13:00', kind:'other', label:'อบรมภายใน: อัปเดตกฎหมาย PDPA สำหรับสำนักงานกฎหมาย', detail:'วิทยากรภายนอก — ทุกคนเข้าร่วม' },
+  { date:'2026-08-31', time:'09:00', kind:'other', label:'ประชุมทีมคดีประจำสัปดาห์', detail:'ห้องประชุมชั้น 2' },
+  { date:'2026-09-07', time:'09:00', kind:'other', label:'ประชุมทีมคดีประจำสัปดาห์', detail:'ห้องประชุมชั้น 2' },
+];
+
+/* คลังความรู้ — จำลองการค้นจาก local file รวมคดีเก่าของสำนักงาน */
+const KB = [
+  { keys:['ฉ้อโกง','อายุความ','ร้องทุกข์','3 เดือน'],
+    q:'คดีฉ้อโกงมีอายุความอย่างไร ต้องร้องทุกข์เมื่อไหร่',
+    a:'ความผิดฐานฉ้อโกงตามมาตรา 341 เป็นความผิดอันยอมความได้ ผู้เสียหายต้องร้องทุกข์ภายใน 3 เดือนนับแต่วันที่รู้เรื่องความผิดและรู้ตัวผู้กระทำความผิด มิฉะนั้นคดีขาดอายุความ ส่วนฉ้อโกงประชาชน (มาตรา 343) เป็นความผิดอาญาแผ่นดิน ไม่อยู่ในบังคับ 3 เดือนนี้ จุดที่แพ้ชนะกันบ่อยคือ "วันที่เริ่มนับ" — ต้องรู้ทั้งเรื่องและตัวผู้กระทำผิดครบสองอย่างก่อน',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 2145/2560', s:'การนับระยะเวลาร้องทุกข์เริ่มเมื่อผู้เสียหายรู้เรื่องความผิดและรู้ตัวผู้กระทำความผิดครบถ้วน ไม่ใช่นับแต่วันเกิดเหตุ'},
+      {no:'ฎีกาตัวอย่าง 887/2562', s:'พฤติการณ์หลอกลวงต่อเนื่องหลายครั้งต่อบุคคลทั่วไปเข้าองค์ประกอบฉ้อโกงประชาชน จึงไม่ใช่ความผิดอันยอมความได้'},
+    ],
+    rel:['อ.1024/2568 — ฉ้อโกงวัสดุก่อสร้าง (กำลังสืบพยาน)'] },
+  { keys:['มัดจำ','สัญญาซื้อขาย','จะซื้อจะขาย','ผิดสัญญา','ริบ'],
+    q:'ผิดสัญญาจะซื้อจะขาย ใครริบมัดจำได้ เรียกคืนได้ไหม',
+    a:'มัดจำเป็นหลักประกันการปฏิบัติตามสัญญา ถ้าผู้วางมัดจำ (ผู้จะซื้อ) เป็นฝ่ายผิดสัญญา อีกฝ่ายริบมัดจำได้ แต่ถ้าผู้รับมัดจำ (ผู้จะขาย) เป็นฝ่ายผิดสัญญาเสียเอง ต้องคืนมัดจำพร้อมดอกเบี้ย และผู้จะซื้ออาจเรียกค่าเสียหายเพิ่มได้อีก ประเด็นที่ต้องตรวจก่อนเสมอคือใครเป็นฝ่าย "ผิดสัญญาก่อน" และสัญญากำหนดเงื่อนเวลาโอนไว้อย่างไร',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 5512/2559', s:'ผู้จะขายไม่สามารถส่งมอบที่ดินให้ปลอดภาระจำยอมตามสัญญา ถือว่าผิดสัญญา ต้องคืนมัดจำพร้อมดอกเบี้ยนับแต่วันรับเงิน'},
+      {no:'ฎีกาตัวอย่าง 1290/2563', s:'ข้อตกลงริบเงินที่ชำระเกินกว่ามัดจำมีลักษณะเป็นเบี้ยปรับ ศาลลดลงได้ตามสมควร'},
+    ],
+    rel:['พ.552/2568 — เรียกมัดจำคืน (นัดไกล่เกลี่ย 15 ส.ค. 2569)'] },
+  { keys:['เลิกจ้าง','ค่าชดเชย','ไม่เป็นธรรม','แรงงาน','ลูกจ้าง'],
+    q:'เลิกจ้างไม่เป็นธรรม ลูกจ้างเรียกอะไรได้บ้าง',
+    a:'แยกเป็นสองส่วนเสมอ — (1) ค่าชดเชยตามกฎหมายคุ้มครองแรงงาน ซึ่งขึ้นบันไดตามอายุงาน (ทำงานครบ 10 ปีขึ้นไปได้ 300 วันของค่าจ้างอัตราสุดท้าย) จ่ายเมื่อเลิกจ้างโดยลูกจ้างไม่มีความผิดร้ายแรง และ (2) ค่าเสียหายจากการเลิกจ้างไม่เป็นธรรมตาม พ.ร.บ.จัดตั้งศาลแรงงานฯ มาตรา 49 ซึ่งศาลกำหนดตามอายุงาน อายุลูกจ้าง และโอกาสได้งานใหม่ สองก้อนนี้เรียกซ้อนกันได้',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 3320/2561', s:'การเลิกจ้างด้วยเหตุปรับโครงสร้างองค์กรโดยไม่มีหลักเกณฑ์คัดเลือกที่เป็นธรรม เป็นการเลิกจ้างไม่เป็นธรรม'},
+      {no:'ฎีกาตัวอย่าง 908/2564', s:'ค่าเสียหายตามมาตรา 49 เป็นคนละส่วนกับค่าชดเชย ศาลกำหนดให้ได้แม้นายจ้างจ่ายค่าชดเชยครบถ้วนแล้ว'},
+    ],
+    rel:['รง.88/2569 — เลิกจ้างไม่เป็นธรรม (นัดสืบพยาน 20 ส.ค. 2569)'] },
+  { keys:['หมิ่นประมาท','โฆษณา','ออนไลน์','โพสต์','เฟซบุ๊ก','คอมพิวเตอร์'],
+    q:'โพสต์ด่ากันในโซเชียล เป็นหมิ่นประมาทแบบไหน โทษต่างกันอย่างไร',
+    a:'การใส่ความผู้อื่นต่อบุคคลที่สามโดยประการที่น่าจะทำให้เสียชื่อเสียง ถูกดูหมิ่น หรือถูกเกลียดชัง เป็นหมิ่นประมาทตามมาตรา 326 และเมื่อทำผ่านการโพสต์ที่คนทั่วไปเข้าถึงได้ จะเป็นหมิ่นประมาท "โดยการโฆษณา" ตามมาตรา 328 ซึ่งโทษหนักขึ้น ข้อต่อสู้หลักคือแสดงความคิดเห็นโดยสุจริต ติชมด้วยความเป็นธรรม หรือพิสูจน์ได้ว่าเป็นความจริงและเป็นประโยชน์ต่อประชาชน ส่วน พ.ร.บ.คอมพิวเตอร์ฯ ใช้กับข้อมูล "อันเป็นเท็จ" — ไม่ใช่ทุกโพสต์หมิ่นประมาทจะผิดกฎหมายคอมพิวเตอร์เสมอไป',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 4998/2562', s:'โพสต์เฟซบุ๊กที่ตั้งค่าสาธารณะเข้าถึงได้ทั่วไป เป็นการหมิ่นประมาทโดยการโฆษณาตามมาตรา 328'},
+      {no:'ฎีกาตัวอย่าง 2778/2563', s:'การติชมการทำงานของบุคคลสาธารณะด้วยข้อความที่มีมูล เป็นการแสดงความคิดเห็นโดยสุจริต ไม่เป็นความผิด'},
+    ],
+    rel:['อ.77/2569 — หมิ่นประมาทโดยการโฆษณา (นัดสืบพยานจำเลย 25 ส.ค. 2569)'] },
+  { keys:['หย่า','อำนาจปกครอง','บุตร','ค่าอุปการะ','ครอบครัว'],
+    q:'ฟ้องหย่าแล้ว ศาลตัดสินอำนาจปกครองบุตรอย่างไร',
+    a:'ศาลถือประโยชน์สูงสุดของบุตรเป็นเกณฑ์หลัก ไม่ใช่ฝ่ายไหน "ผิด" ในเหตุหย่า — พิจารณาความผูกพัน สภาพความเป็นอยู่ ความสามารถเลี้ยงดู และความเห็นของบุตรตามวัย ศาลอาจให้ฝ่ายเดียวใช้อำนาจปกครอง หรือให้ใช้ร่วมกันก็ได้ และฝ่ายที่ไม่ได้ปกครองยังมีสิทธิติดต่อเยี่ยมเยียนบุตรตามสมควรเสมอ ค่าอุปการะเลี้ยงดูเรียกได้ตามฐานะของผู้จ่ายและความจำเป็นของบุตร ปรับเปลี่ยนภายหลังได้เมื่อพฤติการณ์เปลี่ยน',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 6641/2558', s:'การกำหนดผู้ใช้อำนาจปกครองต้องถือเอาความผาสุกและประโยชน์ของบุตรเป็นสำคัญ ยิ่งกว่าความผิดของคู่สมรสฝ่ายใด'},
+      {no:'ฎีกาตัวอย่าง 1150/2565', s:'ข้อตกลงเรื่องค่าอุปการะเลี้ยงดูบุตรไม่ตัดสิทธิศาลที่จะกำหนดใหม่เมื่อพฤติการณ์แห่งฐานะเปลี่ยนแปลงไป'},
+    ],
+    rel:['ยช.12/2569 — ฟ้องหย่า/อำนาจปกครองบุตร (ฟังคำพิพากษา 18 ส.ค. 2569)'] },
+  { keys:['ละเมิด','รถชน','ค่าสินไหม','อุบัติเหตุ','1 ปี'],
+    q:'คดีรถชน (ละเมิด) มีอายุความเท่าไหร่ เรียกค่าเสียหายอะไรได้บ้าง',
+    a:'สิทธิเรียกค่าสินไหมจากมูลละเมิดมีอายุความ 1 ปีนับแต่รู้ถึงการละเมิดและรู้ตัวผู้ต้องชดใช้ (อย่างช้า 10 ปีนับแต่วันทำละเมิด) แต่ถ้าการกระทำเป็นความผิดอาญาที่อายุความอาญายาวกว่า ให้ใช้อายุความอาญาแทน ค่าเสียหายที่เรียกได้ เช่น ค่ารักษาพยาบาล ค่าขาดประโยชน์ระหว่างรักษาตัว ค่าเสียความสามารถประกอบการงาน ค่าซ่อม/ราคารถ และค่าเสียหายอย่างอื่นอันมิใช่ตัวเงินตามสมควร',
+    dekas:[
+      {no:'ฎีกาตัวอย่าง 7702/2559', s:'เมื่อการขับรถโดยประมาทเป็นความผิดอาญาด้วย อายุความฟ้องคดีแพ่งย่อมเป็นไปตามอายุความคดีอาญาที่ยาวกว่า'},
+      {no:'ฎีกาตัวอย่าง 4433/2561', s:'ค่าขาดไร้อุปการะของทายาทผู้ตายคำนวณตามความสามารถหาเลี้ยงจริงของผู้ตายและระยะเวลาที่คาดว่าจะอุปการะได้'},
+    ],
+    rel:['พ.489/2568 — ละเมิดรถชน (สืบพยานวันนี้ 13 ส.ค. 2569)'] },
+];
+
+/* ==================================================================
+   สถานะแอป
+   ================================================================== */
+const state = {
+  role:'owner',
+  calY:2026, calM:7,          // ส.ค. 2569
+  selDay:null,
+  acked:new Set(),
+};
+const ROLE_INFO = {
+  owner:{ name:'เจ้าของสำนักงาน', note:'เห็นข้อมูลทุกคดี ทุกทนาย รวมถึงตัวเลขค่าวิชาชีพ · สั่งแจ้งเตือนภายในและส่งอีเมลลูกความได้' },
+  admin:{ name:'แอดมิน / ธุรการ', note:'จัดการนัดหมายและการแจ้งเตือนของทุกคดี ส่งอีเมลแจ้งลูกความได้ · ไม่เห็นตัวเลขค่าวิชาชีพ' },
+  lawyer:{ name:'ทนายความ — สมชาย วงศ์ธรรม', note:'เริ่มต้นที่คดีของตัวเอง (ปรับตัวกรองดูคดีอื่นได้) · การส่งอีเมลลูกความทำผ่านแอดมินด้วยปุ่ม "ขอให้แอดมินส่งอีเมล"' },
+};
+
+/* ==================================================================
+   Helpers
+   ================================================================== */
+const $ = id => document.getElementById(id);
+function parseISO(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function daysUntil(iso){ return Math.round((parseISO(iso) - TODAY) / 86400000); }
+function thDate(iso, withYear=true){
+  const d = parseISO(iso);
+  return d.getDate() + ' ' + THAI_M[d.getMonth()] + (withYear ? ' ' + (d.getFullYear()+543) : '');
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function relDay(n){
+  if (n === 0) return 'วันนี้';
+  if (n === 1) return 'พรุ่งนี้';
+  if (n < 0) return 'ผ่านมาแล้ว ' + (-n) + ' วัน';
+  return 'อีก ' + n + ' วัน';
+}
+/* ระดับความสำคัญ: crit = ≤1 วันหรือ urgent ที่ ≤3 วัน · warn = ≤7 วัน · low = ตั้งค่ารอได้ · neu = ปกติ */
+function urgency(c){
+  if (c.status === 'ปิดคดี' || !c.date) return 'done';
+  const n = daysUntil(c.date);
+  if (n <= 1 || (c.priority === 'urgent' && n <= 5)) return 'crit';
+  if (n <= 7) return 'warn';
+  if (c.priority === 'low') return 'low';
+  return 'neu';
+}
+const URG_BADGE = {
+  crit:['b-crit','🔴 ด่วนมาก'], warn:['b-warn','🟡 ใกล้ถึงนัด'],
+  neu:['b-neu','ปกติ'], low:['b-ok','🟢 รอได้'], done:['b-neu','—'],
+};
+const STATUS_BADGE = {
+  'เตรียมคดี':'b-other', 'อยู่ระหว่างพิจารณา':'b-neu',
+  'รอฟังคำพิพากษา':'b-warn', 'ปิดคดี':'b-ok',
+};
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function closeModal(id){ $(id).classList.remove('open'); }
+
+/* ==================================================================
+   Navigation & role
+   ================================================================== */
+function go(tab){
+  document.querySelectorAll('section.panel').forEach(p => p.classList.remove('active'));
+  $('p-' + tab).classList.add('active');
+  document.querySelectorAll('nav.tabs button').forEach(b =>
+    b.setAttribute('aria-selected', b.dataset.tab === tab ? 'true' : 'false'));
+  window.scrollTo({top:0});
+}
+function setRole(r){
+  state.role = r;
+  $('roleNote').innerHTML = '👤 <span><strong>' + esc(ROLE_INFO[r].name) + '</strong> — ' + esc(ROLE_INFO[r].note) + '</span>';
+  $('ownerTile').hidden = (r !== 'owner');
+  $('fMine').checked = (r === 'lawyer');
+  renderAll();
+}
+
+/* ==================================================================
+   ภาพรวม
+   ================================================================== */
+function renderDash(){
+  const open = CASES.filter(c => c.status !== 'ปิดคดี');
+  const in7 = open.filter(c => c.date && daysUntil(c.date) >= 0 && daysUntil(c.date) <= 7);
+  const crit = open.filter(c => urgency(c) === 'crit');
+  const today = open.filter(c => c.date === '2026-08-13');
+
+  $('tiles').innerHTML =
+    tile('คดีที่เปิดอยู่', open.length, '', '') +
+    tile('นัดศาลใน 7 วัน', in7.length, 'จากปฏิทินนัดหมาย', 'warn') +
+    tile('งานด่วนมาก', crit.length, 'ต้องจัดการก่อน', 'crit') +
+    tile('นัดหมายวันนี้', today.length + EXTRA_EVENTS.filter(e => e.date === '2026-08-13').length, '13 ส.ค. 2569', '');
+
+  const soon = open.filter(c => c.date).sort((a,b) => a.date.localeCompare(b.date)).slice(0,5);
+  $('urgentList').innerHTML = soon.map(c => {
+    const u = urgency(c), n = daysUntil(c.date);
+    return '<li>' +
+      '<span class="stripe ' + (u === 'crit' ? 'crit' : u === 'warn' ? 'warn' : 'neu') + '"></span>' +
+      '<div style="flex:1;">' +
+        '<div class="u-title">' + esc(c.no) + ' · ' + esc(c.event) + ' <span class="badge ' + URG_BADGE[u][0] + '">' + URG_BADGE[u][1] + '</span></div>' +
+        '<div class="u-meta">' + esc(c.court) + ' · ' + thDate(c.date) + ' เวลา ' + c.time + ' น. (' + relDay(n) + ') · ' + esc(c.lawyer) + '</div>' +
+      '</div>' +
+      '<button class="btn btn-ghost btn-sm" onclick="openCase(\'' + c.id + '\')">รายละเอียด</button>' +
+    '</li>';
+  }).join('');
+
+  const counts = {};
+  open.forEach(c => counts[c.lawyer] = (counts[c.lawyer] || 0) + 1);
+  const max = Math.max(...Object.values(counts));
+  $('loadBars').innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([lw,n]) =>
+    '<div class="load-row"><span class="nm">' + esc(lw.replace('ทนาย','')) + '</span>' +
+    '<span class="bar"><i style="width:' + Math.round(n/max*100) + '%;"></i></span>' +
+    '<span class="ct">' + n + ' คดี</span></div>').join('');
+
+  const todayItems = [
+    ...today.map(c => ({t:c.time, label:c.no + ' — ' + c.event, meta:c.court + ' · ' + c.lawyer, kind:'court', id:c.id})),
+    ...EXTRA_EVENTS.filter(e => e.date === '2026-08-13').map(e => ({t:e.time, label:e.label, meta:e.detail, kind:e.kind})),
+  ].sort((a,b) => a.t.localeCompare(b.t));
+  $('todayList').innerHTML = todayItems.length ? todayItems.map(i =>
+    '<li><span class="badge ' + (i.kind === 'court' ? 'b-court' : 'b-other') + '">' + (i.kind === 'court' ? '⚖️ ศาล' : '📅 นัดหมาย') + '</span>' +
+    '<div style="flex:1;"><div class="u-title" style="font-size:.9rem;">' + i.t + ' น. — ' + esc(i.label) + '</div>' +
+    '<div class="u-meta">' + esc(i.meta) + '</div></div>' +
+    (i.id ? '<button class="btn btn-ghost btn-sm" onclick="openCase(\'' + i.id + '\')">เปิด</button>' : '') + '</li>'
+  ).join('') : '<li class="empty">ไม่มีนัดหมายวันนี้</li>';
+}
+function tile(k,v,s,cls){
+  return '<div class="card tile ' + cls + '"><div class="k">' + k + '</div><div class="v">' + v + '</div>' +
+         (s ? '<div class="s" style="color:var(--muted);">' + s + '</div>' : '') + '</div>';
+}
+
+/* ==================================================================
+   ตารางคดี
+   ================================================================== */
+function initLawyerFilter(){
+  const lws = [...new Set(CASES.map(c => c.lawyer))];
+  $('fLw').innerHTML = '<option value="">ทนาย: ทั้งหมด</option>' +
+    lws.map(l => '<option>' + esc(l) + '</option>').join('');
+}
+function renderCases(){
+  const q = $('fQ').value.trim().toLowerCase();
+  const pr = $('fPr').value, lw = $('fLw').value, st = $('fSt').value;
+  const mine = $('fMine').checked;
+  let rows = CASES.filter(c => {
+    if (q && !((c.no + c.title + c.client + c.type + c.court).toLowerCase().includes(q))) return false;
+    if (pr && urgency(c) !== pr) return false;
+    if (lw && c.lawyer !== lw) return false;
+    if (st && c.status !== st) return false;
+    if (mine && c.lawyer !== LAWYER_ME) return false;
+    return true;
+  }).sort((a,b) => (a.date || '9999').localeCompare(b.date || '9999'));
+
+  $('caseEmpty').hidden = rows.length > 0;
+  $('caseRows').innerHTML = rows.map(c => {
+    const u = urgency(c);
+    return '<tr class="' + (u === 'crit' ? 'row-crit' : '') + '" onclick="openCase(\'' + c.id + '\')" tabindex="0" ' +
+           'onkeydown="if(event.key===\'Enter\') openCase(\'' + c.id + '\')">' +
+      '<td><span class="case-no">' + esc(c.no) + '</span><br><span class="case-title">' + esc(c.type) + ' · ' + esc(c.title) + '</span></td>' +
+      '<td>' + esc(c.client) + '</td>' +
+      '<td>' + esc(c.lawyer) + '</td>' +
+      '<td>' + esc(c.event) + '<br><span class="case-title">' + esc(c.court) + '</span></td>' +
+      '<td class="num">' + (c.date ? thDate(c.date) + '<br><span class="case-title">' + relDay(daysUntil(c.date)) + ' · ' + c.time + ' น.</span>' : '—') + '</td>' +
+      '<td><span class="badge ' + URG_BADGE[u][0] + '">' + URG_BADGE[u][1] + '</span></td>' +
+      '<td><span class="badge ' + (STATUS_BADGE[c.status] || 'b-neu') + '">' + esc(c.status) + '</span></td>' +
+    '</tr>';
+  }).join('');
+}
+
+/* ==================================================================
+   รายละเอียดคดี
+   ================================================================== */
+function openCase(id){
+  const c = CASES.find(x => x.id === id);
+  if (!c) return;
+  const u = urgency(c);
+  const canMail = state.role !== 'lawyer';
+  $('cmTitle').textContent = 'คดี ' + c.no;
+  $('cmBody').innerHTML =
+    '<div style="margin-bottom:.6rem;"><span class="badge ' + URG_BADGE[u][0] + '">' + URG_BADGE[u][1] + '</span> ' +
+    '<span class="badge ' + (STATUS_BADGE[c.status] || 'b-neu') + '">' + esc(c.status) + '</span></div>' +
+    '<dl class="kv">' +
+      '<dt>ข้อหา/เรื่อง</dt><dd>' + esc(c.type) + ' — ' + esc(c.title) + '</dd>' +
+      '<dt>ลูกความ</dt><dd>' + esc(c.client) + ' · ' + esc(c.email) + '</dd>' +
+      '<dt>ทนายผู้รับผิดชอบ</dt><dd>' + esc(c.lawyer) + '</dd>' +
+      '<dt>ศาล</dt><dd>' + esc(c.court) + '</dd>' +
+      (c.date ? '<dt>นัดถัดไป</dt><dd><strong>' + esc(c.event) + '</strong> — ' + thDate(c.date) + ' เวลา ' + c.time + ' น. (' + relDay(daysUntil(c.date)) + ')</dd>' : '') +
+      (c.note ? '<dt>บันทึกทีม</dt><dd>' + esc(c.note) + '</dd>' : '') +
+    '</dl>' +
+    '<h3 class="sub">ไทม์ไลน์คดี</h3>' +
+    '<ul class="tl">' + c.history.map(h => '<li class="past">' + esc(h) + '</li>').join('') +
+      (c.date ? '<li><strong>' + esc(c.event) + ' · ' + thDate(c.date) + '</strong> — นัดถัดไป</li>' : '') + '</ul>' +
+    '<div style="display:flex; gap:.6rem; flex-wrap:wrap;">' +
+      (c.date ? '<button class="btn btn-ghost" onclick="toast(\'ส่งแจ้งเตือนภายในถึง ' + esc(c.lawyer) + ' แล้ว (จำลอง)\')">🔔 แจ้งเตือนภายใน</button>' : '') +
+      (c.date ? (canMail
+        ? '<button class="btn btn-primary" onclick="openMail(\'' + c.id + '\')">✉️ ส่งอีเมลแจ้งลูกความ</button>'
+        : '<button class="btn btn-primary" onclick="toast(\'ส่งคำขอถึงแอดมินให้ส่งอีเมลแจ้งลูกความแล้ว (จำลอง)\')">✉️ ขอให้แอดมินส่งอีเมล</button>') : '') +
+    '</div>';
+  $('caseModalBg').classList.add('open');
+}
+
+/* ==================================================================
+   ปฏิทิน
+   ================================================================== */
+function allEvents(){
+  const evs = [];
+  CASES.forEach(c => { if (c.date && c.status !== 'ปิดคดี')
+    evs.push({date:c.date, time:c.time, kind:'court', label:c.no + ' ' + c.event, detail:c.court + ' · ' + c.lawyer, id:c.id}); });
+  EXTRA_EVENTS.forEach(e => evs.push(e));
+  return evs;
+}
+function calMove(d){
+  state.calM += d;
+  if (state.calM < 0){ state.calM = 11; state.calY--; }
+  if (state.calM > 11){ state.calM = 0; state.calY++; }
+  state.selDay = null; $('dayDetail').hidden = true;
+  renderCal();
+}
+function renderCal(){
+  const y = state.calY, m = state.calM;
+  $('calTitle').textContent = THAI_MF[m] + ' ' + (y + 543);
+  const first = new Date(y, m, 1).getDay();
+  const nDays = new Date(y, m+1, 0).getDate();
+  const evs = allEvents();
+  let html = DOW.map(d => '<div class="dow">' + d + '</div>').join('');
+  for (let i = 0; i < first; i++) html += '<div class="cal-cell out" aria-hidden="true"></div>';
+  for (let d = 1; d <= nDays; d++){
+    const iso = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const dayEvs = evs.filter(e => e.date === iso).sort((a,b) => a.time.localeCompare(b.time));
+    const isToday = iso === '2026-08-13';
+    const sel = state.selDay === iso;
+    html += '<button class="cal-cell' + (isToday ? ' today' : '') + (sel ? ' sel' : '') + '" onclick="pickDay(\'' + iso + '\')" ' +
+      'aria-label="' + d + ' ' + THAI_MF[m] + (dayEvs.length ? ' มี ' + dayEvs.length + ' นัดหมาย' : '') + '">' +
+      '<span class="d">' + d + '</span>' +
+      dayEvs.slice(0,3).map(e => '<span class="evt-pill ' + (e.kind === 'court' ? 'court' : 'other') + '">' + esc(e.label) + '</span>').join('') +
+      (dayEvs.length > 3 ? '<span class="evt-pill other">+' + (dayEvs.length-3) + ' รายการ</span>' : '') +
+    '</button>';
+  }
+  $('calGrid').innerHTML = html;
+}
+function pickDay(iso){
+  state.selDay = iso;
+  renderCal();
+  const dayEvs = allEvents().filter(e => e.date === iso).sort((a,b) => a.time.localeCompare(b.time));
+  $('dayDetail').hidden = false;
+  $('dayTitle').textContent = 'นัดหมายวัน' + ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'][parseISO(iso).getDay()] + 'ที่ ' + thDate(iso);
+  $('dayEvents').innerHTML = dayEvs.length ? dayEvs.map(e =>
+    '<li><span class="badge ' + (e.kind === 'court' ? 'b-court' : 'b-other') + '">' + (e.kind === 'court' ? '⚖️ ศาล' : '📅 นัดหมาย') + '</span>' +
+    '<div style="flex:1;"><div class="u-title" style="font-size:.9rem;">' + e.time + ' น. — ' + esc(e.label) + '</div>' +
+    '<div class="u-meta">' + esc(e.detail) + '</div></div>' +
+    (e.id ? '<button class="btn btn-ghost btn-sm" onclick="openCase(\'' + e.id + '\')">เปิดคดี</button>' : '') + '</li>'
+  ).join('') : '<li class="empty">ไม่มีนัดหมายในวันนี้</li>';
+  $('dayDetail').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+/* ==================================================================
+   การแจ้งเตือน
+   ================================================================== */
+function buildNotifs(){
+  const out = [];
+  CASES.filter(c => c.date && c.status !== 'ปิดคดี').forEach(c => {
+    const n = daysUntil(c.date);
+    if (n < 0 || n > 14) return;
+    const level = n <= 1 ? 'crit' : n <= 3 ? 'crit' : n <= 7 ? 'warn' : 'neu';
+    out.push({
+      key:'case-' + c.id, level, caseId:c.id, days:n,
+      title:(n <= 1 ? '⚠️ ต้องขึ้นศาล' + relDay(n) : 'นัดศาล' + relDay(n)) + ' — คดี ' + c.no,
+      msg:c.event + ' · ' + c.court + ' · ' + thDate(c.date) + ' เวลา ' + c.time + ' น. · ผู้รับผิดชอบ: ' + c.lawyer,
+    });
+  });
+  EXTRA_EVENTS.forEach((e,i) => {
+    const n = daysUntil(e.date);
+    if (n < 0 || n > 14) return;
+    out.push({
+      key:'ex-' + i, level:(e.kind === 'court' ? (n <= 3 ? 'crit' : 'warn') : 'neu'), days:n,
+      title:(e.kind === 'court' ? '⏰ เส้นตาย' + relDay(n) : 'นัดหมาย' + relDay(n)) + ' — ' + e.label,
+      msg:e.detail + ' · ' + thDate(e.date) + ' เวลา ' + e.time + ' น.',
+    });
+  });
+  return out.sort((a,b) => a.days - b.days);
+}
+function renderNotifs(){
+  const notifs = buildNotifs();
+  const unread = notifs.filter(x => !state.acked.has(x.key) && x.level !== 'neu').length;
+  $('bellDot').textContent = unread;
+  $('bellDot').style.display = unread ? 'grid' : 'none';
+  const canMail = state.role !== 'lawyer';
+  $('notifList').innerHTML = notifs.map(x => {
+    const acked = state.acked.has(x.key);
+    return '<div class="notif' + (acked ? ' acked' : '') + '">' +
+      '<span class="badge ' + URG_BADGE[x.level === 'neu' ? 'neu' : x.level][0] + '">' +
+        (x.level === 'crit' ? '🔴 ด่วนมาก' : x.level === 'warn' ? '🟡 ใกล้ถึงนัด' : 'ทั่วไป') + '</span>' +
+      '<div class="body"><div class="t">' + esc(x.title) + '</div><div class="m">' + esc(x.msg) + '</div></div>' +
+      '<div class="acts">' +
+        (acked ? '<span class="badge b-ok">✓ รับทราบแล้ว</span>'
+               : '<button class="btn btn-ghost btn-sm" onclick="ack(\'' + x.key + '\')">รับทราบ</button>') +
+        (x.caseId ? (canMail
+          ? '<button class="btn btn-primary btn-sm" onclick="openMail(\'' + x.caseId + '\')">✉️ อีเมลลูกความ</button>'
+          : '<button class="btn btn-ghost btn-sm" onclick="toast(\'ส่งคำขอถึงแอดมินแล้ว (จำลอง)\')">แจ้งแอดมิน</button>') : '') +
+      '</div></div>';
+  }).join('') || '<div class="empty">ไม่มีการแจ้งเตือนในช่วง 14 วันข้างหน้า</div>';
+}
+function ack(key){
+  state.acked.add(key);
+  renderNotifs();
+  toast('บันทึกรับทราบแล้ว');
+}
+
+/* ==================================================================
+   อีเมลลูกความ (จำลอง)
+   ================================================================== */
+function openMail(caseId){
+  const c = CASES.find(x => x.id === caseId);
+  if (!c || !c.date) return;
+  closeModal('caseModalBg');
+  $('mTo').value = c.email;
+  $('mSubj').value = '[สำนักงานกฎหมายธรรมรักษ์] แจ้งนัดหมายศาล คดี ' + c.no + ' — ' + thDate(c.date);
+  $('mBody').value =
+'เรียน ' + c.client + '\n\n' +
+'สำนักงานขอแจ้งกำหนดนัดหมายของศาลในคดีของท่าน ดังนี้\n\n' +
+'คดีหมายเลข: ' + c.no + '\n' +
+'เรื่อง: ' + c.title + '\n' +
+'นัด: ' + c.event + '\n' +
+'ศาล: ' + c.court + '\n' +
+'วันเวลา: ' + thDate(c.date) + ' เวลา ' + c.time + ' น.\n' +
+'ทนายผู้รับผิดชอบ: ' + c.lawyer + '\n\n' +
+'กรุณามาถึงศาลก่อนเวลานัดอย่างน้อย 30 นาที และนำบัตรประจำตัวประชาชนมาด้วย\n' +
+'หากมีข้อสงสัยหรือไม่สะดวกตามนัด กรุณาติดต่อสำนักงานโดยเร็วที่สุด\n\n' +
+'ขอแสดงความนับถือ\n' +
+'สำนักงานกฎหมายธรรมรักษ์ (ตัวอย่าง)\nโทร 02-000-0000 (สมมติ)';
+  $('mailModalBg').classList.add('open');
+}
+function sendMail(){
+  closeModal('mailModalBg');
+  toast('✉️ ส่งอีเมลถึง ' + $('mTo').value + ' แล้ว (จำลอง — ไม่มีอีเมลออกจริง)');
+}
+
+/* ==================================================================
+   คลังความรู้
+   ================================================================== */
+function initKb(){
+  $('kbChips').innerHTML = KB.map((k,i) =>
+    '<button onclick="kbPick(' + i + ')">' + esc(k.q) + '</button>').join('');
+}
+function kbPick(i){
+  $('kbQ').value = KB[i].q;
+  kbSearch();
+}
+function kbScore(entry, q){
+  let s = 0;
+  entry.keys.forEach(k => { if (q.includes(k.toLowerCase())) s += 2; });
+  entry.q.toLowerCase().split(/\s+/).forEach(w => { if (w.length > 2 && q.includes(w)) s += 1; });
+  return s;
+}
+function kbSearch(){
+  const q = $('kbQ').value.trim().toLowerCase();
+  if (!q){ $('kbResult').innerHTML = ''; return; }
+  const ranked = KB.map(e => [kbScore(e, q), e]).filter(x => x[0] > 0).sort((a,b) => b[0]-a[0]);
+  if (!ranked.length){
+    $('kbResult').innerHTML = '<div class="card kb-ans"><h4>ยังไม่พบคำตอบในคลังความรู้</h4>' +
+      '<p class="a">ลองใช้คำหลักอื่น เช่น ชื่อข้อหาหรือประเภทคดี — หรือแจ้งทีมกฎหมายให้เพิ่มหัวข้อนี้เข้าคลังความรู้ของสำนักงาน</p>' +
+      '<button class="btn btn-ghost btn-sm" onclick="toast(\'บันทึกคำถามส่งทีมกฎหมายแล้ว (จำลอง)\')">ส่งคำถามนี้ให้ทีมกฎหมาย</button></div>';
+    return;
+  }
+  $('kbResult').innerHTML = ranked.slice(0,2).map(([s,e]) =>
+    '<div class="card kb-ans">' +
+      '<h4>' + esc(e.q) + '</h4>' +
+      '<p class="a">' + esc(e.a) + '</p>' +
+      '<h3 class="sub" style="font-size:.86rem;">ตัวอย่างแนวฎีกาที่เกี่ยวข้อง</h3>' +
+      e.dekas.map(d => '<div class="deka"><b>' + esc(d.no) + '</b> — ' + esc(d.s) + '</div>').join('') +
+      (e.rel.length ? '<div class="kb-rel">📁 คดีของสำนักงานที่เกี่ยวข้อง: ' + e.rel.map(esc).join(' · ') + '</div>' : '') +
+      '<div class="kb-src">ค้นจากคลังคดีเก่าของสำนักงาน (local file) · เลขฎีกาและคำวินิจฉัยในเดโมนี้เป็น<strong>ข้อมูลสมมติ</strong>เพื่อแสดงรูปแบบการทำงาน — ระบบจริงจะเชื่อมกับคลังคดีและฐานฎีกาที่สำนักงานรวบรวมไว้</div>' +
+    '</div>').join('');
+}
+
+/* ==================================================================
+   Init
+   ================================================================== */
+initLawyerFilter();
+initKb();
+setRole('owner');
+renderCal();
+function renderAll(){ renderDash(); renderCases(); renderNotifs(); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ closeModal('caseModalBg'); closeModal('mailModalBg'); }
+});
+</script>
+</body>
+</html>
